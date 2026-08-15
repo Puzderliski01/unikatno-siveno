@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
           <span className="mx-auto md:mx-0 flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
-            Besplatna dostava u Srbiji za porudžbine preko 25.000 RSD
+            Besplatna dostava u Srbiji za porudžbine preko 10.000 RSD
             <span className="hidden sm:inline text-[#C5A059]">•</span>
             <span className="hidden sm:inline text-[#FCFBF7]/80">Salon: Topola</span>
           </span>

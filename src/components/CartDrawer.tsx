@@ -26,7 +26,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const [isGiftWrap, setIsGiftWrap] = useState(true);
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.priceRSD * item.quantity, 0);
-  const freeShippingThreshold = 25000;
+  const freeShippingThreshold = 10000;
   const isFreeShipping = subtotal >= freeShippingThreshold;
   const remainingForFreeShipping = Math.max(0, freeShippingThreshold - subtotal);
   const shippingCost = isFreeShipping || subtotal === 0 ? 0 : 450;

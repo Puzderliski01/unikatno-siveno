@@ -44,7 +44,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   if (!isOpen) return null;
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.priceRSD * item.quantity, 0);
-  const isFreeShipping = subtotal >= 25000 || formData.shippingMethod !== 'post_express';
+  const isFreeShipping = subtotal >= 10000 || formData.shippingMethod !== 'post_express';
   const shippingCost = isFreeShipping ? 0 : 450;
   const total = subtotal + shippingCost;
 
