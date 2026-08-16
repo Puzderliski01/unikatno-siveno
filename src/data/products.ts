@@ -113,7 +113,7 @@ export const PRODUCTS: Product[] = [
     category: 'haljine',
     categoryLabelSr: 'Večernje haljine',
     priceRSD: 16500,
-    badge: 'Novo',
+    badge: 'LIMITED EDITION',
     descriptionSr: 'Najudobnija haljina koju ćeš nositi ove sezone! Haljina "Olivia" je savršen spoj stila i udobnosti. Prugicie joj daju onaj klasičan letnji izgled, a kroj je super opušten!',
     storySr: 'Stvorena za dane kada želite da izgledate sjajno a osećate se još bolje. "Olivia" je haljina u kojoj ćete provoditi ceo dan — od jutarnje kafe do večernje šetnje.',
     features: [
@@ -133,9 +133,7 @@ export const PRODUCTS: Product[] = [
     },
     sizes: ['XS (34)', 'S (36)', 'M (38)', 'L (40)', 'XL (42)', 'Izrada po ličnim merama'],
     images: [
-      '/haljine/olivia/olivia1.jpg',
-      '/haljine/olivia/olivia2.jpg',
-      '/haljine/olivia/olivia3.jpg'
+      '/haljine/olivia/olivia1.jpg'
     ],
     isCustomizable: true,
     leadTimeDays: '3–5 radnih dana',
