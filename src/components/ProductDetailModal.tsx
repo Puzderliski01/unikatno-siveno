@@ -519,7 +519,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         <Truck className="w-4 h-4 text-[#C5A059] flex-shrink-0 mt-0.5" />
                         <div>
                           <strong className="text-[#1A1A1A] block">Post Express dostava u Srbiji:</strong>
-                          <span>Isporuka u roku od 24h nakon završetka izrade na vašu kućnu adresu. Besplatna dostava za porudžbine iznad 25.000 RSD.</span>
+                          <span>Isporuka u roku od 24h nakon završetka izrade na vašu kućnu adresu. Besplatna dostava za porudžbine iznad 10.000 RSD.</span>
                         </div>
                       </div>
                       <div className="flex items-start gap-2.5">

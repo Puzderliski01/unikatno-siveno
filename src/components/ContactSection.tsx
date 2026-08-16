@@ -47,7 +47,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, o
     },
     {
       q: 'Kako se vrši dostava i plaćanje van Topole?',
-      a: 'Šaljemo osiguranom Post Express kurirskom službom danas za sutra na teritoriji cele Srbije. Plaćanje možete izvršiti pouzećem gotovinom kuriru, platnom karticom ili direktnom uplatom na račun ateljea. Za sve iznose preko 25.000 RSD dostava je besplatna.'
+      a: 'Šaljemo osiguranom Post Express kurirskom službom danas za sutra na teritoriji cele Srbije. Plaćanje možete izvršiti pouzećem gotovinom kuriru, platnom karticom ili direktnom uplatom na račun ateljea. Za sve iznose preko 10.000 RSD dostava je besplatna.'
     }
   ];
 
