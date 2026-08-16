@@ -72,7 +72,7 @@ export const AboutSection: React.FC = () => {
             {/* Overlapping Secondary Image */}
             <div className="hidden sm:block absolute -bottom-8 -right-8 w-44 h-56 overflow-hidden border border-[#C5A059]/30 shadow-2xl bg-[#FCFBF7]">
               <img
-                src="https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=800&q=85"
+                src="/jelena.jpg"
                 alt="Detalj ručnog boda i svilenog konca"
                 className="w-full h-full object-cover"
               />
