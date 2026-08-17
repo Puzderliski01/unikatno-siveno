@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, ShieldCheck, Truck, CreditCard, Banknote, Building2, Sparkles, ArrowLeft, QrCode } from 'lucide-react';
+import { X, CheckCircle2, ShieldCheck, CreditCard, Banknote, QrCode } from 'lucide-react';
 import { motion } from 'motion/react';
 import { CartItem, CheckoutFormData } from '../types';
 import { FORMAT_RSD } from '../data/products';

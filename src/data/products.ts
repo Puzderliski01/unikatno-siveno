@@ -41,7 +41,7 @@ export const PRODUCTS: Product[] = [
     nameSr: 'Haljina "Larisa"',
     subtitleSr: '"Leto u boji mora"',
     category: 'haljine',
-    categoryLabelSr: 'Večernje haljine',
+    categoryLabelSr: 'Letnje haljine',
     priceRSD: 29000,
     badge: 'Novo',
     descriptionSr: 'Leto u boji mora. Haljina "Larisa" ističe vašu preplanulost i čini da izgledate zanosno bez napora.',
@@ -111,7 +111,7 @@ export const PRODUCTS: Product[] = [
     nameSr: 'Haljina "Olivia"',
     subtitleSr: 'Klasična prugasta haljina za opušten letnji look',
     category: 'haljine',
-    categoryLabelSr: 'Večernje haljine',
+    categoryLabelSr: 'Letnje haljine',
     priceRSD: 16500,
     badge: 'LIMITED EDITION',
     descriptionSr: 'Najudobnija haljina koju ćeš nositi ove sezone! Haljina "Olivia" je savršen spoj stila i udobnosti. Prugicie joj daju onaj klasičan letnji izgled, a kroj je super opušten!',
@@ -166,9 +166,7 @@ export const PRODUCTS: Product[] = [
     },
     sizes: ['XS (34)', 'S (36)', 'M (38)', 'L (40)', 'XL (42)'],
     images: [
-      '/majice/jullyet/jullyet1.jpg',
-      '/majice/jullyet/jullyet2.jpg',
-      '/majice/jullyet/jullyet3.jpg'
+      '/majice/jullyet/jullyet1.jpg'
     ],
     isCustomizable: false,
     leadTimeDays: '2–3 radna dana',
@@ -179,7 +177,7 @@ export const PRODUCTS: Product[] = [
     nameSr: 'Haljina "Rahela"',
     subtitleSr: 'Bezvremenska elegancija u crno-belim tufnama',
     category: 'haljine',
-    categoryLabelSr: 'Večernje haljine',
+    categoryLabelSr: 'Letnje haljine',
     priceRSD: 28000,
     badge: 'Novo',
     descriptionSr: 'Obuci "Rahela" haljinu na koktel, večeru ili letnju zabavu i budi zvezda večeri. Crno-bela tkanina sa tufnama kreira sofisticiran i bezvremenski look koji nikad ne izlazi iz mode.',

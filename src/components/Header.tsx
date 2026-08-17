@@ -51,7 +51,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <span className="hidden md:inline-flex items-center gap-1.5 text-[#C5A059]">
             <Scissors className="w-3.5 h-3.5" />
-            Unikatno šivenje po meri & Haute Couture
+            Unikatno šivenje po meri
           </span>
           <span className="mx-auto md:mx-0 flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />

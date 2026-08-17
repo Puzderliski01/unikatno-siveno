@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Calendar, Clock, MapPin, Scissors, User, Phone, Mail, Sparkles, CheckCircle2, MessageSquare } from 'lucide-react';
+import { X, Calendar, MapPin, Sparkles, CheckCircle2, MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Product } from '../types';
 
@@ -16,7 +16,6 @@ export const FittingBookingModal: React.FC<FittingBookingModalProps> = ({
   onClose,
   onSubmitSuccess,
 }) => {
-  const [salonLocation, setSalonLocation] = useState<'topola'>('topola');
   const [serviceType, setServiceType] = useState<string>(
     preselectedProduct ? 'proba_modela' : 'sivenje_po_meri'
   );
@@ -25,9 +24,6 @@ export const FittingBookingModal: React.FC<FittingBookingModalProps> = ({
   const [fullName, setFullName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [customBust, setCustomBust] = useState<string>('');
-  const [customWaist, setCustomWaist] = useState<string>('');
-  const [customHips, setCustomHips] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);

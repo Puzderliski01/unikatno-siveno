@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Calendar, Sparkles, Check, Ruler, Info, ShieldCheck, Truck, RefreshCw, Heart } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Calendar, Sparkles, Check, Ruler, Info, ShieldCheck, Truck, Heart } from 'lucide-react';
+import { motion } from 'motion/react';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
 

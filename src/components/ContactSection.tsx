@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, MessageSquare, ChevronDown, Sparkles, CheckCircle2, Calendar } from 'lucide-react';
+import { motion } from 'motion/react';
+import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
 
 interface ContactSectionProps {
   onOpenBooking: () => void;
@@ -7,6 +9,8 @@ interface ContactSectionProps {
 }
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, onShowToast }) => {
+  const { getVariants, getInViewOptions } = useScrollAnimation();
+  const inViewOptions = getInViewOptions();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -56,26 +60,43 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, o
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#C5A059] font-sans font-medium mb-3">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={inViewOptions}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+          }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
+          <motion.div variants={getVariants(staggerItemVariants)} className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#C5A059] font-sans font-medium mb-3">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Salon & Konsultacije</span>
-          </div>
-          <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-light text-[#1A1A1A] tracking-tight mb-4">
+          </motion.div>
+          <motion.h2 variants={getVariants(staggerItemVariants)} className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-light text-[#1A1A1A] tracking-tight mb-4">
             Kontakt & Zakazivanje termina
-          </h2>
-          <div className="w-12 h-px bg-[#C5A059] mx-auto mb-4" />
-          <p className="text-sm sm:text-base text-[#1A1A1A]/75 font-light leading-relaxed">
+          </motion.h2>
+          <motion.div variants={getVariants(staggerItemVariants)} className="w-12 h-px bg-[#C5A059] mx-auto mb-4" />
+          <motion.p variants={getVariants(staggerItemVariants)} className="text-sm sm:text-base text-[#1A1A1A]/75 font-light leading-relaxed">
             Posetite naš salon u Topoli za privatnu probu, izbor uzoraka svile i razgovor o vašoj sledećoj toaleti.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* 2-Column Info & Message Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-20 overflow-hidden">
           
           {/* Left Column: Atelier Salon Addresses & Hours (6 cols) */}
-          <div className="lg:col-span-6 space-y-6">
-            
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={inViewOptions}
+            variants={{
+              hidden: { opacity: 0, x: -40 },
+              visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+            }}
+            className="lg:col-span-6 space-y-6"
+          >
             {/* Atelier Card */}
             <div className="bg-white border border-[#C5A059]/40 p-6 sm:p-7 relative overflow-hidden shadow-sm">
               <div className="flex items-center justify-between mb-4">
@@ -130,11 +151,19 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, o
                 </a>
               </div>
             </div>
-
-          </div>
+          </motion.div>
 
           {/* Right Column: Direct Message Form (6 cols) */}
-          <div className="lg:col-span-6 bg-white border border-[#1A1A1A]/15 p-6 sm:p-8 shadow-sm">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={inViewOptions}
+            variants={{
+              hidden: { opacity: 0, x: 40 },
+              visible: { opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] } },
+            }}
+            className="lg:col-span-6 bg-white border border-[#1A1A1A]/15 p-6 sm:p-8 shadow-sm"
+          >
             <h3 className="font-serif-luxury text-2xl text-[#1A1A1A] mb-2 font-normal">Pošaljite nam direktan upit</h3>
             <p className="text-xs text-[#1A1A1A]/70 mb-6 leading-relaxed font-sans">
               Imate pitanje o modelima, specifičnom materijalu ili želite procenu za vašu unikatnu kreaciju? Pišite nam direktno.
@@ -206,12 +235,17 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, o
                 </button>
               </form>
             )}
-          </div>
-
+          </motion.div>
         </div>
 
         {/* FAQ Accordion Section */}
-        <div className="pt-10 border-t border-[#C5A059]/20 max-w-4xl mx-auto">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={inViewOptions}
+          variants={getVariants(fadeInUpVariants)}
+          className="pt-10 border-t border-[#C5A059]/20 max-w-4xl mx-auto"
+        >
           <div className="text-center mb-10">
             <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#1A1A1A] mb-2 font-normal">
               Često postavljana pitanja
@@ -223,8 +257,15 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, o
             {faqs.map((faq, index) => {
               const isOpen = openFaq === index;
               return (
-                <div
+                <motion.div
                   key={index}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={inViewOptions}
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] } },
+                  }}
                   className="bg-white border border-[#1A1A1A]/15 overflow-hidden transition-colors shadow-sm"
                 >
                   <button
@@ -245,11 +286,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, o
                       {faq.a}
                     </div>
                   )}
-                </div>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, Trash2, Plus, Minus, ShoppingBag, Gift, Truck, ArrowRight, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { X, Trash2, Plus, Minus, ShoppingBag, Gift, Truck, ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
 import { CartItem } from '../types';
 import { FORMAT_RSD } from '../data/products';
 

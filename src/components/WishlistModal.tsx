@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Heart, ShoppingBag, Trash2, ArrowRight } from 'lucide-react';
+import { X, Heart, ShoppingBag, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';

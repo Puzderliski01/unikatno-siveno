@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface ImageLightboxProps {
