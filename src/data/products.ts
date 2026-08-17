@@ -273,6 +273,241 @@ export const PRODUCTS: Product[] = [
     isCustomizable: true,
     leadTimeDays: '3–5 radnih dana',
     modelInfo: 'Model je visoka 175 cm i nosi veličinu S (36)'
+  },
+  {
+    id: 'zozelin-dress',
+    nameSr: 'Haljina "Žozefin"',
+    subtitleSr: 'Balans između prefinjenosti i modernog dizajna',
+    category: 'haljine',
+    categoryLabelSr: 'Večernje haljine',
+    priceRSD: 27000,
+    badge: 'Novo',
+    descriptionSr: 'Haljina "Žozefin" deluje kao savršen izbor za prilike gde se traži balans između prefinjenosti i modernog dizajna.',
+    storySr: 'Inspiracija za "Žozefin" dolazi iz želje da se spoji klasika sa modernim detaljima. Ova haljina je za žene koje cene eleganciju ali ne žele da žrtvuju svoj jedinstveni stil.',
+    features: [
+      'Prefinjen dizajn sa modernim detaljima',
+      'Balans klase i savremenog stila',
+      'Izrađena od kvalitetnih prirodnih materijala',
+      'Idealna za posebne prilike i svečane događaje'
+    ],
+    materialsAndCare: {
+      composition: '100% Prirodna tkanina',
+      origin: 'Ručno šiveno u Ateljeu Jelena Erić, Topola',
+      care: [
+        'Pranje u mašini na 30°C',
+        'Peglati sa naličja',
+        'Ne sušiti u mašini'
+      ]
+    },
+    sizes: ['XS (34)', 'S (36)', 'M (38)', 'L (40)', 'XL (42)', 'Izrada po ličnim merama'],
+    images: [
+      '/haljine/zozelin/zozelin1.jpg'
+    ],
+    isCustomizable: true,
+    leadTimeDays: '3–5 radnih dana',
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu S (36)'
+  },
+  {
+    id: 'unikatna-dress',
+    nameSr: 'Unikatna haljina',
+    subtitleSr: 'Asimetrični kroj i prefinjena silueta u boji peska',
+    category: 'haljine',
+    categoryLabelSr: 'Večernje haljine',
+    priceRSD: 32000,
+    badge: 'UNIKAT',
+    descriptionSr: 'Ova unikatna haljina u boji peska, spaja asimetrični kroj i prefinjenu siluetu, čineći je idealnim izborom za svaku priliku gde želite da ostavite utisak bez mnogo truda.',
+    storySr: 'Svaka unikatna haljina priča svoju priču. "Pesak" je inspirisan prirodnim tonovima i asimetričnim formama koje ističu žensku senzualnost na sofisticiran način.',
+    features: [
+      'Jedinstven unikat - samo jedan komad',
+      'Asimetrični kroj koji ističe siluetu',
+      'Elegantna boja peska',
+      'Prefinjena izrada sa pažnjom na detalje'
+    ],
+    materialsAndCare: {
+      composition: '100% Prirodna tkanina',
+      origin: 'Ručno šiveno u Ateljeu Jelena Erić, Topola',
+      care: [
+        'Pranje u mašini na 30°C',
+        'Peglati sa naličja',
+        'Ne sušiti u mašini'
+      ]
+    },
+    sizes: ['Izrada po ličnim merama'],
+    images: [
+      '/haljine/unikatna/unikatna1.jpg'
+    ],
+    isCustomizable: true,
+    leadTimeDays: '5–7 radnih dana',
+    modelInfo: 'Model je visoka 176 cm i nosi veličinu S (36)'
+  },
+  {
+    id: 'crna-asimetricna',
+    nameSr: 'Crna asimetrična haljina',
+    subtitleSr: 'Više od haljine - to je tvoja supermoć',
+    category: 'haljine',
+    categoryLabelSr: 'Večernje haljine',
+    priceRSD: 29500,
+    badge: 'LIMITED',
+    descriptionSr: 'Više od haljine! To je tvoja supermoć. Ovaj asimetrični kroj nije za stidljive. To je komad za ženu koja zna šta želi i ne plaši se da to pokaže.',
+    storySr: 'Za ženu koja se usuđuje da bude drugačija. Crna asimetrična haljina je više od odeće - to je izjava. Komad koji govori vašim jezikom pre nego što vi progovorite.',
+    features: [
+      'Odvažan asimetrični kroj',
+      'Intenzivna crna boja',
+      'Za ženu koja zna šta želi',
+      'Komad koji ostavlja utisak'
+    ],
+    materialsAndCare: {
+      composition: '100% Prirodna tkanina',
+      origin: 'Ručno šiveno u Ateljeu Jelena Erić, Topola',
+      care: [
+        'Pranje u mašini na 30°C',
+        'Peglati sa naličja',
+        'Ne sušiti u mašini'
+      ]
+    },
+    sizes: ['XS (34)', 'S (36)', 'M (38)', 'L (40)', 'XL (42)', 'Izrada po ličnim merama'],
+    images: [
+      '/haljine/crna/crna1.jpg'
+    ],
+    isCustomizable: true,
+    leadTimeDays: '3–5 radnih dana',
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu S (36)'
+  },
+  {
+    id: 'linda-dress',
+    nameSr: 'Haljina "Linda"',
+    subtitleSr: 'Burgundi asimetrična kreacija',
+    category: 'haljine',
+    categoryLabelSr: 'Večernje haljine',
+    priceRSD: 31000,
+    badge: 'Novo',
+    descriptionSr: 'Haljina koja govori pre nego što progovorite. Otkrijte lepotu asimetrije u burgundi kreaciji. Izrađena s ljubavlju i pažnjom prema svakom detalju.',
+    storySr: '"Linda" je više od odeće, to je izjava o stilu. Inspiracija dolazi iz želje da se spoji toplina burgundi boje sa modernim asimetričnim krojem koji ostavlja bez daha.',
+    features: [
+      'Elegantna burgundi boja',
+      'Asimetrični kroj za dramatičan efekat',
+      'Izrađena s ljubavlju i pažnjom prema svakom detalju',
+      'Izjava o stilu'
+    ],
+    materialsAndCare: {
+      composition: '100% Prirodna tkanina',
+      origin: 'Ručno šiveno u Ateljeu Jelena Erić, Topola',
+      care: [
+        'Pranje u mašini na 30°C',
+        'Peglati sa naličja',
+        'Ne sušiti u mašini'
+      ]
+    },
+    sizes: ['XS (34)', 'S (36)', 'M (38)', 'L (40)', 'XL (42)', 'Izrada po ličnim merama'],
+    images: [
+      '/haljine/linda/linda1.jpg'
+    ],
+    isCustomizable: true,
+    leadTimeDays: '4–6 radnih dana',
+    modelInfo: 'Model je visoka 177 cm i nosi veličinu S (36)'
+  },
+  {
+    id: 'gaby-jacket',
+    nameSr: 'Jakna "Gaby"',
+    subtitleSr: 'Teal-plava jakna od italijanske kože',
+    category: 'blejzeri',
+    categoryLabelSr: 'Blejzeri i jakne',
+    priceRSD: 45000,
+    badge: 'Premium',
+    descriptionSr: 'Teal-plava jakna "Gaby" od italijanske kože (poznate po mekoći, dugovečnosti i luksuznom sjaju), prilagođava se telu i vremenom postaje sve lepša.',
+    storySr: 'To je komad koji ne samo da gradi stil, već i priču o kvalitetu, trajnosti i sofisticiranom ukusu. Italijanska koža je poznata po svojoj mekoći i dugovečnosti, a jakna "Gaby" to potvrđuje.',
+    features: [
+      'Italijanska koža vrhunskog kvaliteta',
+      'Teal-plava boja za sofisticiran izgled',
+      'Prilagođava se telu vremenom',
+      'Komad koji traje ceo život'
+    ],
+    materialsAndCare: {
+      composition: '100% Italijanska koža',
+      origin: 'Ručno šiveno u Ateljeu Jelena Erić, Topola',
+      care: [
+        'Čistiti kod stručnog kozmetičara za kožu',
+        'Redovno tretirati sredstvom za kožu',
+        'Čuvati na suvom mestu'
+      ]
+    },
+    sizes: ['XS (34)', 'S (36)', 'M (38)', 'L (40)', 'XL (42)'],
+    images: [
+      '/blejzeri/gaby/gaby1.jpg'
+    ],
+    isCustomizable: false,
+    leadTimeDays: '7–10 radnih dana',
+    modelInfo: 'Model je visoka 176 cm i nosi veličinu S (36)'
+  },
+  {
+    id: 'atina-tunika',
+    nameSr: 'Tunika "Atina"',
+    subtitleSr: 'Nežnost i snaga u asimetričnom kroju',
+    category: 'haljine',
+    categoryLabelSr: 'Tunike',
+    priceRSD: 24000,
+    badge: 'Novo',
+    descriptionSr: 'Tunika "Atina" ukazuje na nežnost i snagu istovremeno. Asimetrični kroj i nabori pretvaraju je u umetnost. Ne pripada serijskoj, brzoj proizvodnji.',
+    storySr: 'Ona je plod mog ručnog rada, strpljenja i emocije, namenjena svima koji vole unikatno šivenu odeću. "Atina" je inspirisana grčkom lepotom i snagom žene.',
+    features: [
+      'Asimetrični kroj sa elegantnim naborima',
+      'Nežnost i snaga u jednom komadu',
+      'Ručni rad sa puno pažnje',
+      'Unikatna izrada'
+    ],
+    materialsAndCare: {
+      composition: '100% Prirodna tkanina',
+      origin: 'Ručno šiveno u Ateljeu Jelena Erić, Topola',
+      care: [
+        'Pranje u mašini na 30°C',
+        'Peglati sa naličja',
+        'Ne sušiti u mašini'
+      ]
+    },
+    sizes: ['XS (34)', 'S (36)', 'M (38)', 'L (40)', 'XL (42)', 'Izrada po ličnim merama'],
+    images: [
+      '/haljine/atina/atina1.jpg',
+      '/haljine/atina/atina2.jpg'
+    ],
+    isCustomizable: true,
+    leadTimeDays: '4–6 radnih dana',
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu S (36)'
+  },
+  {
+    id: 'kaliope-dress',
+    nameSr: 'Pačvork haljina "Kaliope"',
+    subtitleSr: 'Boje i geometrija u jednu priču',
+    category: 'haljine',
+    categoryLabelSr: 'Večernje haljine',
+    priceRSD: 35000,
+    badge: 'UNIKAT',
+    descriptionSr: '"Kaliope" pačvork haljina spaja boje i geometriju u jednu priču. Asimetrični kroj i smeli kontrasti, pretvaraju je u modni manifest.',
+    storySr: 'Ona je hrabra, umetnička i neponovljiva. Ona je jedna i jedina. "Kaliope" je inspirisana umetnošću pačvorka i željom da se stvori komad koji je istovremeno nosiv i umetnički.',
+    features: [
+      'Jedinstven pačvork dizajn',
+      'Smeli kontrasti i geometrijski oblici',
+      'Asimetrični kroj za moderan izgled',
+      'Hrabra i umetnička kreacija'
+    ],
+    materialsAndCare: {
+      composition: '100% Prirodna tkanina',
+      origin: 'Ručno šiveno u Ateljeu Jelena Erić, Topola',
+      care: [
+        'Pranje u mašini na 30°C',
+        'Peglati sa naličja',
+        'Ne sušiti u mašini'
+      ]
+    },
+    sizes: ['XS (34)', 'S (36)', 'M (38)', 'L (40)', 'XL (42)', 'Izrada po ličnim merama'],
+    images: [
+      '/haljine/kaliope/kaliope1.jpg',
+      '/haljine/kaliope/kaliope2.jpg',
+      '/haljine/kaliope/kaliope3.jpg',
+      '/haljine/kaliope/kaliope4.jpg'
+    ],
+    isCustomizable: true,
+    leadTimeDays: '5–7 radnih dana',
+    modelInfo: 'Model je visoka 178 cm i nosi veličinu S (36)'
   }
 ];
 
