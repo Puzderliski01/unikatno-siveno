@@ -16,108 +16,128 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
     offset: ['start start', 'end start'],
   });
 
-  // Background animations - stays sticky and transforms when content scrolls out
-  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1.2]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.3, 0.6], [0.35, 0.5, 0.9]);
-  const bgBlur = useTransform(scrollYProgress, [0.4, 0.7], [0, 5]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.3, 0.8]);
-  
-  // Content animations - scrolls out normally
-  const contentY = useTransform(scrollYProgress, [0, 0.5], ['0%', '30%']);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const scaleText = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
-
-  // Transition to collection - activates when content is mostly scrolled out
-  const transitionOpacity = useTransform(scrollYProgress, [0.5, 0.8], [0, 1]);
-  const transitionScale = useTransform(scrollYProgress, [0.5, 0.8], [0.8, 1]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '40%']);
+  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.08, 1.15]);
+  const bgBlur = useTransform(scrollYProgress, [0.4, 0.8], [0, 6]);
+  const overlayY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.4, 0.7], [0.4, 0.6, 0.9]);
+  const decorY = useTransform(scrollYProgress, [0, 1], ['0%', '-10%']);
+  const decorOpacity = useTransform(scrollYProgress, [0, 0.3, 0.6], [1, 0.6, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 0.5], ['0%', '50%']);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+  const contentScale = useTransform(scrollYProgress, [0, 0.4], [1, 0.92]);
+  const transitionOpacity = useTransform(scrollYProgress, [0.5, 0.85], [0, 1]);
+  const transitionScale = useTransform(scrollYProgress, [0.5, 0.85], [0.85, 1]);
 
   return (
-    <div className="relative" style={{ height: '180vh' }}>
-      {/* Sticky Background - stays fixed while content scrolls */}
+    <div className="relative" style={{ height: '200vh' }}>
       <div className="sticky top-0 h-screen overflow-hidden">
-        <motion.div 
-          className="absolute inset-0 z-0"
-          style={{ scale: bgScale }}
-        >
+
+        {/* LAYER 1: BACKGROUND IMAGE */}
+        <motion.div className="absolute inset-0 z-0" style={{ y: isMobile ? 0 : bgY }}>
           <motion.img
             src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2000&q=85"
             alt="Luksuzni modni atelje Jelena Erić unikatna odeća"
             className="w-full h-full object-cover object-center"
-            initial={{ scale: 1.1, opacity: 0 }}
-            animate={{ scale: 1.2, opacity: 0.35 }}
+            initial={{ scale: 1.15, opacity: 0 }}
+            animate={{ scale: 1.2, opacity: 0.45 }}
             transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{ 
-              willChange: 'transform',
-              filter: useTransform(bgBlur, (v) => `blur(${v}px)`)
-            }}
+            style={{ willChange: 'transform', filter: useTransform(bgBlur, (v) => `brightness(0.75) contrast(1.05) blur(${v}px) saturate(1.1)`) }}
           />
-          {/* Geometric Balance Overlays */}
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/60 to-[#1A1A1A]/40"
-            style={{ opacity: overlayOpacity }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A]/60 via-transparent to-[#1A1A1A]/60" />
         </motion.div>
 
-        {/* Hero Content Container - scrolls over the sticky background */}
+        {/* LAYER 2: DARK OVERLAY */}
+        <motion.div className="absolute inset-0 z-[1]" style={{ y: isMobile ? 0 : overlayY }}>
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/50 to-[#0c0c0e]/30"
+            style={{ opacity: overlayOpacity }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0c0c0e]/70 via-transparent to-[#0c0c0e]/70" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0c0c0e]/60 to-transparent" />
+        </motion.div>
+
+        {/* LAYER 3: DECORATIVE GEOMETRIC ELEMENTS */}
         <motion.div
-          className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center text-center"
+          className="absolute inset-0 z-[2] pointer-events-none"
+          style={{ y: isMobile ? 0 : decorY, opacity: decorOpacity }}
+        >
+          <div className="absolute top-24 left-8 sm:left-16">
+            <div className="w-24 h-px bg-[#C5A059]/40" />
+            <div className="w-px h-24 bg-[#C5A059]/40" />
+          </div>
+          <div className="absolute bottom-24 right-8 sm:right-16">
+            <div className="w-24 h-px bg-[#C5A059]/40 ml-auto" />
+            <div className="w-px h-24 bg-[#C5A059]/40 ml-auto" />
+          </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-[#C5A059]/10 rotate-45" />
+        </motion.div>
+
+        {/* LAYER 4: MAIN CONTENT */}
+        <motion.div
+          className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center text-center"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          style={{ 
-            y: isMobile ? 0 : contentY, 
-            scale: isMobile ? 1 : scaleText,
-            opacity: contentOpacity
-          }}
+          style={{ y: isMobile ? 0 : contentY, scale: isMobile ? 1 : contentScale, opacity: contentOpacity }}
         >
-          <div className="flex flex-col items-center">
-            {/* Subtle Gold Tagline Eyebrow */}
+          <div className="flex flex-col items-center max-w-4xl">
+
+            {/* REVEAL 1: Eyebrow Tagline */}
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-2 px-4 py-1.5 border border-[#C5A059]/40 text-[#C5A059] text-[10px] sm:text-xs uppercase tracking-[0.25em] font-sans mb-8 bg-[#1A1A1A]/80 backdrop-blur-sm"
+              className="inline-flex items-center gap-3 px-5 py-2 border border-[#C5A059]/30 text-[#C5A059] text-[10px] sm:text-xs uppercase tracking-[0.3em] font-sans mb-10 bg-[#0c0c0e]/60 backdrop-blur-md"
+              whileHover={{ borderColor: 'rgba(197, 160, 89, 0.6)', backgroundColor: 'rgba(197, 160, 89, 0.1)', scale: 1.02, transition: { duration: 0.3 } }}
             >
               <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
               <span>Unikatno Šivenje</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
             </motion.div>
 
-            {/* Main Headline */}
+            {/* REVEAL 2: Main Headline */}
             <motion.h1
               variants={itemVariants}
-              className="font-serif-luxury text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-[#FCFBF7] tracking-tight leading-[1.12] mb-6 max-w-4xl"
+              className="font-serif-luxury text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-light text-[#FCFBF7] tracking-tight leading-[1.1] mb-8"
             >
-              Umetnost vanvremenske siluete i <span className="italic font-serif text-[#C5A059]">besprekornog</span> kroja
+              Umetnost vanvremenske siluete i{' '}
+              <span className="italic font-serif text-[#C5A059] relative">
+                besprekornog
+                <motion.span
+                  className="absolute -bottom-1 left-0 right-0 h-px bg-[#C5A059]/50"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 1.2, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ transformOrigin: 'left' }}
+                />
+              </span>
+              {' '}kroja
             </motion.h1>
 
-            {/* Supporting Narrative */}
+            {/* REVEAL 3: Supporting Narrative */}
             <motion.p
               variants={itemVariants}
-              className="font-sans text-sm sm:text-base md:text-lg text-[#FCFBF7]/85 max-w-2xl font-light leading-relaxed mb-10 text-center"
+              className="font-sans text-sm sm:text-base md:text-lg text-[#FCFBF7]/80 max-w-2xl font-light leading-relaxed mb-12 text-center"
             >
               Dobrodošli u galeriju Jelene Erić. Svaki model stvara se ručno od finih prirodnih materijala — krojenih s' ljubavlju i pažnjom prema svakom detalju.
             </motion.p>
 
-            {/* Action Buttons */}
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
-            >
+            {/* REVEAL 4: Action Button */}
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 w-full sm:w-auto">
               <motion.button
                 id="hero-explore-collection-btn"
                 type="button"
                 onClick={onExploreClick}
-                whileHover={{ scale: 1.03, boxShadow: '0 8px 30px rgba(197, 160, 89, 0.3)' }}
+                whileHover={{ scale: 1.04, boxShadow: '0 12px 40px rgba(197, 160, 89, 0.35)', backgroundColor: '#A7823B' }}
                 whileTap={{ scale: 0.97 }}
-                className="w-full sm:w-auto px-8 py-4 bg-[#C5A059] hover:bg-[#A7823B] text-black font-semibold text-xs sm:text-sm uppercase tracking-[0.2em] transition-colors duration-300 shadow-md"
+                className="w-full sm:w-auto px-10 py-4 bg-[#C5A059] text-black font-semibold text-xs sm:text-sm uppercase tracking-[0.25em] transition-all duration-300 shadow-lg"
               >
                 Istražite kolekciju
               </motion.button>
             </motion.div>
 
-            {/* Atelier Quality Hallmarks */}
+            {/* REVEAL 5: Quality Hallmarks */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-16 mt-12 border-t border-[#C5A059]/30 w-full max-w-4xl text-left"
+              className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-16 mt-14 border-t border-[#C5A059]/25 w-full max-w-3xl"
             >
               {[
                 { icon: Scissors, title: '100% Ručni rad', desc: 'Tradicionalno kanvasiranje i fiksirani šavovi' },
@@ -126,18 +146,18 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               ].map((item, index) => (
                 <motion.div
                   key={item.title}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.8 + index * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                  className="flex items-center gap-3.5 p-3.5 border border-[#C5A059]/30 bg-[#1A1A1A]/80 cursor-default"
+                  transition={{ duration: 0.8, delay: 1.2 + index * 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -6, borderColor: 'rgba(197, 160, 89, 0.6)', transition: { duration: 0.25 } }}
+                  className="flex items-center gap-4 p-4 border border-[#C5A059]/25 bg-[#0c0c0e]/50 backdrop-blur-sm cursor-default group transition-colors duration-300"
                 >
-                  <div className="p-2.5 text-[#C5A059] border border-[#C5A059]/40 bg-[#1A1A1A]">
+                  <div className="p-2.5 text-[#C5A059] border border-[#C5A059]/30 bg-[#0c0c0e] group-hover:bg-[#C5A059]/10 transition-colors duration-300">
                     <item.icon className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs uppercase tracking-[0.15em] text-[#FCFBF7] font-sans font-medium">{item.title}</h4>
-                    <p className="text-[11px] text-[#FCFBF7]/70 mt-0.5">{item.desc}</p>
+                    <h4 className="text-xs uppercase tracking-[0.15em] text-[#FCFBF7] font-sans font-medium group-hover:text-[#C5A059] transition-colors duration-300">{item.title}</h4>
+                    <p className="text-[11px] text-[#FCFBF7]/60 mt-0.5">{item.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -157,29 +177,23 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           whileTap={{ scale: 0.9 }}
         >
           <span className="text-[9px] uppercase tracking-[0.2em] text-[#FCFBF7]/50 font-sans">Kolekcija</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          >
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>
             <ArrowDown className="w-4 h-4 text-[#C5A059]" />
           </motion.div>
         </motion.button>
 
-        {/* Transition overlay - appears as content scrolls out, leading into collection */}
+        {/* Transition to collection */}
         <motion.div
           className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
           style={{ opacity: transitionOpacity }}
         >
-          <motion.div
-            className="text-center"
-            style={{ scale: transitionScale }}
-          >
-            <div className="inline-flex items-center gap-2 text-[#C5A059] mb-4">
-              <div className="w-12 h-px bg-[#C5A059]" />
+          <motion.div className="text-center" style={{ scale: transitionScale }}>
+            <div className="inline-flex items-center gap-3 text-[#C5A059] mb-4">
+              <div className="w-16 h-px bg-[#C5A059]/60" />
               <Sparkles className="w-4 h-4" />
-              <div className="w-12 h-px bg-[#C5A059]" />
+              <div className="w-16 h-px bg-[#C5A059]/60" />
             </div>
-            <p className="font-serif-luxury text-xl sm:text-2xl text-[#FCFBF7] tracking-wide">
+            <p className="font-serif-luxury text-xl sm:text-2xl text-[#FCFBF7]/90 tracking-wide">
               Nastavite ka kolekciji
             </p>
           </motion.div>
