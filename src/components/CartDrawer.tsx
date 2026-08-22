@@ -44,7 +44,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="w-screen max-w-md bg-[#0a0a0a] border-l border-[#e8e0d4]/20 text-[#e8e0d4] flex flex-col shadow-2xl"
+          className="w-full sm:max-w-md bg-[#0a0a0a] border-l border-[#e8e0d4]/20 text-[#e8e0d4] flex flex-col shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Drawer Header */}
@@ -80,7 +80,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 )}
               </span>
             </div>
-            <div className="w-full h-1.5 bg-[#e8e0d4]/10 overflow-hidden">
+            <div className="w-full h-2 sm:h-1.5 bg-[#e8e0d4]/10 overflow-hidden">
               <div
                 className="h-full bg-[#c9a96e] transition-all duration-500"
                 style={{ width: `${Math.min(100, (subtotal / freeShippingThreshold) * 100)}%` }}
@@ -142,7 +142,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           <button
                             type="button"
                             onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                            className="p-1 text-[#e8e0d4]/70 hover:text-[#e8e0d4]"
+                            className="p-3 sm:p-1 text-[#e8e0d4]/70 hover:text-[#e8e0d4]"
                             aria-label="Smanji količinu"
                           >
                             <Minus className="w-3 h-3" />
@@ -151,7 +151,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           <button
                             type="button"
                             onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                            className="p-1 text-[#e8e0d4]/70 hover:text-[#e8e0d4]"
+                            className="p-3 sm:p-1 text-[#e8e0d4]/70 hover:text-[#e8e0d4]"
                             aria-label="Povećaj količinu"
                           >
                             <Plus className="w-3 h-3" />
@@ -228,7 +228,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   onClose();
                   onProceedToCheckout();
                 }}
-                className="w-full py-4 bg-[#e8e0d4] hover:bg-[#c9a96e] text-[#0a0a0a] font-semibold text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 shadow-md"
+                className="w-full py-5 sm:py-4 bg-[#e8e0d4] hover:bg-[#c9a96e] text-[#0a0a0a] font-semibold text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 shadow-md"
               >
                 <span>Poručite odmah (Srbija)</span>
                 <ArrowRight className="w-4 h-4 text-[#0a0a0a]" />

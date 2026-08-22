@@ -67,11 +67,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.3 }}
-        className="relative w-full max-w-5xl bg-[#0a0a0a] border border-[#e8e0d4]/20 shadow-2xl overflow-hidden text-[#e8e0d4] my-auto max-h-[92vh] flex flex-col"
+        className="relative w-full max-w-5xl lg:max-w-5xl bg-[#0a0a0a] border border-[#e8e0d4]/20 shadow-2xl overflow-hidden text-[#e8e0d4] my-auto max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Controls */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#e8e0d4]/10 bg-[#111111]">
+        <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 bg-[#111111]">
           <div className="flex items-center gap-2">
             <span className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold">
               {product.categoryLabelSr}
@@ -107,11 +107,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         </div>
 
         {/* Modal Scrollable Body: 2 Columns */}
-        <div className="overflow-y-auto flex-1 p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="overflow-y-auto flex-1 p-0 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Left Column: Image Carousel & Gallery (5 cols) */}
           <div className="lg:col-span-6 flex flex-col gap-4">
-            <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#111111] border border-[#e8e0d4]/10 group">
+            <div className="relative aspect-[3/4] sm:aspect-[3/4] w-full overflow-hidden bg-[#111111] border border-[#e8e0d4]/10 group">
               <img
                 src={product.images[activeImageIndex]}
                 alt={`${product.nameSr} - pogled ${activeImageIndex + 1}`}
@@ -125,7 +125,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={handlePrevImage}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 bg-[#111111]/90 hover:bg-[#c9a96e] text-[#e8e0d4] transition-colors shadow-md"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 bg-[#111111]/90 hover:bg-[#c9a96e] text-[#e8e0d4] transition-colors shadow-md"
                     aria-label="Prethodna slika"
                   >
                     <ChevronLeft className="w-5 h-5" />
@@ -133,7 +133,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={handleNextImage}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-[#111111]/90 hover:bg-[#c9a96e] text-[#e8e0d4] transition-colors shadow-md"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 bg-[#111111]/90 hover:bg-[#c9a96e] text-[#e8e0d4] transition-colors shadow-md"
                     aria-label="Sledeća slika"
                   >
                     <ChevronRight className="w-5 h-5" />
@@ -148,7 +148,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 className="absolute bottom-3 right-3 px-3 py-1.5 bg-[#111111]/85 hover:bg-[#c9a96e] text-[#e8e0d4] hover:text-[#0a0a0a] backdrop-blur-md border border-[#e8e0d4]/10 text-xs flex items-center gap-1.5 transition-colors"
               >
                 <ZoomIn className="w-3.5 h-3.5" />
-                <span>Uvećaj</span>
+                <span className="hidden sm:inline">Uvećaj</span>
               </button>
 
               <div className="absolute bottom-3 left-3 text-[10px] font-mono bg-[#111111]/90 text-[#e8e0d4] px-2 py-1 border border-[#e8e0d4]/10">
@@ -158,7 +158,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
             {/* Thumbnail Strip */}
             {product.images.length > 1 && (
-              <div className="flex items-center gap-3 overflow-x-auto pb-1">
+              <div className="hidden sm:flex items-center gap-3 overflow-x-auto pb-1">
                 {product.images.map((img, idx) => (
                   <button
                     key={idx}
@@ -243,7 +243,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                           setSelectedSize(size);
                           setIsCustomTailored(isCustom);
                         }}
-                        className={`p-2.5 text-xs border text-center transition-all font-sans ${
+                        className={`p-3 sm:p-2.5 text-xs border text-center transition-all font-sans ${
                           selectedSize === size
                             ? 'bg-[#c9a96e] text-black border-[#c9a96e] font-bold shadow-sm'
                             : 'bg-[#1a1a1a] hover:bg-[#111111] border-[#e8e0d4]/15 text-[#e8e0d4]'
@@ -328,7 +328,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   id="modal-add-to-cart-btn"
                   type="button"
                   onClick={handleAdd}
-                  className={`flex-1 py-4 px-6 font-semibold text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 ${
+                  className={`flex-1 py-5 sm:py-4 px-6 font-semibold text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 ${
                     addedAnimation
                       ? 'bg-emerald-700 text-white'
                       : 'bg-[#111111] hover:bg-[#1a1a1a] text-[#e8e0d4] shadow-md'
@@ -350,11 +350,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               {/* Information Tabs */}
               <div className="border-t border-[#e8e0d4]/10 pt-6">
-                <div className="flex items-center gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 overflow-x-auto font-sans">
+                <div className="flex items-center gap-3 sm:gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 overflow-x-auto font-sans">
                   <button
                     type="button"
                     onClick={() => setActiveTab('opis')}
-                    className={`text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                    className={`min-w-max text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'opis'
                         ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                         : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
@@ -365,7 +365,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setActiveTab('materijali')}
-                    className={`text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                    className={`min-w-max text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'materijali'
                         ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                         : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
@@ -376,7 +376,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setActiveTab('velicine')}
-                    className={`text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                    className={`min-w-max text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'velicine'
                         ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                         : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
@@ -387,7 +387,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setActiveTab('isporuka')}
-                    className={`text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                    className={`min-w-max text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'isporuka'
                         ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                         : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'

@@ -129,7 +129,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Pretraži modele..."
-                className="w-full pl-9 pr-3 py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
+                className="w-full pl-9 pr-3 py-2.5 sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
               />
             </div>
 
@@ -138,7 +138,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="pl-3 pr-8 py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] outline-none appearance-none cursor-pointer"
+                className="pl-3 pr-8 py-2.5 sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] outline-none appearance-none cursor-pointer"
               >
                 <option value="default">Sortiranje: Istaknuto</option>
                 <option value="price-asc">Cena: Rastuće</option>

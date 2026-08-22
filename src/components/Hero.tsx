@@ -9,8 +9,8 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   const { getVariants, isMobile } = useScrollAnimation();
-  const containerVariants = getVariants(staggerContainerVariants);
-  const itemVariants = getVariants(staggerItemVariants);
+  const containerVariants = isMobile ? undefined : getVariants(staggerContainerVariants);
+  const itemVariants = isMobile ? undefined : getVariants(staggerItemVariants);
 
   const { scrollYProgress } = useScroll({
     offset: ['start start', 'end start'],
@@ -18,12 +18,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '15%' : '30%']);
   const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.08, 1.15]);
-  const contentY = useTransform(scrollYProgress, [0, 0.5], ['0%', '-150%']);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 0.5], isMobile ? ['0%', '0%'] : ['0%', '-150%']);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.45], isMobile ? [1, 1] : [1, 0]);
   const contentScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.92]);
 
   return (
-    <div className="relative" style={{ height: '150vh' }}>
+    <div className="relative" style={{ height: isMobile ? '100vh' : '150vh' }}>
       <div className="sticky top-0 h-screen overflow-hidden">
 
         {/* LAYER 1: HERRINGBONE TEXTURE BACKGROUND */}
@@ -32,18 +32,30 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             className="absolute inset-0 bg-[#0a0a0a]"
             style={{ scale: bgScale }}
           />
-          <motion.div
-            className="absolute inset-0 opacity-20"
-            style={{
-              backgroundImage: `url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=2000&q=80")`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'brightness(0.4) contrast(1.2)'
-            }}
-            initial={{ scale: 1.15, opacity: 0 }}
-            animate={{ scale: 1.2, opacity: 0.3 }}
-            transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
-          />
+          {isMobile ? (
+            <div
+              className="absolute inset-0 opacity-20"
+              style={{
+                backgroundImage: `url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=2000&q=80")`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'brightness(0.4) contrast(1.2)'
+              }}
+            />
+          ) : (
+            <motion.div
+              className="absolute inset-0 opacity-20"
+              style={{
+                backgroundImage: `url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=2000&q=80")`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'brightness(0.4) contrast(1.2)'
+              }}
+              initial={{ scale: 1.15, opacity: 0 }}
+              animate={{ scale: 1.2, opacity: 0.3 }}
+              transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
+            />
+          )}
         </motion.div>
 
         {/* LAYER 2: DARK OVERLAY */}
@@ -55,7 +67,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         {/* LAYER 3: MAIN CONTENT */}
         <motion.div
           className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center text-center"
-          initial="hidden"
+          initial={isMobile ? "visible" : "hidden"}
           animate="visible"
           variants={containerVariants}
           style={{ y: contentY, scale: contentScale, opacity: contentOpacity }}
@@ -65,9 +77,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             {/* DIAMOND LOGO */}
             <motion.div
               variants={itemVariants}
-              className="mb-8"
+              className="mb-6 sm:mb-8"
             >
-              <div className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto">
+              <div className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 mx-auto">
                 {/* Diamond shape */}
                 <div className="absolute inset-0 border-2 border-[#c9a96e]/60 rotate-45 transform" />
                 <div className="absolute inset-2 border border-[#c9a96e]/30 rotate-45 transform" />
@@ -76,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                   <img
                     src="/logo.png"
                     alt="Jelena Erić Logo"
-                    className="w-20 h-20 sm:w-24 sm:h-24 object-contain filter brightness-0 invert sepia-100 hue-rotate-[30deg] saturate-[0.8] brightness-[0.7]"
+                    className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 object-contain"
                   />
                 </div>
               </div>
@@ -85,15 +97,16 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             {/* MAIN HEADLINE */}
             <motion.h1
               variants={itemVariants}
-              className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-[#e8e0d4] tracking-tight leading-[1.1] mb-6"
+              className="font-serif-luxury text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-light text-[#e8e0d4] tracking-tight leading-[1.1] mb-6 px-2"
             >
-              Kolekcija. Unikatno šivenje
+              <span className="block sm:inline">Kolekcija.</span>{' '}
+              <span className="block sm:inline">Unikatno šivenje</span>
             </motion.h1>
 
             {/* SUPPORTING TEXT */}
             <motion.p
               variants={itemVariants}
-              className="font-sans text-sm sm:text-base md:text-lg text-[#e8e0d4]/80 max-w-2xl font-light leading-relaxed mb-10 text-center"
+              className="font-sans text-xs sm:text-sm md:text-lg text-[#e8e0d4]/80 max-w-2xl font-light leading-relaxed mb-6 sm:mb-10 text-center px-2"
             >
               Unikatno šiveno: Umetnost vanvremenske siluete i besprekornog kroja. Dobrodošli u galeriju Jelene Erić. Svaki model stvara se ručno od finih prirodnih materijala — krojenih s' ljubavlju i pažnjom prema svakom detalju.
             </motion.p>
@@ -115,7 +128,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             {/* 3 FEATURE ICONS */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-16 mt-14 border-t border-[#c9a96e]/25 w-full max-w-3xl"
+              className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-10 sm:pt-16 mt-10 sm:mt-14 border-t border-[#c9a96e]/25 w-full max-w-3xl"
             >
               {[
                 { icon: Scissors, title: '100% Ručni rad', desc: 'Tradicionalno kanvasiranje i fiksirani šavovi' },
@@ -124,11 +137,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               ].map((item, index) => (
                 <motion.div
                   key={item.title}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 1.2 + index * 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  transition={isMobile ? { duration: 0 } : { duration: 0.8, delay: 1.2 + index * 0.2, ease: [0.22, 1, 0.36, 1] }}
                   whileHover={{ y: -6, borderColor: 'rgba(201, 169, 110, 0.6)', transition: { duration: 0.25 } }}
-                  className="flex items-center gap-4 p-4 border border-[#c9a96e]/25 bg-[#0a0a0a]/50 backdrop-blur-sm cursor-default group transition-colors duration-300"
+                  className="flex items-center gap-4 p-3 sm:p-4 border border-[#c9a96e]/25 bg-[#0a0a0a]/50 backdrop-blur-sm cursor-default group transition-colors duration-300"
                 >
                   <div className="p-2.5 text-[#c9a96e] border border-[#c9a96e]/30 bg-[#0a0a0a] group-hover:bg-[#c9a96e]/10 transition-colors duration-300">
                     <item.icon className="w-4 h-4" />
