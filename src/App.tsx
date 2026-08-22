@@ -145,7 +145,7 @@ export default function App() {
   const wishlistProducts = PRODUCTS.filter((p) => wishlistIds.includes(p.id));
 
   return (
-    <div className="min-h-screen bg-[#0c0c0e] text-[#f4efe6] selection:bg-[#c5a059]/30 selection:text-[#f8f5ee]">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4] selection:bg-[#c9a96e]/30 selection:text-[#e8e0d4]">
       
       {/* Toast Notification Layer */}
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />

@@ -34,7 +34,7 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
   };
 
   return (
-    <footer className="bg-[#1A1A1A] border-t border-[#C5A059]/40 text-[#FCFBF7] font-sans pt-16 pb-12">
+    <footer className="bg-[#111111] border-t border-[#c9a96e]/40 text-[#e8e0d4] font-sans pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Top Newsletter & Atelier Invitation Bar */}
@@ -46,20 +46,20 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
             hidden: { opacity: 0, y: 50, scale: 0.98 },
             visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
           }}
-          className="p-8 sm:p-10 bg-[#242424] border border-[#C5A059]/30 mb-16 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-lg relative overflow-hidden"
+          className="p-8 sm:p-10 bg-[#1a1a1a] border border-[#c9a96e]/30 mb-16 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-lg relative overflow-hidden"
         >
           {/* Subtle background glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#C5A059]/5 via-transparent to-[#C5A059]/5" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#c9a96e]/5 via-transparent to-[#c9a96e]/5" />
           
           <div className="relative z-10 max-w-xl text-center lg:text-left">
-            <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#C5A059] font-semibold mb-2">
+            <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#c9a96e] font-semibold mb-2">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Privatni krug ateljea</span>
             </div>
-            <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#FCFBF7] mb-2 font-normal">
+            <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#e8e0d4] mb-2 font-normal">
               Prijavite se za obaveštenja o novim unikatnim komadima
             </h3>
-            <p className="text-xs text-[#FCFBF7]/75 leading-relaxed font-light">
+            <p className="text-xs text-[#e8e0d4]/75 leading-relaxed font-light">
               Budite prvi koji će saznati za dolazak limitiranih modela i termine privatnih probnih dana.
             </p>
           </div>
@@ -71,13 +71,13 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
               placeholder="Unesite vašu email adresu"
               value={newsletterEmail}
               onChange={(e) => setNewsletterEmail(e.target.value)}
-              className="px-4 py-3 bg-[#1A1A1A] border border-[#FCFBF7]/20 focus:border-[#C5A059] text-xs text-[#FCFBF7] placeholder-[#FCFBF7]/40 outline-none w-full sm:w-72 transition-colors"
+              className="px-4 py-3 bg-[#111111] border border-[#e8e0d4]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none w-full sm:w-72 transition-colors"
             />
             <motion.button
               type="submit"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-6 py-3 bg-[#C5A059] hover:bg-[#A7823B] text-black font-semibold text-xs uppercase tracking-[0.15em] transition-colors whitespace-nowrap flex items-center justify-center gap-1.5"
+              className="px-6 py-3 bg-[#c9a96e] hover:bg-[#A7823B] text-black font-semibold text-xs uppercase tracking-[0.15em] transition-colors whitespace-nowrap flex items-center justify-center gap-1.5"
             >
               <span>{subscribed ? 'Prijavljeni' : 'Prijavite se'}</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -106,15 +106,15 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
                 className="h-10 w-auto object-contain"
               />
               <div>
-                <span className="font-serif-luxury text-lg font-normal tracking-[0.15em] text-[#FCFBF7] block">
+                <span className="font-serif-luxury text-lg font-normal tracking-[0.15em] text-[#e8e0d4] block">
                   UNIKATNO ŠIVENO
                 </span>
-                <span className="font-serif text-xs tracking-[0.25em] text-[#C5A059] uppercase block font-light">
+                <span className="font-serif text-xs tracking-[0.25em] text-[#c9a96e] uppercase block font-light">
                   Jelena Erić • Atelier Topola
                 </span>
               </div>
             </div>
-            <p className="text-[#FCFBF7]/70 leading-relaxed font-light font-sans">
+            <p className="text-[#e8e0d4]/70 leading-relaxed font-light font-sans">
               Ekskluzivni modni atelje posvećen izradi unikatne ženske odeće od najfinije svile, vune i kašmira.
             </p>
             <div className="pt-2 flex items-center gap-3">
@@ -122,9 +122,9 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
                 href="https://www.instagram.com/jelena.ericc/"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ scale: 1.1, backgroundColor: '#C5A059', color: '#000000' }}
+                whileHover={{ scale: 1.1, backgroundColor: '#c9a96e', color: '#000000' }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 bg-white/5 text-[#FCFBF7] transition-colors"
+                className="p-2 bg-white/5 text-[#e8e0d4] transition-colors"
                 aria-label="Instagram profil ateljea"
               >
                 <Instagram className="w-4 h-4" />
@@ -133,9 +133,9 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
                 href="https://www.instagram.com/jelena.ericc/"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ scale: 1.1, backgroundColor: '#C5A059', color: '#000000' }}
+                whileHover={{ scale: 1.1, backgroundColor: '#c9a96e', color: '#000000' }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 bg-white/5 text-[#FCFBF7] transition-colors"
+                className="p-2 bg-white/5 text-[#e8e0d4] transition-colors"
                 aria-label="Facebook stranica ateljea"
               >
                 <Facebook className="w-4 h-4" />
@@ -145,15 +145,15 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
 
           {/* Col 2: Nav Links */}
           <motion.div variants={getVariants(staggerItemVariants)}>
-            <h4 className="font-serif-luxury text-base text-[#FCFBF7] uppercase tracking-wider mb-4">
+            <h4 className="font-serif-luxury text-base text-[#e8e0d4] uppercase tracking-wider mb-4">
               Navigacija
             </h4>
-            <ul className="space-y-2.5 text-[#FCFBF7]/75">
+            <ul className="space-y-2.5 text-[#e8e0d4]/75">
               <li>
                 <motion.button 
                   onClick={() => scrollTo('kolekcija')} 
                   whileHover={{ x: 4 }}
-                  className="hover:text-[#C5A059] transition-colors text-left"
+                  className="hover:text-[#c9a96e] transition-colors text-left"
                 >
                   Kolekcija i galerija modela
                 </motion.button>
@@ -162,7 +162,7 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
                 <motion.button 
                   onClick={() => scrollTo('o-radionici')} 
                   whileHover={{ x: 4 }}
-                  className="hover:text-[#C5A059] transition-colors text-left"
+                  className="hover:text-[#c9a96e] transition-colors text-left"
                 >
                   O radionici & Jeleni Erić
                 </motion.button>
@@ -171,7 +171,7 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
                 <motion.button 
                   onClick={() => scrollTo('kontakt')} 
                   whileHover={{ x: 4 }}
-                  className="hover:text-[#C5A059] transition-colors text-left"
+                  className="hover:text-[#c9a96e] transition-colors text-left"
                 >
                   Kontakt & Lokacija
                 </motion.button>
@@ -181,10 +181,10 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
 
           {/* Col 3: Materials & Heritage */}
           <motion.div variants={getVariants(staggerItemVariants)}>
-            <h4 className="font-serif-luxury text-base text-[#FCFBF7] uppercase tracking-wider mb-4">
+            <h4 className="font-serif-luxury text-base text-[#e8e0d4] uppercase tracking-wider mb-4">
               Naši standardi
             </h4>
-            <ul className="space-y-2.5 text-[#FCFBF7]/75">
+            <ul className="space-y-2.5 text-[#e8e0d4]/75">
               {[
                 '100% Prirodna Mulberry svila',
                 'Italijanska devičanska vuna Super 130s',
@@ -199,7 +199,7 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
                   transition={{ delay: index * 0.1 }}
                   className="flex items-center gap-2"
                 >
-                  <span className="w-1.5 h-1.5 bg-[#C5A059]" />
+                  <span className="w-1.5 h-1.5 bg-[#c9a96e]" />
                   {item}
                 </motion.li>
               ))}
@@ -208,20 +208,20 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
 
           {/* Col 4: Atelier Locations */}
           <motion.div variants={getVariants(staggerItemVariants)}>
-            <h4 className="font-serif-luxury text-base text-[#FCFBF7] uppercase tracking-wider mb-4">
+            <h4 className="font-serif-luxury text-base text-[#e8e0d4] uppercase tracking-wider mb-4">
               Salon Topola
             </h4>
-            <div className="space-y-2 text-[#FCFBF7]/75 font-sans">
+            <div className="space-y-2 text-[#e8e0d4]/75 font-sans">
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-[#C5A059] flex-shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
                 <span>Topola</span>
               </div>
               <div className="flex items-start gap-2">
-                <Phone className="w-4 h-4 text-[#C5A059] flex-shrink-0 mt-0.5" />
+                <Phone className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
                 <span>+381 636 160 71</span>
               </div>
               <div className="flex items-start gap-2">
-                <Mail className="w-4 h-4 text-[#C5A059] flex-shrink-0 mt-0.5" />
+                <Mail className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
                 <span>kontakt@unikatnosiveno.rs</span>
               </div>
             </div>
@@ -235,7 +235,7 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
           whileInView="visible"
           viewport={inViewOptions}
           variants={getVariants(fadeInUpVariants)}
-          className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#FCFBF7]/50"
+          className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#e8e0d4]/50"
         >
           <div>
             © {new Date().getFullYear()} UNIKATNO ŠIVENO – JELENA ERIĆ. Sva prava zadržana.

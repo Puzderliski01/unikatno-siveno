@@ -7,14 +7,14 @@
   
   --color-gold-300: #e8d098;
   --color-gold-400: #d4af37;
-  --color-gold-500: #c5a059;
+  --color-gold-500: #c9a96e;
   --color-gold-600: #a7823b;
   --color-gold-700: #886526;
   
-  --color-canvas: #FCFBF7;
-  --color-canvas-alt: #F4F1EA;
-  --color-ink: #1A1A1A;
-  --color-ink-muted: #666666;
+  --color-canvas: #0a0a0a;
+  --color-canvas-alt: #111111;
+  --color-ink: #e8e0d4;
+  --color-ink-muted: #8a8078;
 }
 
 @layer base {
@@ -24,8 +24,8 @@
   }
 
   body {
-    background-color: #FCFBF7;
-    color: #1A1A1A;
+    background-color: #0a0a0a;
+    color: #e8e0d4;
     overflow-x: hidden;
   }
 
@@ -35,14 +35,14 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #FCFBF7;
+    background: #111111;
   }
   ::-webkit-scrollbar-thumb {
-    background: #C5A059;
+    background: #c9a96e;
     border-radius: 2px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #A7823B;
+    background: #a7823b;
   }
 }
 

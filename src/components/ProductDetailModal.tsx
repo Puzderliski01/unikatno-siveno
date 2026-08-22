@@ -67,17 +67,17 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.3 }}
-        className="relative w-full max-w-5xl bg-[#FCFBF7] border border-[#1A1A1A]/20 shadow-2xl overflow-hidden text-[#1A1A1A] my-auto max-h-[92vh] flex flex-col"
+        className="relative w-full max-w-5xl bg-[#0a0a0a] border border-[#e8e0d4]/20 shadow-2xl overflow-hidden text-[#e8e0d4] my-auto max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Controls */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1A1A1A]/10 bg-[#F4F2EC]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#e8e0d4]/10 bg-[#111111]">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] uppercase tracking-[0.25em] text-[#C5A059] font-sans font-semibold">
+            <span className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold">
               {product.categoryLabelSr}
             </span>
             {product.badge && (
-              <span className="px-2 py-0.5 text-[10px] uppercase font-sans tracking-widest bg-[#C5A059]/15 text-[#8C6D23] border border-[#C5A059]/30">
+              <span className="px-2 py-0.5 text-[10px] uppercase font-sans tracking-widest bg-[#c9a96e]/15 text-[#a08540] border border-[#c9a96e]/30">
                 {product.badge}
               </span>
             )}
@@ -87,8 +87,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             <button
               type="button"
               onClick={() => onToggleWishlist(product)}
-              className={`p-2 border border-[#1A1A1A]/15 transition-colors ${
-                isWishlisted ? 'bg-[#C5A059] text-black border-[#C5A059]' : 'hover:bg-[#1A1A1A]/5 text-[#1A1A1A]'
+              className={`p-2 border border-[#e8e0d4]/15 transition-colors ${
+                isWishlisted ? 'bg-[#c9a96e] text-black border-[#c9a96e]' : 'hover:bg-[#e8e0d4]/5 text-[#e8e0d4]'
               }`}
               aria-label="Lista želja"
             >
@@ -98,7 +98,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               id="product-modal-close-btn"
               type="button"
               onClick={onClose}
-              className="p-2 hover:bg-[#1A1A1A]/5 text-[#1A1A1A] transition-colors"
+              className="p-2 hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
               aria-label="Zatvori modal"
             >
               <X className="w-5 h-5" />
@@ -111,7 +111,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           
           {/* Left Column: Image Carousel & Gallery (5 cols) */}
           <div className="lg:col-span-6 flex flex-col gap-4">
-            <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#ECE8DF] border border-[#1A1A1A]/10 group">
+            <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#111111] border border-[#e8e0d4]/10 group">
               <img
                 src={product.images[activeImageIndex]}
                 alt={`${product.nameSr} - pogled ${activeImageIndex + 1}`}
@@ -125,7 +125,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={handlePrevImage}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 bg-white/90 hover:bg-[#C5A059] text-black transition-colors shadow-md"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 bg-[#111111]/90 hover:bg-[#c9a96e] text-[#e8e0d4] transition-colors shadow-md"
                     aria-label="Prethodna slika"
                   >
                     <ChevronLeft className="w-5 h-5" />
@@ -133,7 +133,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={handleNextImage}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-white/90 hover:bg-[#C5A059] text-black transition-colors shadow-md"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-[#111111]/90 hover:bg-[#c9a96e] text-[#e8e0d4] transition-colors shadow-md"
                     aria-label="Sledeća slika"
                   >
                     <ChevronRight className="w-5 h-5" />
@@ -145,13 +145,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenZoom(product, activeImageIndex)}
-                className="absolute bottom-3 right-3 px-3 py-1.5 bg-[#1A1A1A]/85 hover:bg-[#C5A059] text-white hover:text-black backdrop-blur-md border border-white/10 text-xs flex items-center gap-1.5 transition-colors"
+                className="absolute bottom-3 right-3 px-3 py-1.5 bg-[#111111]/85 hover:bg-[#c9a96e] text-[#e8e0d4] hover:text-[#0a0a0a] backdrop-blur-md border border-[#e8e0d4]/10 text-xs flex items-center gap-1.5 transition-colors"
               >
                 <ZoomIn className="w-3.5 h-3.5" />
                 <span>Uvećaj</span>
               </button>
 
-              <div className="absolute bottom-3 left-3 text-[10px] font-mono bg-white/90 text-black px-2 py-1 border border-black/10">
+              <div className="absolute bottom-3 left-3 text-[10px] font-mono bg-[#111111]/90 text-[#e8e0d4] px-2 py-1 border border-[#e8e0d4]/10">
                 {activeImageIndex + 1} / {product.images.length}
               </div>
             </div>
@@ -166,8 +166,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     onClick={() => setActiveImageIndex(idx)}
                     className={`relative w-20 h-24 overflow-hidden flex-shrink-0 border transition-all ${
                       idx === activeImageIndex
-                        ? 'border-[#C5A059] ring-2 ring-[#C5A059]/40 opacity-100'
-                        : 'border-[#1A1A1A]/15 opacity-60 hover:opacity-100'
+                        ? 'border-[#c9a96e] ring-2 ring-[#c9a96e]/40 opacity-100'
+                        : 'border-[#e8e0d4]/15 opacity-60 hover:opacity-100'
                     }`}
                   >
                     <img src={img} alt={`Sličica ${idx + 1}`} className="w-full h-full object-cover" />
@@ -177,8 +177,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             )}
 
             {/* Model sizing note */}
-            <p className="text-[11px] text-[#1A1A1A]/70 italic flex items-center gap-1.5 font-sans">
-              <Info className="w-3.5 h-3.5 text-[#C5A059] flex-shrink-0" />
+            <p className="text-[11px] text-[#e8e0d4]/70 italic flex items-center gap-1.5 font-sans">
+              <Info className="w-3.5 h-3.5 text-[#c9a96e] flex-shrink-0" />
               <span>{product.modelInfo}</span>
             </p>
           </div>
@@ -187,23 +187,23 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           <div className="lg:col-span-6 flex flex-col justify-between">
             <div>
               {/* Product Title & Subtitle */}
-              <h2 className="font-serif-luxury text-2xl sm:text-3xl lg:text-4xl text-[#1A1A1A] font-normal leading-tight mb-2">
+              <h2 className="font-serif-luxury text-2xl sm:text-3xl lg:text-4xl text-[#e8e0d4] font-normal leading-tight mb-2">
                 {product.nameSr}
               </h2>
-              <p className="text-xs sm:text-sm text-[#1A1A1A]/75 font-light mb-5 leading-relaxed font-sans">
+              <p className="text-xs sm:text-sm text-[#e8e0d4]/75 font-light mb-5 leading-relaxed font-sans">
                 {product.subtitleSr}
               </p>
 
               {/* Price & Lead Time */}
-              <div className="p-4 bg-[#F4F2EC] border border-[#1A1A1A]/10 mb-6 flex items-center justify-between">
+              <div className="p-4 bg-[#111111] border border-[#e8e0d4]/10 mb-6 flex items-center justify-between">
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider text-[#1A1A1A]/60 font-sans">Cena kreacije</div>
+                  <div className="text-[10px] uppercase tracking-wider text-[#e8e0d4]/60 font-sans">Cena kreacije</div>
                   <div className="flex items-baseline gap-2.5">
-                    <span className="text-2xl sm:text-3xl font-semibold text-[#1A1A1A] font-mono tracking-tight">
+                    <span className="text-2xl sm:text-3xl font-semibold text-[#e8e0d4] font-mono tracking-tight">
                       {FORMAT_RSD(product.priceRSD)}
                     </span>
                     {product.originalPriceRSD && (
-                      <span className="text-sm text-[#1A1A1A]/40 line-through font-mono">
+                      <span className="text-sm text-[#e8e0d4]/40 line-through font-mono">
                         {FORMAT_RSD(product.originalPriceRSD)}
                       </span>
                     )}
@@ -211,23 +211,23 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </div>
 
                 <div className="text-right">
-                  <div className="text-[10px] uppercase tracking-wider text-[#8C6D23] font-sans font-semibold">Rok izrade</div>
-                  <div className="text-xs text-[#1A1A1A] font-medium">{product.leadTimeDays.split('/')[0]}</div>
+                  <div className="text-[10px] uppercase tracking-wider text-[#a08540] font-sans font-semibold">Rok izrade</div>
+                  <div className="text-xs text-[#e8e0d4] font-medium">{product.leadTimeDays.split('/')[0]}</div>
                 </div>
               </div>
 
               {/* Size Selector */}
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs uppercase tracking-wider text-[#1A1A1A] font-medium font-sans">
+                  <label className="text-xs uppercase tracking-wider text-[#e8e0d4] font-medium font-sans">
                     Izbor veličine / Prilagođavanje:
                   </label>
                   <button
                     type="button"
                     onClick={() => setActiveTab('velicine')}
-                    className="text-xs text-[#8C6D23] hover:underline flex items-center gap-1 font-sans"
+                    className="text-xs text-[#a08540] hover:underline flex items-center gap-1 font-sans"
                   >
-                    <Ruler className="w-3.5 h-3.5 text-[#C5A059]" />
+                    <Ruler className="w-3.5 h-3.5 text-[#c9a96e]" />
                     <span>Tabela veličina</span>
                   </button>
                 </div>
@@ -245,8 +245,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         }}
                         className={`p-2.5 text-xs border text-center transition-all font-sans ${
                           selectedSize === size
-                            ? 'bg-[#C5A059] text-black border-[#C5A059] font-bold shadow-sm'
-                            : 'bg-white hover:bg-[#F4F2EC] border-[#1A1A1A]/15 text-[#1A1A1A]'
+                            ? 'bg-[#c9a96e] text-black border-[#c9a96e] font-bold shadow-sm'
+                            : 'bg-[#1a1a1a] hover:bg-[#111111] border-[#e8e0d4]/15 text-[#e8e0d4]'
                         }`}
                       >
                         {size}
@@ -260,62 +260,62 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
-                    className="mt-4 p-4 bg-[#F4F2EC] border border-[#C5A059]/40 text-xs font-sans"
+                    className="mt-4 p-4 bg-[#111111] border border-[#c9a96e]/40 text-xs font-sans"
                   >
-                    <div className="flex items-center gap-1.5 text-[#8C6D23] font-semibold uppercase tracking-wider mb-2">
-                      <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+                    <div className="flex items-center gap-1.5 text-[#a08540] font-semibold uppercase tracking-wider mb-2">
+                      <Sparkles className="w-3.5 h-3.5 text-[#c9a96e]" />
                       <span>Unesite vaše mere (cm) za savršenu izradu:</span>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                       <div>
-                        <label className="block text-[10px] text-[#1A1A1A]/70 mb-1">Visina (cm)</label>
+                        <label className="block text-[10px] text-[#e8e0d4]/70 mb-1">Visina (cm)</label>
                         <input
                           type="text"
                           value={customHeight}
                           onChange={(e) => setCustomHeight(e.target.value)}
                           placeholder="npr. 175"
-                          className="w-full p-2 bg-white border border-[#1A1A1A]/20 text-xs text-[#1A1A1A] outline-none focus:border-[#C5A059]"
+                          className="w-full p-2 bg-[#1a1a1a] border border-[#e8e0d4]/20 text-xs text-[#e8e0d4] outline-none focus:border-[#c9a96e]"
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] text-[#1A1A1A]/70 mb-1">Grudi (cm)</label>
+                        <label className="block text-[10px] text-[#e8e0d4]/70 mb-1">Grudi (cm)</label>
                         <input
                           type="text"
                           value={customBust}
                           onChange={(e) => setCustomBust(e.target.value)}
                           placeholder="npr. 88"
-                          className="w-full p-2 bg-white border border-[#1A1A1A]/20 text-xs text-[#1A1A1A] outline-none focus:border-[#C5A059]"
+                          className="w-full p-2 bg-[#1a1a1a] border border-[#e8e0d4]/20 text-xs text-[#e8e0d4] outline-none focus:border-[#c9a96e]"
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] text-[#1A1A1A]/70 mb-1">Struk (cm)</label>
+                        <label className="block text-[10px] text-[#e8e0d4]/70 mb-1">Struk (cm)</label>
                         <input
                           type="text"
                           value={customWaist}
                           onChange={(e) => setCustomWaist(e.target.value)}
                           placeholder="npr. 68"
-                          className="w-full p-2 bg-white border border-[#1A1A1A]/20 text-xs text-[#1A1A1A] outline-none focus:border-[#C5A059]"
+                          className="w-full p-2 bg-[#1a1a1a] border border-[#e8e0d4]/20 text-xs text-[#e8e0d4] outline-none focus:border-[#c9a96e]"
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] text-[#1A1A1A]/70 mb-1">Kukovi (cm)</label>
+                        <label className="block text-[10px] text-[#e8e0d4]/70 mb-1">Kukovi (cm)</label>
                         <input
                           type="text"
                           value={customHips}
                           onChange={(e) => setCustomHips(e.target.value)}
                           placeholder="npr. 94"
-                          className="w-full p-2 bg-white border border-[#1A1A1A]/20 text-xs text-[#1A1A1A] outline-none focus:border-[#C5A059]"
+                          className="w-full p-2 bg-[#1a1a1a] border border-[#e8e0d4]/20 text-xs text-[#e8e0d4] outline-none focus:border-[#c9a96e]"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[10px] text-[#1A1A1A]/70 mb-1">Posebna napomena (dužina šlepa, rukava):</label>
+                      <label className="block text-[10px] text-[#e8e0d4]/70 mb-1">Posebna napomena (dužina šlepa, rukava):</label>
                       <input
                         type="text"
                         value={customNotes}
                         onChange={(e) => setCustomNotes(e.target.value)}
                         placeholder="Želim 5 cm duži porub za visoke potpetice..."
-                        className="w-full p-2 bg-white border border-[#1A1A1A]/20 text-xs text-[#1A1A1A] outline-none focus:border-[#C5A059]"
+                        className="w-full p-2 bg-[#1a1a1a] border border-[#e8e0d4]/20 text-xs text-[#e8e0d4] outline-none focus:border-[#c9a96e]"
                       />
                     </div>
                   </motion.div>
@@ -331,7 +331,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   className={`flex-1 py-4 px-6 font-semibold text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 ${
                     addedAnimation
                       ? 'bg-emerald-700 text-white'
-                      : 'bg-[#1A1A1A] hover:bg-[#333333] text-[#FCFBF7] shadow-md'
+                      : 'bg-[#111111] hover:bg-[#1a1a1a] text-[#e8e0d4] shadow-md'
                   }`}
                 >
                   {addedAnimation ? (
@@ -341,7 +341,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     </>
                   ) : (
                     <>
-                      <ShoppingBag className="w-4 h-4 text-[#C5A059]" />
+                      <ShoppingBag className="w-4 h-4 text-[#c9a96e]" />
                       <span>Dodaj u korpu ({FORMAT_RSD(product.priceRSD)})</span>
                     </>
                   )}
@@ -349,15 +349,15 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               </div>
 
               {/* Information Tabs */}
-              <div className="border-t border-[#1A1A1A]/10 pt-6">
-                <div className="flex items-center gap-4 border-b border-[#1A1A1A]/10 pb-2 mb-4 overflow-x-auto font-sans">
+              <div className="border-t border-[#e8e0d4]/10 pt-6">
+                <div className="flex items-center gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 overflow-x-auto font-sans">
                   <button
                     type="button"
                     onClick={() => setActiveTab('opis')}
                     className={`text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'opis'
-                        ? 'text-[#1A1A1A] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#C5A059]'
-                        : 'text-[#1A1A1A]/60 hover:text-black'
+                        ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
+                        : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                     }`}
                   >
                     Opis & Detalji
@@ -367,8 +367,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     onClick={() => setActiveTab('materijali')}
                     className={`text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'materijali'
-                        ? 'text-[#1A1A1A] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#C5A059]'
-                        : 'text-[#1A1A1A]/60 hover:text-black'
+                        ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
+                        : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                     }`}
                   >
                     Materijali i održavanje
@@ -378,8 +378,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     onClick={() => setActiveTab('velicine')}
                     className={`text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'velicine'
-                        ? 'text-[#1A1A1A] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#C5A059]'
-                        : 'text-[#1A1A1A]/60 hover:text-black'
+                        ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
+                        : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                     }`}
                   >
                     Tabela veličina
@@ -389,8 +389,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     onClick={() => setActiveTab('isporuka')}
                     className={`text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'isporuka'
-                        ? 'text-[#1A1A1A] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#C5A059]'
-                        : 'text-[#1A1A1A]/60 hover:text-black'
+                        ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
+                        : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                     }`}
                   >
                     Isporuka i probe
@@ -398,18 +398,18 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </div>
 
                 {/* Tab Content */}
-                <div className="text-xs text-[#1A1A1A]/85 leading-relaxed font-sans">
+                <div className="text-xs text-[#e8e0d4]/85 leading-relaxed font-sans">
                   {activeTab === 'opis' && (
                     <div className="space-y-4">
                       <p className="font-light">{product.descriptionSr}</p>
-                      <p className="italic text-[#1A1A1A]/80 bg-[#F4F2EC] p-3 border border-[#1A1A1A]/10 font-serif">
+                      <p className="italic text-[#e8e0d4]/80 bg-[#111111] p-3 border border-[#e8e0d4]/10 font-serif">
                         "{product.storySr}"
                       </p>
                       <div>
-                        <h4 className="text-[#1A1A1A] font-semibold uppercase tracking-wider text-[11px] mb-2">
+                        <h4 className="text-[#e8e0d4] font-semibold uppercase tracking-wider text-[11px] mb-2">
                           Karakteristike modela:
                         </h4>
-                        <ul className="space-y-1.5 list-disc list-inside text-[#1A1A1A]/80">
+                        <ul className="space-y-1.5 list-disc list-inside text-[#e8e0d4]/80">
                           {product.features.map((feat, i) => (
                             <li key={i}>{feat}</li>
                           ))}
@@ -420,23 +420,23 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
                   {activeTab === 'materijali' && (
                     <div className="space-y-4">
-                      <div className="bg-[#F4F2EC] p-3 border border-[#1A1A1A]/10">
-                        <span className="text-[#8C6D23] font-semibold uppercase tracking-wider block mb-1">
+                      <div className="bg-[#111111] p-3 border border-[#e8e0d4]/10">
+                        <span className="text-[#a08540] font-semibold uppercase tracking-wider block mb-1">
                           Sastav:
                         </span>
                         <p>{product.materialsAndCare.composition}</p>
                       </div>
-                      <div className="bg-[#F4F2EC] p-3 border border-[#1A1A1A]/10">
-                        <span className="text-[#8C6D23] font-semibold uppercase tracking-wider block mb-1">
+                      <div className="bg-[#111111] p-3 border border-[#e8e0d4]/10">
+                        <span className="text-[#a08540] font-semibold uppercase tracking-wider block mb-1">
                           Poreklo materijala i proizvodnja:
                         </span>
                         <p>{product.materialsAndCare.origin}</p>
                       </div>
                       <div>
-                        <span className="text-[#1A1A1A] font-semibold uppercase tracking-wider block mb-1.5">
+                        <span className="text-[#e8e0d4] font-semibold uppercase tracking-wider block mb-1.5">
                           Uputstvo za održavanje:
                         </span>
-                        <ul className="space-y-1 list-disc list-inside text-[#1A1A1A]/80">
+                        <ul className="space-y-1 list-disc list-inside text-[#e8e0d4]/80">
                           {product.materialsAndCare.care.map((item, i) => (
                             <li key={i}>{item}</li>
                           ))}
@@ -447,46 +447,46 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
                   {activeTab === 'velicine' && (
                     <div className="space-y-4">
-                      <p className="text-[11px] text-[#1A1A1A]/70">
+                      <p className="text-[11px] text-[#e8e0d4]/70">
                         Mere u tabeli predstavljaju preporučene telesne mere u centimetrima (cm). Za modele koji se šiju po meri, uzimanje mera se obavlja u našem salonu ili unosom ličnih parametara.
                       </p>
                       
-                      <div className="overflow-x-auto border border-[#1A1A1A]/15">
+                      <div className="overflow-x-auto border border-[#e8e0d4]/15">
                         <table className="w-full text-left border-collapse text-[11px]">
                           <thead>
-                            <tr className="bg-[#F4F2EC] text-[#8C6D23] uppercase tracking-wider">
-                              <th className="p-2 border-b border-[#1A1A1A]/15">Veličina (EU)</th>
-                              <th className="p-2 border-b border-[#1A1A1A]/15">Grudi (cm)</th>
-                              <th className="p-2 border-b border-[#1A1A1A]/15">Struk (cm)</th>
-                              <th className="p-2 border-b border-[#1A1A1A]/15">Bokovi (cm)</th>
+                            <tr className="bg-[#111111] text-[#a08540] uppercase tracking-wider">
+                              <th className="p-2 border-b border-[#e8e0d4]/15">Veličina (EU)</th>
+                              <th className="p-2 border-b border-[#e8e0d4]/15">Grudi (cm)</th>
+                              <th className="p-2 border-b border-[#e8e0d4]/15">Struk (cm)</th>
+                              <th className="p-2 border-b border-[#e8e0d4]/15">Bokovi (cm)</th>
                             </tr>
                           </thead>
-                          <tbody className="divide-y divide-[#1A1A1A]/10 font-mono text-[#1A1A1A]">
-                            <tr className="hover:bg-[#F4F2EC]">
+                          <tbody className="divide-y divide-[#e8e0d4]/10 font-mono text-[#e8e0d4]">
+                            <tr className="hover:bg-[#111111]">
                               <td className="p-2 font-bold">XS (34)</td>
                               <td className="p-2">82 – 85</td>
                               <td className="p-2">62 – 65</td>
                               <td className="p-2">88 – 91</td>
                             </tr>
-                            <tr className="hover:bg-[#F4F2EC]">
+                            <tr className="hover:bg-[#111111]">
                               <td className="p-2 font-bold">S (36)</td>
                               <td className="p-2">86 – 89</td>
                               <td className="p-2">66 – 69</td>
                               <td className="p-2">92 – 95</td>
                             </tr>
-                            <tr className="hover:bg-[#F4F2EC]">
+                            <tr className="hover:bg-[#111111]">
                               <td className="p-2 font-bold">M (38)</td>
                               <td className="p-2">90 – 93</td>
                               <td className="p-2">70 – 73</td>
                               <td className="p-2">96 – 99</td>
                             </tr>
-                            <tr className="hover:bg-[#F4F2EC]">
+                            <tr className="hover:bg-[#111111]">
                               <td className="p-2 font-bold">L (40)</td>
                               <td className="p-2">94 – 98</td>
                               <td className="p-2">74 – 78</td>
                               <td className="p-2">100 – 104</td>
                             </tr>
-                            <tr className="hover:bg-[#F4F2EC]">
+                            <tr className="hover:bg-[#111111]">
                               <td className="p-2 font-bold">XL (42)</td>
                               <td className="p-2">99 – 104</td>
                               <td className="p-2">79 – 84</td>
@@ -501,16 +501,16 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   {activeTab === 'isporuka' && (
                     <div className="space-y-3">
                       <div className="flex items-start gap-2.5">
-                        <Truck className="w-4 h-4 text-[#C5A059] flex-shrink-0 mt-0.5" />
+                        <Truck className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
                         <div>
-                          <strong className="text-[#1A1A1A] block">Post Express dostava u Srbiji:</strong>
+                          <strong className="text-[#e8e0d4] block">Post Express dostava u Srbiji:</strong>
                           <span>Isporuka u roku od 24h nakon završetka izrade na vašu kućnu adresu. Besplatna dostava za porudžbine iznad 10.000 RSD.</span>
                         </div>
                       </div>
                       <div className="flex items-start gap-2.5">
-                        <ShieldCheck className="w-4 h-4 text-[#C5A059] flex-shrink-0 mt-0.5" />
+                        <ShieldCheck className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
                         <div>
-                          <strong className="text-[#1A1A1A] block">Garancija pristajanja:</strong>
+                          <strong className="text-[#e8e0d4] block">Garancija pristajanja:</strong>
                           <span>Ukoliko je potrebna sitna korekcija, naš atelje vrši sve naknadne prepravke potpuno besplatno.</span>
                         </div>
                       </div>
