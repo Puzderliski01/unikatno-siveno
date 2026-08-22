@@ -16,10 +16,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
     offset: ['start start', 'end start'],
   });
 
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '40%']);
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '20%' : '40%']);
   const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.08, 1.15]);
   const bgBlur = useTransform(scrollYProgress, [0.4, 0.8], [0, 6]);
-  const overlayY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
+  const overlayY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '10%' : '20%']);
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.4, 0.7], [0.4, 0.6, 0.9]);
   const decorY = useTransform(scrollYProgress, [0, 1], ['0%', '-10%']);
   const decorOpacity = useTransform(scrollYProgress, [0, 0.3, 0.6], [1, 0.6, 0]);
@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
       <div className="sticky top-0 h-screen overflow-hidden">
 
         {/* LAYER 1: BACKGROUND IMAGE */}
-        <motion.div className="absolute inset-0 z-0" style={{ y: isMobile ? 0 : bgY }}>
+        <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
           <motion.img
             src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2000&q=85"
             alt="Luksuzni modni atelje Jelena Erić unikatna odeća"
@@ -47,7 +47,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         </motion.div>
 
         {/* LAYER 2: DARK OVERLAY */}
-        <motion.div className="absolute inset-0 z-[1]" style={{ y: isMobile ? 0 : overlayY }}>
+        <motion.div className="absolute inset-0 z-[1]" style={{ y: overlayY }}>
           <motion.div
             className="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/50 to-[#0c0c0e]/30"
             style={{ opacity: overlayOpacity }}
@@ -59,7 +59,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         {/* LAYER 3: DECORATIVE GEOMETRIC ELEMENTS */}
         <motion.div
           className="absolute inset-0 z-[2] pointer-events-none"
-          style={{ y: isMobile ? 0 : decorY, opacity: decorOpacity }}
+          style={{ y: decorY, opacity: decorOpacity }}
         >
           <div className="absolute top-24 left-8 sm:left-16">
             <div className="w-24 h-px bg-[#C5A059]/40" />
@@ -78,7 +78,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          style={{ y: isMobile ? 0 : contentY, scale: isMobile ? 1 : contentScale, opacity: contentOpacity }}
+          style={{ y: contentY, scale: contentScale, opacity: contentOpacity }}
         >
           <div className="flex flex-col items-center max-w-4xl">
 
