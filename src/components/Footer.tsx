@@ -4,11 +4,10 @@ import { motion } from 'motion/react';
 import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
 
 interface FooterProps {
-  onOpenBooking: () => void;
   onShowToast: (title: string, desc: string, type: any) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onShowToast }) => {
+export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
   const { getVariants, getInViewOptions } = useScrollAnimation();
   const inViewOptions = getInViewOptions();
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -61,7 +60,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onShowToast }) =>
               Prijavite se za obaveštenja o novim unikatnim komadima
             </h3>
             <p className="text-xs text-[#FCFBF7]/75 leading-relaxed font-light">
-              Budite prvi koji će saznati za dolazak limitiranih rolna italijanske svile i termine privatnih probnih dana.
+              Budite prvi koji će saznati za dolazak limitiranih modela i termine privatnih probnih dana.
             </p>
           </div>
 
@@ -170,20 +169,11 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onShowToast }) =>
               </li>
               <li>
                 <motion.button 
-                  onClick={() => scrollTo('izrada-po-meri')} 
+                  onClick={() => scrollTo('kontakt')} 
                   whileHover={{ x: 4 }}
                   className="hover:text-[#C5A059] transition-colors text-left"
                 >
-                  Proces izrade po meri
-                </motion.button>
-              </li>
-              <li>
-                <motion.button 
-                  onClick={onOpenBooking} 
-                  whileHover={{ x: 4 }}
-                  className="hover:text-[#C5A059] transition-colors text-[#C5A059] text-left"
-                >
-                  Zakazivanje termina za probu &rarr;
+                  Kontakt & Lokacija
                 </motion.button>
               </li>
             </ul>
@@ -248,7 +238,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onShowToast }) =>
           className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#FCFBF7]/50"
         >
           <div>
-            © {new Date().getFullYear()} UNIKATNO ŠIVENO – JELENA ERIĆ. Sva prava zadržana. PIB: 112938492 • MB: 21894021
+            © {new Date().getFullYear()} UNIKATNO ŠIVENO – JELENA ERIĆ. Sva prava zadržana.
           </div>
           <div className="flex items-center gap-4">
             <span>Izrađeno sa pažnjom u Topoli</span>

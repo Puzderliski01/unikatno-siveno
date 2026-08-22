@@ -1,3 +1,7 @@
+// BACKUP: FittingBookingModal - Zakazivanje i unikatni model po meri
+// Ovaj fajl je backup-ovan i trenutno neaktivan
+// Može se vratiti kada bude potrebno ponovo aktivirati zakazivanje
+
 import React, { useState } from 'react';
 import { X, Calendar, MapPin, Sparkles, CheckCircle2, MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';

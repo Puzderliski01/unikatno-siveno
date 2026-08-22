@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Sparkles, SlidersHorizontal, Search, Scissors, ArrowRight } from 'lucide-react';
+import { Sparkles, SlidersHorizontal, Search } from 'lucide-react';
 import { Product } from '../types';
 import { ProductCard } from './ProductCard';
 import { motion } from 'motion/react';
@@ -12,7 +12,6 @@ interface ProductGridProps {
   onOpenZoom: (product: Product, index?: number) => void;
   onQuickAddToCart: (product: Product, size: string) => void;
   onToggleWishlist: (product: Product) => void;
-  onOpenCustomBespoke: () => void;
 }
 
 export const ProductGrid: React.FC<ProductGridProps> = ({
@@ -22,7 +21,6 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   onOpenZoom,
   onQuickAddToCart,
   onToggleWishlist,
-  onOpenCustomBespoke,
 }) => {
   const { getVariants, getInViewOptions } = useScrollAnimation();
   const [activeCategory, setActiveCategory] = useState<string>('sve');
@@ -32,6 +30,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   const categories = [
     { id: 'sve', label: 'Sve kreacije' },
     { id: 'haljine', label: 'Haljine' },
+    { id: 'tunike', label: 'Tunike' },
     { id: 'blejzeri', label: 'Blejzeri & Kaputi' },
     { id: 'svila', label: 'Korseti' },
     { id: 'majice', label: 'Majice' },
@@ -208,51 +207,6 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
             </button>
           </div>
         )}
-
-        {/* Custom Bespoke Atelier CTA Strip */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={inViewOptions}
-          variants={{
-            hidden: { opacity: 0, y: 60, scale: 0.98 },
-            visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
-          }}
-          className="mt-16 p-8 sm:p-10 bg-[#1A1A1A] text-[#FCFBF7] border border-[#C5A059]/40 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl"
-        >
-          {/* Subtle background glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#C5A059]/5 via-transparent to-[#C5A059]/5" />
-          
-          <div className="relative z-10 max-w-xl">
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#C5A059] font-semibold mb-2 font-sans">
-              <Scissors className="w-4 h-4" />
-              <span>Personalizovana kreacija po vašoj skici</span>
-            </div>
-            <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#FCFBF7] font-normal mb-2">
-              Želite unikatni model kreiran isključivo za vas?
-            </h3>
-            <p className="text-xs sm:text-sm text-[#FCFBF7]/80 font-light leading-relaxed">
-              Jelena Erić nudi uslugu kompletne izrade večernjih toaleta, venčanica i odela po unikatnim zamislima klijentkinja uz konsultaciju i izbor uzoraka tkanina u salonu.
-            </p>
-          </div>
-
-          <motion.button
-            type="button"
-            onClick={onOpenCustomBespoke}
-            whileHover={{ scale: 1.03, boxShadow: '0 8px 30px rgba(197, 160, 89, 0.3)' }}
-            whileTap={{ scale: 0.97 }}
-            className="relative z-10 flex-shrink-0 px-8 py-4 bg-[#C5A059] hover:bg-[#A7823B] text-black font-semibold text-xs uppercase tracking-[0.2em] transition-colors duration-300 flex items-center gap-2 group shadow-md"
-          >
-            <span>Zakažite konsultaciju za izradu</span>
-            <motion.span
-              className="inline-block"
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.2 }}
-            >
-              <ArrowRight className="w-4 h-4" />
-            </motion.span>
-          </motion.button>
-        </motion.div>
 
       </div>
     </section>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Calendar, Sparkles, Check, Ruler, Info, ShieldCheck, Truck, Heart } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Ruler, Info, ShieldCheck, Truck, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
@@ -10,7 +10,6 @@ interface ProductDetailModalProps {
   isWishlisted: boolean;
   onClose: () => void;
   onAddToCart: (product: Product, size: string, customMeasurements?: any) => void;
-  onBookFitting: (product: Product) => void;
   onOpenZoom: (product: Product, index: number) => void;
   onToggleWishlist: (product: Product) => void;
 }
@@ -21,7 +20,6 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   isWishlisted,
   onClose,
   onAddToCart,
-  onBookFitting,
   onOpenZoom,
   onToggleWishlist,
 }) => {
@@ -348,19 +346,6 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     </>
                   )}
                 </button>
-
-                <button
-                  id="modal-book-fitting-btn"
-                  type="button"
-                  onClick={() => {
-                    onClose();
-                    onBookFitting(product);
-                  }}
-                  className="py-4 px-6 border border-[#C5A059] bg-[#C5A059]/10 hover:bg-[#C5A059] text-[#1A1A1A] hover:text-black font-semibold text-xs uppercase tracking-[0.18em] transition-all flex items-center justify-center gap-2"
-                >
-                  <Calendar className="w-4 h-4 text-[#C5A059]" />
-                  <span>Zakažite probu u salonu</span>
-                </button>
               </div>
 
               {/* Information Tabs */}
@@ -520,13 +505,6 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         <div>
                           <strong className="text-[#1A1A1A] block">Post Express dostava u Srbiji:</strong>
                           <span>Isporuka u roku od 24h nakon završetka izrade na vašu kućnu adresu. Besplatna dostava za porudžbine iznad 10.000 RSD.</span>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-2.5">
-                        <Sparkles className="w-4 h-4 text-[#C5A059] flex-shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="text-[#1A1A1A] block">Lično preuzimanje i finalna proba:</strong>
-                          <span>U našem ateljeu u Topoli uz besplatne korekcije na licu mesta i čašu šampanjca.</span>
                         </div>
                       </div>
                       <div className="flex items-start gap-2.5">

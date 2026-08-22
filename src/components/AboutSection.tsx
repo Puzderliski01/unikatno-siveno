@@ -12,29 +12,6 @@ export const AboutSection: React.FC = () => {
   });
   
   const imageY = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  
-  const steps = [
-    {
-      number: '01',
-      title: 'Selekcija plemenitih vlakana',
-      desc: 'Nabavljamo isključivo 100% prirodnu dudovu svilu iz regije Komo i devičansku vunu iz Bjele. Ne koristimo sintetičke mešavine.'
-    },
-    {
-      number: '02',
-      title: 'Individualna konstrukcija',
-      desc: 'Svaki šablon se crta ručno prema preko 14 specifičnih tačaka vašeg tela, obezbeđujući anatomski besprekorno pristajanje.'
-    },
-    {
-      number: '03',
-      title: 'Haute Couture tehnike šivenja',
-      desc: 'Reveri blejzera kanvasiraju se konjskom dlakom, a unutrašnji šavovi svilenih toaleta zatvaraju se francuskim duplim bodom.'
-    },
-    {
-      number: '04',
-      title: 'Salon proba & Finiširanje',
-      desc: 'U našem intimnom salonu u Topoli isprobavate komad uz prisustvo same Jelene Erić, uz besplatne fine korekture.'
-    }
-  ];
 
   return (
     <section id="o-radionici" className="py-24 bg-[#FCFBF7] text-[#1A1A1A] relative border-b border-[#C5A059]/20 overflow-hidden">
@@ -142,14 +119,14 @@ export const AboutSection: React.FC = () => {
               hidden: { opacity: 0, x: 50 },
               visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
             })} className="text-xs sm:text-sm text-[#1A1A1A]/80 font-light leading-relaxed">
-              Nakon više od decenije rada u pariskim i beogradskim modnim kućama, Jelena Erić je osnovala svoj atelje sa jasnom misijom: ponuditi ženama u Srbiji odeću besprekorne izrade kakva se retko sreće u doba brze industrijske proizvodnje.
+              Nakon više od dve decenije rada u beogradskim modnim kućama, Jelena Erić je osnovala svoj atelje sa jasnom misijom: ponuditi ženama u Srbiji odeću besprekorne izrade kakva se retko sreće u doba brze industrijske proizvodnje.
             </motion.p>
 
             <motion.p variants={getVariants({
               hidden: { opacity: 0, x: 50 },
               visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
             })} className="text-xs sm:text-sm text-[#1A1A1A]/80 font-light leading-relaxed">
-              U našoj radionici u Topoli ne postoje serijske mašinske trake. Svaku večernju haljinu, strukirani blejzer ili svileni korset kroji i šije isti majstor od prve skice do završnog ručnog šava.
+              U našoj radionici u Topoli ne postoje serijske mašinske trake. Svaku večernju haljinu, strukirani blejzer ili kaput kroji i šije isti majstor od prve skice do završnog ručnog šava.
             </motion.p>
 
             {/* Atelier Key Stats */}
@@ -158,12 +135,12 @@ export const AboutSection: React.FC = () => {
               visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
             })} className="grid grid-cols-3 gap-4 pt-6 border-t border-[#C5A059]/30">
               <div>
-                <div className="font-serif-luxury text-2xl sm:text-3xl text-[#C5A059] font-normal">15+</div>
+                <div className="font-serif-luxury text-2xl sm:text-3xl text-[#C5A059] font-normal">25+</div>
                 <div className="text-[10px] uppercase tracking-[0.15em] text-[#1A1A1A]/70 mt-0.5 font-sans">Godina iskustva</div>
               </div>
               <div>
                 <div className="font-serif-luxury text-2xl sm:text-3xl text-[#C5A059] font-normal">100%</div>
-                <div className="text-[10px] uppercase tracking-[0.15em] text-[#1A1A1A]/70 mt-0.5 font-sans">Prirodne tkanine</div>
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#1A1A1A]/70 mt-0.5 font-sans">Unikatno</div>
               </div>
               <div>
                 <div className="font-serif-luxury text-2xl sm:text-3xl text-[#C5A059] font-normal">2.400+</div>
@@ -172,59 +149,6 @@ export const AboutSection: React.FC = () => {
             </motion.div>
           </motion.div>
         </div>
-
-        {/* 4-Step Craftsmanship Process */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={inViewOptions}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } },
-          }}
-          id="izrada-po-meri"
-          className="pt-10"
-        >
-          <motion.div variants={getVariants(staggerItemVariants)} className="text-center max-w-xl mx-auto mb-12">
-            <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#1A1A1A] mb-2 font-normal">
-              Proces izrade po meri
-            </h3>
-            <p className="text-xs text-[#1A1A1A]/70 font-sans uppercase tracking-widest">Od prvog uzorka do gotovog remek-dela u četiri koraka</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.number}
-                variants={{
-                  hidden: { opacity: 0, y: 50, scale: 0.95 },
-                  visible: { 
-                    opacity: 1, 
-                    y: 0, 
-                    scale: 1,
-                    transition: { 
-                      duration: 0.7, 
-                      delay: index * 0.1,
-                      ease: [0.22, 1, 0.36, 1] 
-                    } 
-                  },
-                }}
-                whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                className="bg-white border border-[#1A1A1A]/15 hover:border-[#C5A059] p-6 transition-colors group shadow-sm cursor-default"
-              >
-                <div className="font-serif-luxury text-3xl font-light text-[#C5A059] group-hover:text-[#A7823B] transition-colors mb-3">
-                  {step.number}
-                </div>
-                <h4 className="font-serif-luxury text-lg text-[#1A1A1A] mb-2 group-hover:text-[#C5A059] transition-colors">
-                  {step.title}
-                </h4>
-                <p className="text-xs text-[#1A1A1A]/70 font-light leading-relaxed font-sans">
-                  {step.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
 
       </div>
     </section>

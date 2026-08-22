@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Heart, Menu, X, Sparkles, Phone, Scissors, Calendar } from 'lucide-react';
+import { ShoppingBag, Heart, Menu, X, Sparkles, Phone, Scissors } from 'lucide-react';
 import { FORMAT_RSD } from '../data/products';
 
 interface HeaderProps {
@@ -8,7 +8,6 @@ interface HeaderProps {
   wishlistCount: number;
   onOpenCart: () => void;
   onOpenWishlist: () => void;
-  onOpenBooking: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -16,8 +15,7 @@ export const Header: React.FC<HeaderProps> = ({
   cartTotal,
   wishlistCount,
   onOpenCart,
-  onOpenWishlist,
-  onOpenBooking
+  onOpenWishlist
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -104,12 +102,6 @@ export const Header: React.FC<HeaderProps> = ({
               O radionici
             </button>
             <button
-              onClick={() => scrollToSection('izrada-po-meri')}
-              className="hover:text-[#C5A059] transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-[#C5A059] hover:after:w-full after:transition-all"
-            >
-              Izrada po meri
-            </button>
-            <button
               onClick={() => scrollToSection('kontakt')}
               className="hover:text-[#C5A059] transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-[#C5A059] hover:after:w-full after:transition-all"
             >
@@ -138,17 +130,6 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right Action Icons & Booking CTA */}
           <div className="flex items-center gap-3 sm:gap-4">
-            {/* Book Fitting Button */}
-            <button
-              id="header-book-fitting-btn"
-              type="button"
-              onClick={onOpenBooking}
-              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 border border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059] hover:text-black font-sans text-[10px] uppercase tracking-[0.2em] transition-all duration-300"
-            >
-              <Calendar className="w-3.5 h-3.5" />
-              <span>Zakažite probu</span>
-            </button>
-
             {/* Wishlist Button */}
             <button
               id="header-wishlist-btn"
@@ -202,28 +183,12 @@ export const Header: React.FC<HeaderProps> = ({
               O radionici
             </button>
             <button
-              onClick={() => scrollToSection('izrada-po-meri')}
-              className="block w-full text-left py-2 text-xs uppercase tracking-[0.2em] font-sans text-[#1A1A1A] hover:text-[#C5A059]"
-            >
-              Izrada po meri
-            </button>
-            <button
               onClick={() => scrollToSection('kontakt')}
               className="block w-full text-left py-2 text-xs uppercase tracking-[0.2em] font-sans text-[#1A1A1A] hover:text-[#C5A059]"
             >
               Kontakt & Salon
             </button>
             <div className="pt-4 border-t border-[#C5A059]/20 flex flex-col gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenBooking();
-                }}
-                className="w-full py-3 bg-[#1A1A1A] text-[#FCFBF7] hover:bg-black text-[10px] uppercase tracking-[0.2em] text-center transition-colors"
-              >
-                Zakažite privatnu probu
-              </button>
               <div className="text-center text-xs text-[#1A1A1A]/70">
                 Salon: Topola • Tel: +381 636 160 71
               </div>

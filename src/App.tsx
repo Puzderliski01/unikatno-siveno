@@ -5,7 +5,6 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductGrid } from './components/ProductGrid';
 import { ProductDetailModal } from './components/ProductDetailModal';
-import { FittingBookingModal } from './components/FittingBookingModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
 import { WishlistModal } from './components/WishlistModal';
@@ -29,9 +28,6 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
-
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [bookingProduct, setBookingProduct] = useState<Product | null>(null);
 
   // Image Lightbox zoom state
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
@@ -117,20 +113,6 @@ export default function App() {
     setWishlistIds((prev) => prev.filter((id) => id !== product.id));
   };
 
-  // Booking Handlers
-  const handleOpenBooking = (product?: Product) => {
-    setBookingProduct(product || null);
-    setIsBookingOpen(true);
-  };
-
-  const handleBookingCompleted = (details: { fullName: string; date: string; time: string; location: string }) => {
-    addToast(
-      'Termin rezervisan',
-      `Potvrđen termin za ${details.date} u ${details.time}h na lokaciji ${details.location}.`,
-      'booking'
-    );
-  };
-
   // Zoom / Lightbox Handlers
   const handleOpenZoom = (product: Product, index: number = 0) => {
     setLightboxImages(product.images);
@@ -175,12 +157,10 @@ export default function App() {
         wishlistCount={wishlistIds.length}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
-        onOpenBooking={() => handleOpenBooking()}
       />
 
       {/* Full Bleed Luxury Hero Section */}
       <Hero
-        onOpenBooking={() => handleOpenBooking()}
         onExploreClick={scrollToGallery}
       />
 
@@ -192,7 +172,6 @@ export default function App() {
         onOpenZoom={handleOpenZoom}
         onQuickAddToCart={handleQuickAddToCart}
         onToggleWishlist={handleToggleWishlist}
-        onOpenCustomBespoke={() => handleOpenBooking()}
       />
 
       {/* About & Slow Fashion Craftsmanship Section */}
@@ -200,13 +179,11 @@ export default function App() {
 
       {/* Contact, Atelier Salon & FAQ Section */}
       <ContactSection
-        onOpenBooking={() => handleOpenBooking()}
         onShowToast={addToast}
       />
 
       {/* Luxury Footer */}
       <Footer
-        onOpenBooking={() => handleOpenBooking()}
         onShowToast={addToast}
       />
 
@@ -220,20 +197,8 @@ export default function App() {
           setSelectedProductForDetail(null);
         }}
         onAddToCart={handleAddToCart}
-        onBookFitting={(product) => handleOpenBooking(product)}
         onOpenZoom={handleOpenZoom}
         onToggleWishlist={handleToggleWishlist}
-      />
-
-      {/* Fitting & Custom Bespoke Booking Modal */}
-      <FittingBookingModal
-        isOpen={isBookingOpen}
-        preselectedProduct={bookingProduct}
-        onClose={() => {
-          setIsBookingOpen(false);
-          setBookingProduct(null);
-        }}
-        onSubmitSuccess={handleBookingCompleted}
       />
 
       {/* Mini-Cart Drawer */}

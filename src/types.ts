@@ -2,7 +2,7 @@ export interface Product {
   id: string;
   nameSr: string;
   subtitleSr: string;
-  category: 'sve' | 'haljine' | 'blejzeri' | 'svila' | 'aksesoari' | 'majice' | 'suknje';
+  category: 'sve' | 'haljine' | 'blejzeri' | 'svila' | 'aksesoari' | 'majice' | 'suknje' | 'tunike';
   categoryLabelSr: string;
   priceRSD: number;
   originalPriceRSD?: number;

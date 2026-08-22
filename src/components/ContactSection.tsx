@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Send, MessageSquare, ChevronDown, Sparkles, CheckCircle2, Calendar } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, MessageSquare, ChevronDown, Sparkles, CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
 
 interface ContactSectionProps {
-  onOpenBooking: () => void;
   onShowToast: (title: string, desc: string, type: any) => void;
 }
 
-export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, onShowToast }) => {
+export const ContactSection: React.FC<ContactSectionProps> = ({ onShowToast }) => {
   const { getVariants, getInViewOptions } = useScrollAnimation();
   const inViewOptions = getInViewOptions();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -39,7 +38,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, o
   const faqs = [
     {
       q: 'Koliko traje izrada unikatnog modela po meri?',
-      a: 'Za modele iz naše aktuelne kolekcije rok izrade i prilagođavanja je 4 do 7 radnih dana. Za potpuno nove unikatne večernje toalete ili venčanice po posebnoj skici, preporučujemo zakazivanje konsultacije 3 do 4 nedelje pre željenog događaja.'
+      a: 'Za modele iz naše aktuelne kolekcije rok izrade i prilagođavanja je 4 do 7 radnih dana. Za potpuno nove unikatne večernje toalete po posebnoj skici, preporučujemo zakazivanje konsultacije 3 do 4 nedelje pre željenog događaja.'
     },
     {
       q: 'Da li je zakazivanje probe obavezno za posetu salonu?',
@@ -47,11 +46,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, o
     },
     {
       q: 'Kako funkcionišu naknadne korekcije i prepravke?',
-      a: 'Sve korekcije za modele sašivene u našem ateljeu su potpuno besplatne. Ukoliko nakon preuzimanja ili probe primetite potrebu za sitnim prilagođavanjem, naš tim to rešava u roku od 24–48h.'
+      a: 'Sve sitne korekcije za modele sašivene u našem ateljeu su potpuno besplatne.A ukoliko nakon preuzimanja ili probe primetite potrebu za sitnim prilagođavanjem, to se dodatno naplaćuje.'
     },
     {
       q: 'Kako se vrši dostava i plaćanje van Topole?',
-      a: 'Šaljemo osiguranom Post Express kurirskom službom danas za sutra na teritoriji cele Srbije. Plaćanje možete izvršiti pouzećem gotovinom kuriru, platnom karticom ili direktnom uplatom na račun ateljea. Za sve iznose preko 10.000 RSD dostava je besplatna.'
+      a: 'Šaljemo osiguranom Post Express kurirskom službom danas za sutra na teritoriji cele Srbije. Plaćanje možete izvršiti pouzećem gotovinom kuriru ili direktnom uplatom na račun ateljea. Za sve iznose preko 10.000 RSD dostava je besplatna.'
     }
   ];
 
@@ -79,7 +78,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, o
           </motion.h2>
           <motion.div variants={getVariants(staggerItemVariants)} className="w-12 h-px bg-[#C5A059] mx-auto mb-4" />
           <motion.p variants={getVariants(staggerItemVariants)} className="text-sm sm:text-base text-[#1A1A1A]/75 font-light leading-relaxed">
-            Posetite naš salon u Topoli za privatnu probu, izbor uzoraka svile i razgovor o vašoj sledećoj toaleti.
+            Posetite naš salon u Topoli za privatnu probu i razgovor o vašoj sledećoj toaleti.
           </motion.p>
         </motion.div>
 
@@ -132,14 +131,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking, o
               </div>
 
               <div className="mt-6 pt-4 border-t border-[#1A1A1A]/10 flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  onClick={onOpenBooking}
-                  className="px-5 py-2.5 bg-[#C5A059] hover:bg-[#A7823B] text-black font-semibold text-xs uppercase tracking-[0.15em] transition-all flex items-center gap-2 font-sans"
-                >
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>Zakažite termin</span>
-                </button>
                 <a
                   href="https://wa.me/38163616071"
                   target="_blank"
