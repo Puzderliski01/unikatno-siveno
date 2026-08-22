@@ -23,9 +23,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.4, 0.7], [0.4, 0.6, 0.9]);
   const decorY = useTransform(scrollYProgress, [0, 1], ['0%', '-10%']);
   const decorOpacity = useTransform(scrollYProgress, [0, 0.3, 0.6], [1, 0.6, 0]);
-  const contentY = useTransform(scrollYProgress, [0, 0.5], ['0%', '-50%']);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
-  const contentScale = useTransform(scrollYProgress, [0, 0.4], [1, 0.92]);
+  const contentY = useTransform(scrollYProgress, [0, 0.5], ['0%', '-100%']);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  const contentScale = useTransform(scrollYProgress, [0, 0.45], [1, 0.92]);
 
   return (
     <div className="relative" style={{ height: '200vh' }}>
