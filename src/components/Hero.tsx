@@ -16,19 +16,19 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
     offset: ['start start', 'end start'],
   });
 
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '20%' : '40%']);
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '15%' : '30%']);
   const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.08, 1.15]);
   const bgBlur = useTransform(scrollYProgress, [0.4, 0.8], [0, 6]);
-  const overlayY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '10%' : '20%']);
+  const overlayY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '8%' : '15%']);
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.4, 0.7], [0.4, 0.6, 0.9]);
-  const decorY = useTransform(scrollYProgress, [0, 1], ['0%', '-10%']);
+  const decorY = useTransform(scrollYProgress, [0, 1], ['0%', '-8%']);
   const decorOpacity = useTransform(scrollYProgress, [0, 0.3, 0.6], [1, 0.6, 0]);
-  const contentY = useTransform(scrollYProgress, [0, 0.5], ['0%', '-100%']);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const contentScale = useTransform(scrollYProgress, [0, 0.45], [1, 0.92]);
+  const contentY = useTransform(scrollYProgress, [0, 0.5], ['0%', '-150%']);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
+  const contentScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.92]);
 
   return (
-    <div className="relative" style={{ height: '200vh' }}>
+    <div className="relative" style={{ height: '150vh' }}>
       <div className="sticky top-0 h-screen overflow-hidden">
 
         {/* LAYER 1: BACKGROUND IMAGE */}
