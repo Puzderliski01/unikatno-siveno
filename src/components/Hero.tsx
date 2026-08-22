@@ -26,8 +26,6 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   const contentY = useTransform(scrollYProgress, [0, 0.5], ['0%', '-50%']);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
   const contentScale = useTransform(scrollYProgress, [0, 0.4], [1, 0.92]);
-  const transitionOpacity = useTransform(scrollYProgress, [0.5, 0.85], [0, 1]);
-  const transitionScale = useTransform(scrollYProgress, [0.5, 0.85], [0.85, 1]);
 
   return (
     <div className="relative" style={{ height: '200vh' }}>
@@ -181,23 +179,6 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             <ArrowDown className="w-4 h-4 text-[#C5A059]" />
           </motion.div>
         </motion.button>
-
-        {/* Transition to collection */}
-        <motion.div
-          className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
-          style={{ opacity: transitionOpacity }}
-        >
-          <motion.div className="text-center" style={{ scale: transitionScale }}>
-            <div className="inline-flex items-center gap-3 text-[#C5A059] mb-4">
-              <div className="w-16 h-px bg-[#C5A059]/60" />
-              <Sparkles className="w-4 h-4" />
-              <div className="w-16 h-px bg-[#C5A059]/60" />
-            </div>
-            <p className="font-serif-luxury text-xl sm:text-2xl text-[#FCFBF7]/90 tracking-wide">
-              Nastavite ka kolekciji
-            </p>
-          </motion.div>
-        </motion.div>
       </div>
     </div>
   );
