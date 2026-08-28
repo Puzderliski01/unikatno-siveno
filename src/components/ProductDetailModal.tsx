@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Ruler, Info, ShieldCheck, Truck, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Product } from '../types';
@@ -36,6 +36,15 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [customHips, setCustomHips] = useState('');
   const [customNotes, setCustomNotes] = useState('');
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
   if (!isOpen || !product) return null;
 
   const handleNextImage = () => {
@@ -59,7 +68,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   return (
     <div
       id="product-detail-modal"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.div
@@ -67,7 +76,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.3 }}
-        className="relative w-full max-w-5xl lg:max-w-5xl bg-[#0a0a0a] border border-[#e8e0d4]/20 shadow-2xl overflow-hidden text-[#e8e0d4] my-auto max-h-[92vh] flex flex-col"
+        className="relative w-full max-w-5xl bg-[#0a0a0a] border border-[#e8e0d4]/20 shadow-2xl text-[#e8e0d4] max-h-[90vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Controls */}
@@ -106,12 +115,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           </div>
         </div>
 
-        {/* Modal Scrollable Body: 2 Columns */}
-        <div className="overflow-y-auto flex-1 p-0 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Modal Body: Image + Details */}
+        <div className="flex-1 min-h-0 overflow-hidden grid grid-cols-1 lg:grid-cols-12 p-4 sm:p-6 gap-4 sm:gap-8">
           
-          {/* Left Column: Image Carousel & Gallery (5 cols) */}
-          <div className="lg:col-span-6 flex flex-col gap-4">
-            <div className="relative aspect-[3/4] sm:aspect-[3/4] w-full overflow-hidden bg-[#111111] border border-[#e8e0d4]/10 group">
+          {/* Left Column: Image (fixed height on mobile, scrollable on desktop) */}
+          <div className="lg:col-span-6">
+            <div className="relative aspect-square sm:aspect-[3/4] w-full overflow-hidden bg-[#111111] border border-[#e8e0d4]/10 group">
               <img
                 src={product.images[activeImageIndex]}
                 alt={`${product.nameSr} - pogled ${activeImageIndex + 1}`}
@@ -183,8 +192,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             </p>
           </div>
 
-          {/* Right Column: Garment Specs, Sizing, Tabs & Purchase Actions (6 cols) */}
-          <div className="lg:col-span-6 flex flex-col justify-between">
+          {/* Right Column: Details (scrollable) */}
+          <div className="lg:col-span-6 overflow-y-auto min-h-0">
             <div>
               {/* Product Title & Subtitle */}
               <h2 className="font-serif-luxury text-2xl sm:text-3xl lg:text-4xl text-[#e8e0d4] font-normal leading-tight mb-2">
@@ -350,11 +359,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               {/* Information Tabs */}
               <div className="border-t border-[#e8e0d4]/10 pt-6">
-                <div className="flex items-center gap-3 sm:gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 overflow-x-auto font-sans">
+                <div className="flex items-center gap-3 sm:gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 font-sans">
                   <button
                     type="button"
                     onClick={() => setActiveTab('opis')}
-                    className={`min-w-max text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                    className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'opis'
                         ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                         : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
@@ -365,35 +374,35 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setActiveTab('materijali')}
-                    className={`min-w-max text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                    className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'materijali'
                         ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                         : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                     }`}
                   >
-                    Materijali i održavanje
+                    Materijali
                   </button>
                   <button
                     type="button"
                     onClick={() => setActiveTab('velicine')}
-                    className={`min-w-max text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                    className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'velicine'
                         ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                         : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                     }`}
                   >
-                    Tabela veličina
+                    Veličine
                   </button>
                   <button
                     type="button"
                     onClick={() => setActiveTab('isporuka')}
-                    className={`min-w-max text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                    className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
                       activeTab === 'isporuka'
                         ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                         : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                     }`}
                   >
-                    Isporuka i probe
+                    Isporuka
                   </button>
                 </div>
 
@@ -447,50 +456,50 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
                   {activeTab === 'velicine' && (
                     <div className="space-y-4">
-                      <p className="text-[11px] text-[#e8e0d4]/70">
+                      <p className="text-xs text-[#e8e0d4]/70">
                         Mere u tabeli predstavljaju preporučene telesne mere u centimetrima (cm). Za modele koji se šiju po meri, uzimanje mera se obavlja u našem salonu ili unosom ličnih parametara.
                       </p>
                       
-                      <div className="overflow-x-auto border border-[#e8e0d4]/15">
-                        <table className="w-full text-left border-collapse text-[11px]">
+                      <div className="border border-[#e8e0d4]/15">
+                        <table className="w-full text-left border-collapse text-xs">
                           <thead>
                             <tr className="bg-[#111111] text-[#a08540] uppercase tracking-wider">
-                              <th className="p-2 border-b border-[#e8e0d4]/15">Veličina (EU)</th>
-                              <th className="p-2 border-b border-[#e8e0d4]/15">Grudi (cm)</th>
-                              <th className="p-2 border-b border-[#e8e0d4]/15">Struk (cm)</th>
-                              <th className="p-2 border-b border-[#e8e0d4]/15">Bokovi (cm)</th>
+                              <th className="p-2 border-b border-[#e8e0d4]/15">Veličina</th>
+                              <th className="p-2 border-b border-[#e8e0d4]/15">Grudi</th>
+                              <th className="p-2 border-b border-[#e8e0d4]/15">Struk</th>
+                              <th className="p-2 border-b border-[#e8e0d4]/15">Bokovi</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-[#e8e0d4]/10 font-mono text-[#e8e0d4]">
                             <tr className="hover:bg-[#111111]">
                               <td className="p-2 font-bold">XS (34)</td>
-                              <td className="p-2">82 – 85</td>
-                              <td className="p-2">62 – 65</td>
-                              <td className="p-2">88 – 91</td>
+                              <td className="p-2">82–85</td>
+                              <td className="p-2">62–65</td>
+                              <td className="p-2">88–91</td>
                             </tr>
                             <tr className="hover:bg-[#111111]">
                               <td className="p-2 font-bold">S (36)</td>
-                              <td className="p-2">86 – 89</td>
-                              <td className="p-2">66 – 69</td>
-                              <td className="p-2">92 – 95</td>
+                              <td className="p-2">86–89</td>
+                              <td className="p-2">66–69</td>
+                              <td className="p-2">92–95</td>
                             </tr>
                             <tr className="hover:bg-[#111111]">
                               <td className="p-2 font-bold">M (38)</td>
-                              <td className="p-2">90 – 93</td>
-                              <td className="p-2">70 – 73</td>
-                              <td className="p-2">96 – 99</td>
+                              <td className="p-2">90–93</td>
+                              <td className="p-2">70–73</td>
+                              <td className="p-2">96–99</td>
                             </tr>
                             <tr className="hover:bg-[#111111]">
                               <td className="p-2 font-bold">L (40)</td>
-                              <td className="p-2">94 – 98</td>
-                              <td className="p-2">74 – 78</td>
-                              <td className="p-2">100 – 104</td>
+                              <td className="p-2">94–98</td>
+                              <td className="p-2">74–78</td>
+                              <td className="p-2">100–104</td>
                             </tr>
                             <tr className="hover:bg-[#111111]">
                               <td className="p-2 font-bold">XL (42)</td>
-                              <td className="p-2">99 – 104</td>
-                              <td className="p-2">79 – 84</td>
-                              <td className="p-2">105 – 110</td>
+                              <td className="p-2">99–104</td>
+                              <td className="p-2">79–84</td>
+                              <td className="p-2">105–110</td>
                             </tr>
                           </tbody>
                         </table>

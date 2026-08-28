@@ -3,7 +3,7 @@ import { Scissors, Feather } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useScrollAnimation, staggerItemVariants, scaleInVariants } from '../hooks/useScrollAnimation';
 
-export const AboutSection: React.FC = () => {
+export const AboutSection: React.FC = React.memo(() => {
   const { getVariants, getInViewOptions, isMobile } = useScrollAnimation();
   const inViewOptions = getInViewOptions();
   
@@ -58,9 +58,13 @@ export const AboutSection: React.FC = () => {
               style={{ y: isMobile ? 0 : imageY }}
             >
               <img
-                src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1200&q=85"
+                src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=75"
                 alt="Radni sto ateljea Jelena Erić u Topoli sa krojačkim makazama i svilom"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="1000"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               
@@ -73,6 +77,10 @@ export const AboutSection: React.FC = () => {
                       src="/jelena.jpg"
                       alt="Jelena Erić"
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      width="64"
+                      height="64"
                     />
                   </div>
                   {/* Quote Text */}
@@ -153,4 +161,4 @@ export const AboutSection: React.FC = () => {
       </div>
     </section>
   );
-};
+});

@@ -7,7 +7,7 @@ interface ContactSectionProps {
   onShowToast: (title: string, desc: string, type: any) => void;
 }
 
-export const ContactSection: React.FC<ContactSectionProps> = ({ onShowToast }) => {
+export const ContactSection: React.FC<ContactSectionProps> = React.memo(({ onShowToast }) => {
   const { getVariants, getInViewOptions } = useScrollAnimation();
   const inViewOptions = getInViewOptions();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -286,4 +286,4 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onShowToast }) =
       </div>
     </section>
   );
-};
+});

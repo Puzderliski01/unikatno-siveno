@@ -13,7 +13,7 @@ interface ProductCardProps {
   onToggleWishlist: (product: Product) => void;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({
+export const ProductCard: React.FC<ProductCardProps> = React.memo(({
   product,
   isWishlisted,
   onOpenDetails,
@@ -52,6 +52,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           alt={product.nameSr}
           className="h-full w-full object-cover object-center"
           loading="lazy"
+          decoding="async"
+          fetchPriority="low"
           animate={{
             scale: isHovered ? 1.12 : 1,
             filter: isHovered ? 'brightness(1.08) contrast(1.03) saturate(1.05)' : 'brightness(1) contrast(1) saturate(1)',
@@ -238,4 +240,4 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </div>
     </div>
   );
-};
+});

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Sparkles, SlidersHorizontal, Search } from 'lucide-react';
+import { Sparkles, SlidersHorizontal, Search, LayoutGrid, LayoutList, Columns2, Columns3, Columns4, Grid2x2 } from 'lucide-react';
 import { Product } from '../types';
 import { ProductCard } from './ProductCard';
 import { motion } from 'motion/react';
@@ -14,7 +14,7 @@ interface ProductGridProps {
   onToggleWishlist: (product: Product) => void;
 }
 
-export const ProductGrid: React.FC<ProductGridProps> = ({
+export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   products,
   wishlistIds,
   onOpenDetails,
@@ -26,6 +26,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   const [activeCategory, setActiveCategory] = useState<string>('sve');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc' | 'name'>('default');
+  const [gridCols, setGridCols] = useState<1 | 2 | 3 | 4>(3);
 
   const categories = [
     { id: 'sve', label: 'Sve kreacije' },
@@ -121,6 +122,32 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
 
           {/* Search & Sort Controls */}
           <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+            {/* Grid Layout Selector */}
+            <div className="flex items-center gap-1 border border-[#c9a96e]/20 p-1">
+              {[
+                { cols: 1 as const, icon: LayoutList, label: '1 kolona', mobileOnly: true },
+                { cols: 2 as const, icon: Columns2, label: '2 kolone', mobileOnly: true },
+                { cols: 3 as const, icon: Columns3, label: '3 kolone', mobileOnly: false },
+                { cols: 4 as const, icon: Columns4, label: '4 kolone', mobileOnly: false },
+              ].map(({ cols, icon: Icon, label, mobileOnly }) => (
+                <button
+                  key={cols}
+                  type="button"
+                  onClick={() => setGridCols(cols)}
+                  title={label}
+                  className={`p-2 transition-colors ${
+                    mobileOnly ? '' : 'hidden sm:block'
+                  } ${
+                    gridCols === cols
+                      ? 'bg-[#c9a96e] text-[#0a0a0a]'
+                      : 'text-[#e8e0d4]/50 hover:text-[#c9a96e]'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                </button>
+              ))}
+            </div>
+
             {/* Search Input */}
             <div className="relative flex-1 md:w-56">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#e8e0d4]/50" />
@@ -160,7 +187,9 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               hidden: { opacity: 0 },
               visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
             }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8"
+            className={`grid gap-4 sm:gap-6 ${
+              gridCols === 1 ? 'grid-cols-1' : gridCols === 2 ? 'grid-cols-2' : gridCols === 3 ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'
+            }`}
           >
             {filteredAndSortedProducts.map((product, index) => (
               <motion.div
@@ -210,4 +239,4 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
       </div>
     </section>
   );
-};
+});

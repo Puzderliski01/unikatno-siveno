@@ -27,6 +27,8 @@
     background-color: #0a0a0a;
     color: #e8e0d4;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Custom subtle scrollbar */

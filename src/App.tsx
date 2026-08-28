@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { Product, CartItem } from './types';
 import { PRODUCTS } from './data/products';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductGrid } from './components/ProductGrid';
-import { ProductDetailModal } from './components/ProductDetailModal';
-import { CartDrawer } from './components/CartDrawer';
-import { CheckoutModal } from './components/CheckoutModal';
-import { WishlistModal } from './components/WishlistModal';
-import { ImageLightbox } from './components/ImageLightbox';
 import { AboutSection } from './components/AboutSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { ToastContainer, ToastMessage } from './components/Toast';
+
+const ProductDetailModal = lazy(() =>
+  import('./components/ProductDetailModal').then((m) => ({ default: m.ProductDetailModal }))
+);
+const CartDrawer = lazy(() =>
+  import('./components/CartDrawer').then((m) => ({ default: m.CartDrawer }))
+);
+const CheckoutModal = lazy(() =>
+  import('./components/CheckoutModal').then((m) => ({ default: m.CheckoutModal }))
+);
+const WishlistModal = lazy(() =>
+  import('./components/WishlistModal').then((m) => ({ default: m.WishlistModal }))
+);
+const ImageLightbox = lazy(() =>
+  import('./components/ImageLightbox').then((m) => ({ default: m.ImageLightbox }))
+);
 
 export default function App() {
   // Cart state
@@ -187,67 +198,70 @@ export default function App() {
         onShowToast={addToast}
       />
 
-      {/* Product Detail Modal */}
-      <ProductDetailModal
-        product={selectedProductForDetail}
-        isOpen={isDetailOpen}
-        isWishlisted={selectedProductForDetail ? wishlistIds.includes(selectedProductForDetail.id) : false}
-        onClose={() => {
-          setIsDetailOpen(false);
-          setSelectedProductForDetail(null);
-        }}
-        onAddToCart={handleAddToCart}
-        onOpenZoom={handleOpenZoom}
-        onToggleWishlist={handleToggleWishlist}
-      />
+      {/* Lazy-loaded Modals */}
+      <Suspense fallback={null}>
+        {/* Product Detail Modal */}
+        <ProductDetailModal
+          product={selectedProductForDetail}
+          isOpen={isDetailOpen}
+          isWishlisted={selectedProductForDetail ? wishlistIds.includes(selectedProductForDetail.id) : false}
+          onClose={() => {
+            setIsDetailOpen(false);
+            setSelectedProductForDetail(null);
+          }}
+          onAddToCart={handleAddToCart}
+          onOpenZoom={handleOpenZoom}
+          onToggleWishlist={handleToggleWishlist}
+        />
 
-      {/* Mini-Cart Drawer */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        cartItems={cartItems}
-        onClose={() => setIsCartOpen(false)}
-        onUpdateQuantity={handleUpdateCartQty}
-        onRemoveItem={handleRemoveCartItem}
-        onProceedToCheckout={() => setIsCheckoutOpen(true)}
-        onExploreCollection={scrollToGallery}
-      />
+        {/* Mini-Cart Drawer */}
+        <CartDrawer
+          isOpen={isCartOpen}
+          cartItems={cartItems}
+          onClose={() => setIsCartOpen(false)}
+          onUpdateQuantity={handleUpdateCartQty}
+          onRemoveItem={handleRemoveCartItem}
+          onProceedToCheckout={() => setIsCheckoutOpen(true)}
+          onExploreCollection={scrollToGallery}
+        />
 
-      {/* Checkout Flow Modal (Serbia Exclusive) */}
-      <CheckoutModal
-        isOpen={isCheckoutOpen}
-        cartItems={cartItems}
-        onClose={() => setIsCheckoutOpen(false)}
-        onOrderCompleted={(orderId) => {
-          setCartItems([]);
-          addToast(
-            'Porudžbina uspešna',
-            `Vaša porudžbina #${orderId} je zabeležena. Hvala vam na poverenju!`,
-            'info'
-          );
-        }}
-      />
+        {/* Checkout Flow Modal (Serbia Exclusive) */}
+        <CheckoutModal
+          isOpen={isCheckoutOpen}
+          cartItems={cartItems}
+          onClose={() => setIsCheckoutOpen(false)}
+          onOrderCompleted={(orderId) => {
+            setCartItems([]);
+            addToast(
+              'Porudžbina uspešna',
+              `Vaša porudžbina #${orderId} je zabeležena. Hvala vam na poverenju!`,
+              'info'
+            );
+          }}
+        />
 
-      {/* Wishlist Modal */}
-      <WishlistModal
-        isOpen={isWishlistOpen}
-        wishlistProducts={wishlistProducts}
-        onClose={() => setIsWishlistOpen(false)}
-        onRemoveFromWishlist={handleToggleWishlist}
-        onMoveToCart={handleMoveWishlistToCart}
-        onOpenDetails={handleOpenDetails}
-      />
+        {/* Wishlist Modal */}
+        <WishlistModal
+          isOpen={isWishlistOpen}
+          wishlistProducts={wishlistProducts}
+          onClose={() => setIsWishlistOpen(false)}
+          onRemoveFromWishlist={handleToggleWishlist}
+          onMoveToCart={handleMoveWishlistToCart}
+          onOpenDetails={handleOpenDetails}
+        />
 
-      {/* High-Resolution Image Lightbox Zoom */}
-      <ImageLightbox
-        isOpen={isLightboxOpen}
-        images={lightboxImages}
-        currentIndex={lightboxIndex}
-        altText={lightboxAlt}
-        onClose={() => setIsLightboxOpen(false)}
-        onNext={() => setLightboxIndex((prev) => (prev + 1) % lightboxImages.length)}
-        onPrev={() => setLightboxIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length)}
-        onSelectIndex={(idx) => setLightboxIndex(idx)}
-      />
+        {/* High-Resolution Image Lightbox Zoom */}
+        <ImageLightbox
+          isOpen={isLightboxOpen}
+          images={lightboxImages}
+          currentIndex={lightboxIndex}
+          altText={lightboxAlt}
+          onClose={() => setIsLightboxOpen(false)}
+          onNext={() => setLightboxIndex((prev) => (prev + 1) % lightboxImages.length)}
+          onPrev={() => setLightboxIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length)}
+          onSelectIndex={(idx) => setLightboxIndex(idx)}
+        />
+      </Suspense>
 
     </div>
   );

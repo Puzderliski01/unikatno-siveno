@@ -7,7 +7,7 @@ interface FooterProps {
   onShowToast: (title: string, desc: string, type: any) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
+export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
   const { getVariants, getInViewOptions } = useScrollAnimation();
   const inViewOptions = getInViewOptions();
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -104,6 +104,10 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
                 src="/logo.png"
                 alt="Unikatno šiveno – Jelena Erić"
                 className="h-10 w-auto object-contain"
+                loading="lazy"
+                decoding="async"
+                width="40"
+                height="40"
               />
               <div>
                 <span className="font-serif-luxury text-lg font-normal tracking-[0.15em] text-[#e8e0d4] block">
@@ -250,4 +254,4 @@ export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
       </div>
     </footer>
   );
-};
+});
