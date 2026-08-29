@@ -24,6 +24,13 @@ const WishlistModal = lazy(() =>
 const ImageLightbox = lazy(() =>
   import('./components/ImageLightbox').then((m) => ({ default: m.ImageLightbox }))
 );
+const AdminPage = lazy(() =>
+  import('./admin/AdminPage').then((m) => ({ default: m.AdminPage }))
+);
+
+function isAdminRoute() {
+  return window.location.pathname.startsWith('/admin');
+}
 
 export default function App() {
   // Cart state
@@ -154,6 +161,15 @@ export default function App() {
   const cartTotalAmount = cartItems.reduce((acc, i) => acc + i.product.priceRSD * i.quantity, 0);
   const cartTotalCount = cartItems.reduce((acc, i) => acc + i.quantity, 0);
   const wishlistProducts = PRODUCTS.filter((p) => wishlistIds.includes(p.id));
+
+  // Admin route
+  if (isAdminRoute()) {
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-[#e8e0d4]/50">Učitavanje...</div>}>
+        <AdminPage />
+      </Suspense>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4] selection:bg-[#c9a96e]/30 selection:text-[#e8e0d4]">
