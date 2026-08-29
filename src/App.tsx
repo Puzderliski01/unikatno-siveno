@@ -1,4 +1,4 @@
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState, Suspense, lazy, useEffect } from 'react';
 import { Product, CartItem } from './types';
 import { PRODUCTS } from './data/products';
 import { Header } from './components/Header';
@@ -8,6 +8,7 @@ import { AboutSection } from './components/AboutSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { ToastContainer, ToastMessage } from './components/Toast';
+import { fetchProducts } from './lib/supabase';
 
 const ProductDetailModal = lazy(() =>
   import('./components/ProductDetailModal').then((m) => ({ default: m.ProductDetailModal }))
@@ -33,6 +34,15 @@ function isAdminRoute() {
 }
 
 export default function App() {
+  // Products from Supabase (fallback to hardcoded)
+  const [products, setProducts] = useState<Product[]>(PRODUCTS);
+
+  useEffect(() => {
+    fetchProducts().then((dbProducts) => {
+      if (dbProducts.length > 0) setProducts(dbProducts);
+    });
+  }, []);
+
   // Cart state
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
@@ -160,7 +170,7 @@ export default function App() {
 
   const cartTotalAmount = cartItems.reduce((acc, i) => acc + i.product.priceRSD * i.quantity, 0);
   const cartTotalCount = cartItems.reduce((acc, i) => acc + i.quantity, 0);
-  const wishlistProducts = PRODUCTS.filter((p) => wishlistIds.includes(p.id));
+  const wishlistProducts = products.filter((p) => wishlistIds.includes(p.id));
 
   // Admin route
   if (isAdminRoute()) {
@@ -193,7 +203,7 @@ export default function App() {
 
       {/* Main Collection Gallery Grid */}
       <ProductGrid
-        products={PRODUCTS}
+        products={products}
         wishlistIds={wishlistIds}
         onOpenDetails={handleOpenDetails}
         onOpenZoom={handleOpenZoom}

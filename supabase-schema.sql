@@ -42,3 +42,17 @@ CREATE POLICY "Authenticated full access" ON products
 -- Email: jelena@unikatnosiveno.com (or whatever she wants)
 -- Password: whatever she chooses
 -- Make sure to confirm the email
+
+-- Storage policies for product-images bucket
+-- Allow anyone to read images (public)
+CREATE POLICY "Public read access for images" ON storage.objects
+  FOR SELECT USING (bucket_id = 'product-images');
+
+-- Allow authenticated users to upload images
+CREATE POLICY "Authenticated upload access" ON storage.objects
+  FOR INSERT WITH CHECK (bucket_id = 'product-images' AND auth.role() = 'authenticated');
+
+-- Allow authenticated users to delete images
+CREATE POLICY "Authenticated delete access" ON storage.objects
+  FOR DELETE USING (bucket_id = 'product-images' AND auth.role() = 'authenticated');
+

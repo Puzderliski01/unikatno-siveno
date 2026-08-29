@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { Product } from '../types';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
@@ -28,4 +29,41 @@ export interface DbProduct {
   thumbnail: string;
   featured: boolean;
   active: boolean;
+}
+
+export function dbProductToProduct(db: DbProduct): Product {
+  return {
+    id: db.id,
+    nameSr: db.name_sr,
+    subtitleSr: db.subtitle_sr,
+    category: db.category as Product['category'],
+    categoryLabelSr: db.category_label_sr,
+    priceRSD: db.price_rsd,
+    originalPriceRSD: db.original_price_rsd ?? undefined,
+    badge: db.badge ?? undefined,
+    descriptionSr: db.description_sr,
+    storySr: db.story_sr,
+    features: db.features,
+    materialsAndCare: {
+      composition: db.materials_composition,
+      origin: db.materials_origin,
+      care: db.materials_care,
+    },
+    sizes: db.sizes,
+    images: db.images,
+    isCustomizable: db.sizes.some(s => s.includes('merama') || s.includes('meri')),
+    leadTimeDays: db.lead_time_days,
+    modelInfo: db.model_info,
+  };
+}
+
+export async function fetchProducts(): Promise<Product[]> {
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .eq('active', true)
+    .order('created_at', { ascending: false });
+
+  if (error || !data) return [];
+  return data.map(dbProductToProduct);
 }

@@ -76,7 +76,11 @@ export const AdminDashboard: React.FC = () => {
         .from('product-images')
         .upload(fileName, file);
 
-      if (!error && data) {
+      if (error) {
+        console.error('Upload error:', error);
+        continue;
+      }
+      if (data) {
         const { data: urlData } = supabase.storage
           .from('product-images')
           .getPublicUrl(data.path);
@@ -84,11 +88,13 @@ export const AdminDashboard: React.FC = () => {
       }
     }
 
-    setEditingProduct((prev) => {
-      if (!prev) return prev;
-      const currentImages = prev.images || [];
-      return { ...prev, images: [...currentImages, ...uploadedUrls] };
-    });
+    if (uploadedUrls.length > 0) {
+      setEditingProduct((prev) => {
+        if (!prev) return prev;
+        const currentImages = prev.images || [];
+        return { ...prev, images: [...currentImages, ...uploadedUrls] };
+      });
+    }
     setUploading(false);
   };
 
