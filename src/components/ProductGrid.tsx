@@ -180,7 +180,6 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
         {/* Product Grid Results */}
         {filteredAndSortedProducts.length > 0 ? (
           <motion.div
-            initial="hidden"
             whileInView="visible"
             viewport={inViewOptions}
             variants={{
@@ -194,18 +193,16 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
             {filteredAndSortedProducts.map((product, index) => (
               <motion.div
                 key={product.id}
-                variants={{
-                  hidden: { opacity: 0, y: 50, scale: 0.95 },
-                  visible: { 
-                    opacity: 1, 
-                    y: 0, 
-                    scale: 1,
-                    transition: { 
-                      duration: 0.7, 
-                      delay: index * 0.08,
-                      ease: [0.22, 1, 0.36, 1] 
-                    } 
-                  },
+                initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.05,
+                  ease: [0.22, 1, 0.36, 1]
+                }}
+                whileInView={{
+                  scale: 1.02,
+                  transition: { duration: 0.3 }
                 }}
               >
                 <ProductCard
