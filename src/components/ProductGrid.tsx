@@ -284,7 +284,37 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                   placeholder="Min cena"
                   className="w-24 pl-3 pr-3 py-2 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] outline-none transition-colors"
                 />
-              </div
+              </div>
+        </div>
+
+            {/* Search Input */}
+            <div className="relative flex-1 md:w-56">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#e8e0d4]/50" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Pretraži modele..."
+                className="w-full pl-9 pr-3 py-2.5 sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
+              />
+            </div>
+
+            {/* Sort Selector */}
+            <div className="relative flex-shrink-0">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="pl-3 pr-8 py-2.5 sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] outline-none appearance-none cursor-pointer"
+              >
+                <option value="default">Sortiranje: Istaknuto</option>
+                <option value="price-asc">Cena: Rastuće</option>
+                <option value="price-desc">Cena: Opadajuće</option>
+                <option value="name">Naziv: A-Z</option>
+              </select>
+              <SlidersHorizontal className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-[#e8e0d4]/50 pointer-events-none" />
+            </div>
+          </div>
+
         </motion.div>
 
         {/* Product Grid Results */}

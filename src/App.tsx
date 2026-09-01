@@ -25,6 +25,9 @@ const WishlistModal = lazy(() =>
 const ImageLightbox = lazy(() =>
   import('./components/ImageLightbox').then((m) => ({ default: m.ImageLightbox }))
 );
+const FittingBookingModal = lazy(() =>
+  import('./components/FittingBookingModal').then((m) => ({ default: m.FittingBookingModal }))
+);
 const AdminPage = lazy(() =>
   import('./admin/AdminPage').then((m) => ({ default: m.AdminPage }))
 );
