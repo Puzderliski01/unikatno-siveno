@@ -27,6 +27,33 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc' | 'name'>('default');
   const [gridCols, setGridCols] = useState<1 | 2 | 3 | 4>(3);
+  // Price range filters
+  const [minPrice, setMinPrice] = useState<number | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
+  // Feature filters
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  // Material filters
+  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+  // Customizable filter
+  const [isCustomizableOnly, setIsCustomizableOnly] = useState<boolean>(false);
+
+  // Extract unique features and materials for filter options
+  const uniqueFeatures = useMemo(() => {
+    const featuresSet = new Set<string>();
+    products.forEach(product => {
+      product.features.forEach(feature => featuresSet.add(feature));
+    });
+    return Array.from(featuresSet).sort();
+  }, [products]);
+
+  const uniqueMaterials = useMemo(() => {
+    const materialsSet = new Set<string>();
+    products.forEach(product => {
+      materialsSet.add(product.materialsAndCare.composition);
+      materialsSet.add(product.materialsAndCare.origin);
+    });
+    return Array.from(materialsSet).sort();
+  }, [products]);
 
   const categories = [
     { id: 'sve', label: 'Sve kreacije' },
@@ -47,7 +74,20 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
         p.nameSr.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.subtitleSr.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.categoryLabelSr.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
+
+      // Price range filter
+      const matchesPrice = (!minPrice || p.priceRSD >= minPrice) && (!maxPrice || p.priceRSD <= maxPrice);
+
+      // Feature filter - check if product has any of the selected features
+      const matchesFeatures = selectedFeatures.length === 0 || selectedFeatures.some(feature => p.features.includes(feature));
+
+      // Material filter - check if product has any of the selected materials in composition
+      const matchesMaterials = selectedMaterials.length === 0 || selectedMaterials.some(material => p.materialsAndCare.composition.toLowerCase().includes(material.toLowerCase()));
+
+      // Customizable filter
+      const matchesCustomizable = !isCustomizableOnly || p.isCustomizable;
+
+      return matchesCategory && matchesSearch && matchesPrice && matchesFeatures && matchesMaterials && matchesCustomizable;
     });
 
     if (sortBy === 'price-asc') {
@@ -59,7 +99,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
     }
 
     return result;
-  }, [products, activeCategory, searchQuery, sortBy]);
+  }, [products, activeCategory, searchQuery, sortBy, minPrice, maxPrice, selectedFeatures, selectedMaterials, isCustomizableOnly]);
 
   const inViewOptions = getInViewOptions();
 
@@ -99,7 +139,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
           variants={getVariants(fadeInUpVariants)}
           className="bg-[#111111] border border-[#c9a96e]/20 rounded-none p-4 mb-10 flex flex-col md:flex-row items-center justify-between gap-4"
         >
-          
+
           {/* Category Filter Pills */}
           <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
             {categories.map((cat) => (
@@ -118,6 +158,92 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                 {cat.label}
               </motion.button>
             ))}
+          </div>
+
+          {/* Advanced Filters */}
+          <div className="flex items-center gap-4 w-full md:w-auto flex-wrap">
+            {/* Feature Filters */}
+            <div className="relative">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 text-xs text-[#e8e0d4]/70">
+                  <Sparkles className="w-3 h-3" />
+                  <span>Karakteristike</span>
+                </div>
+                <button
+                  onClick={() => setSelectedFeatures([])}
+                  className="p-1 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors hidden md:block"
+                >
+                  <SlidersHorizontal className="w-3 h-3" />
+                </button>
+              </div>
+              <div className="mt-2 space-y-1">
+                {uniqueFeatures.map((feature) => (
+                  <label key={feature} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedFeatures.includes(feature)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedFeatures([...selectedFeatures, feature]);
+                        } else {
+                          setSelectedFeatures(selectedFeatures.filter(f => f !== feature));
+                        }
+                      }}
+                      className="w-4 h-4 text-[#c9a96e] border border-[#c9a96e]/20 focus:ring-[#c9a96e]"
+                    />
+                    <span className="text-xs">{feature}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Material Filters */}
+            <div className="relative">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 text-xs text-[#e8e0d4]/70">
+                  <SlidersHorizontal className="w-3 h-3" />
+                  <span>Materijali</span>
+                </div>
+                <button
+                  onClick={() => setSelectedMaterials([])}
+                  className="p-1 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors hidden md:block"
+                >
+                  <SlidersHorizontal className="w-3 h-3" />
+                </button>
+              </div>
+              <div className="mt-2 space-y-1">
+                {uniqueMaterials.map((material) => (
+                  <label key={material} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedMaterials.includes(material)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedMaterials([...selectedMaterials, material]);
+                        } else {
+                          setSelectedMaterials(selectedMaterials.filter(m => m !== material));
+                        }
+                      }}
+                      className="w-4 h-4 text-[#c9a96e] border border-[#c9a96e]/20 focus:ring-[#c9a96e]"
+                    />
+                    <span className="text-xs">{material}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Customizable Filter */}
+            <div className="flex items-center gap-3">
+              <label className="flex items-center gap-2 cursor-pointer text-xs">
+                <input
+                  type="checkbox"
+                  checked={isCustomizableOnly}
+                  onChange={(e) => setIsCustomizableOnly(e.target.checked)}
+                  className="w-4 h-4 text-[#c9a96e] border border-[#c9a96e]/20 focus:ring-[#c9a96e]"
+                />
+                <span>Samo prilagođeno</span>
+              </label>
+            </div>
           </div>
 
           {/* Search & Sort Controls */}
@@ -148,33 +274,17 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
               ))}
             </div>
 
-            {/* Search Input */}
-            <div className="relative flex-1 md:w-56">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#e8e0d4]/50" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Pretraži modele..."
-                className="w-full pl-9 pr-3 py-2.5 sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
-              />
-            </div>
-
-            {/* Sort Selector */}
-            <div className="relative flex-shrink-0">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className="pl-3 pr-8 py-2.5 sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] outline-none appearance-none cursor-pointer"
-              >
-                <option value="default">Sortiranje: Istaknuto</option>
-                <option value="price-asc">Cena: Rastuće</option>
-                <option value="price-desc">Cena: Opadajuće</option>
-                <option value="name">Naziv: A-Z</option>
-              </select>
-              <SlidersHorizontal className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-[#e8e0d4]/50 pointer-events-none" />
-            </div>
-          </div>
+            {/* Price Range Filters */}
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <input
+                  type="number"
+                  value={minPrice || ''}
+                  onChange={(e) => setMinPrice(e.target.value === '' ? null : parseInt(e.target.value))}
+                  placeholder="Min cena"
+                  className="w-24 pl-3 pr-3 py-2 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] outline-none transition-colors"
+                />
+              </div
         </motion.div>
 
         {/* Product Grid Results */}
