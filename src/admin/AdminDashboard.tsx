@@ -99,9 +99,31 @@ export const AdminDashboard: React.FC = () => {
 
     if (uploadedUrls.length > 0) {
       setEditingProduct((prev) => {
-        if (!prev) return prev;
-        const currentImages = prev.images || [];
-        return { ...prev, images: [...currentImages, ...uploadedUrls] };
+        // If prev is null, we're creating a new product - start with empty product state
+        const initialState = prev || {
+          name_sr: '',
+          subtitle_sr: '',
+          description_sr: '',
+          story_sr: '',
+          category: 'haljine',
+          category_label_sr: 'Haljine',
+          price_rsd: 0,
+          original_price_rsd: null,
+          lead_time_days: '21-30 dana',
+          badge: null,
+          sizes: [],
+          features: [],
+          materials_composition: '',
+          materials_origin: '',
+          materials_care: [],
+          model_info: '',
+          images: [],
+          thumbnail: '',
+          featured: false,
+          active: true,
+        };
+        const currentImages = initialState.images || [];
+        return { ...initialState, images: [...currentImages, ...uploadedUrls] };
       });
     } else if ((uploadError || urlFetchError) && uploadedUrls.length === 0) {
       alert('Greška prilikom uploadovanja slika. Proverite konekciju i dozvole za Supabase storage bucket "product-images".');
