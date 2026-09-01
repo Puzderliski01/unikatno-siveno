@@ -71,6 +71,7 @@ export const AdminDashboard: React.FC = () => {
 
     const uploadedUrls: string[] = [];
     let uploadError = false;
+    let urlFetchError = false;
 
     for (const file of Array.from(files)) {
       const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
@@ -89,6 +90,7 @@ export const AdminDashboard: React.FC = () => {
           .getPublicUrl(data.path);
         if (error) {
           console.error('Get public URL error:', error);
+          urlFetchError = true;
         } else {
           uploadedUrls.push(urlData.publicUrl);
         }
@@ -101,7 +103,7 @@ export const AdminDashboard: React.FC = () => {
         const currentImages = prev.images || [];
         return { ...prev, images: [...currentImages, ...uploadedUrls] };
       });
-    } else if (uploadError && uploadedUrls.length === 0) {
+    } else if ((uploadError || urlFetchError) && uploadedUrls.length === 0) {
       alert('Greška prilikom uploadovanja slika. Proverite konekciju i dozvole za Supabase storage bucket "product-images".');
     }
 
