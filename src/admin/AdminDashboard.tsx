@@ -70,6 +70,8 @@ export const AdminDashboard: React.FC = () => {
     setUploading(true);
 
     const uploadedUrls: string[] = [];
+    let uploadError = false;
+
     for (const file of Array.from(files)) {
       const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
       const { data, error } = await supabase.storage
@@ -78,13 +80,18 @@ export const AdminDashboard: React.FC = () => {
 
       if (error) {
         console.error('Upload error:', error);
+        uploadError = true;
         continue;
       }
       if (data) {
-        const { data: urlData } = supabase.storage
+        const { data: urlData, error } = await supabase.storage
           .from('product-images')
           .getPublicUrl(data.path);
-        uploadedUrls.push(urlData.publicUrl);
+        if (error) {
+          console.error('Get public URL error:', error);
+        } else {
+          uploadedUrls.push(urlData.publicUrl);
+        }
       }
     }
 
@@ -94,7 +101,10 @@ export const AdminDashboard: React.FC = () => {
         const currentImages = prev.images || [];
         return { ...prev, images: [...currentImages, ...uploadedUrls] };
       });
+    } else if (uploadError && uploadedUrls.length === 0) {
+      alert('Greška prilikom uploadovanja slika. Proverite konekciju i dozvole za Supabase storage bucket "product-images".');
     }
+
     setUploading(false);
   };
 
