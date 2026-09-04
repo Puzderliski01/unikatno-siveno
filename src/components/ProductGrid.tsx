@@ -30,22 +30,12 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   // Price range filters
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
-  // Feature filters
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   // Material filters
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   // Customizable filter
   const [isCustomizableOnly, setIsCustomizableOnly] = useState<boolean>(false);
 
-  // Extract unique features and materials for filter options
-  const uniqueFeatures = useMemo(() => {
-    const featuresSet = new Set<string>();
-    products.forEach(product => {
-      product.features.forEach(feature => featuresSet.add(feature));
-    });
-    return Array.from(featuresSet).sort();
-  }, [products]);
-
+  // Extract unique materials for filter options
   const uniqueMaterials = useMemo(() => {
     const materialsSet = new Set<string>();
     products.forEach(product => {
@@ -78,16 +68,13 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
       // Price range filter
       const matchesPrice = (!minPrice || p.priceRSD >= minPrice) && (!maxPrice || p.priceRSD <= maxPrice);
 
-      // Feature filter - check if product has any of the selected features
-      const matchesFeatures = selectedFeatures.length === 0 || selectedFeatures.some(feature => p.features.includes(feature));
-
       // Material filter - check if product has any of the selected materials in composition
       const matchesMaterials = selectedMaterials.length === 0 || selectedMaterials.some(material => p.materialsAndCare.composition.toLowerCase().includes(material.toLowerCase()));
 
       // Customizable filter
       const matchesCustomizable = !isCustomizableOnly || p.isCustomizable;
 
-      return matchesCategory && matchesSearch && matchesPrice && matchesFeatures && matchesMaterials && matchesCustomizable;
+      return matchesCategory && matchesSearch && matchesPrice && matchesMaterials && matchesCustomizable;
     });
 
     if (sortBy === 'price-asc') {
@@ -99,7 +86,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
     }
 
     return result;
-  }, [products, activeCategory, searchQuery, sortBy, minPrice, maxPrice, selectedFeatures, selectedMaterials, isCustomizableOnly]);
+  }, [products, activeCategory, searchQuery, sortBy, minPrice, maxPrice, selectedMaterials, isCustomizableOnly]);
 
   const inViewOptions = getInViewOptions();
 
@@ -162,41 +149,6 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
 
           {/* Advanced Filters */}
           <div className="flex items-center gap-4 w-full md:w-auto flex-wrap">
-            {/* Feature Filters */}
-            <div className="relative">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1 text-xs text-[#e8e0d4]/70">
-                  <Sparkles className="w-3 h-3" />
-                  <span>Karakteristike</span>
-                </div>
-                <button
-                  onClick={() => setSelectedFeatures([])}
-                  className="p-1 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors hidden md:block"
-                >
-                  <SlidersHorizontal className="w-3 h-3" />
-                </button>
-              </div>
-              <div className="mt-2 space-y-1">
-                {uniqueFeatures.map((feature) => (
-                  <label key={feature} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={selectedFeatures.includes(feature)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedFeatures([...selectedFeatures, feature]);
-                        } else {
-                          setSelectedFeatures(selectedFeatures.filter(f => f !== feature));
-                        }
-                      }}
-                      className="w-4 h-4 text-[#c9a96e] border border-[#c9a96e]/20 focus:ring-[#c9a96e]"
-                    />
-                    <span className="text-xs">{feature}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
             {/* Material Filters */}
             <div className="relative">
               <div className="flex items-center gap-2">
