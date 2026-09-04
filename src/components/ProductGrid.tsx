@@ -23,42 +23,17 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   onToggleWishlist,
 }) => {
   const { getVariants, getInViewOptions } = useScrollAnimation();
-  const [activeCategory, setActiveCategory] = useState<string>('sve');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc' | 'name'>('default');
   const [gridCols, setGridCols] = useState<1 | 2 | 3 | 4>(3);
   // Price range filters
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
-  // Material filters
-  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   // Customizable filter
   const [isCustomizableOnly, setIsCustomizableOnly] = useState<boolean>(false);
 
-  // Extract unique materials for filter options
-  const uniqueMaterials = useMemo(() => {
-    const materialsSet = new Set<string>();
-    products.forEach(product => {
-      materialsSet.add(product.materialsAndCare.composition);
-      materialsSet.add(product.materialsAndCare.origin);
-    });
-    return Array.from(materialsSet).sort();
-  }, [products]);
-
-  const categories = [
-    { id: 'sve', label: 'Sve kreacije' },
-    { id: 'haljine', label: 'Haljine' },
-    { id: 'tunike', label: 'Tunike' },
-    { id: 'blejzeri', label: 'Blejzeri & Kaputi' },
-    { id: 'svila', label: 'Korseti' },
-    { id: 'majice', label: 'Majice' },
-    { id: 'suknje', label: 'Suknje' },
-    { id: 'aksesoari', label: 'Aksesoari' },
-  ];
-
   const filteredAndSortedProducts = useMemo(() => {
     let result = products.filter((p) => {
-      const matchesCategory = activeCategory === 'sve' || p.category === activeCategory;
       const matchesSearch =
         searchQuery.trim() === '' ||
         p.nameSr.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -68,13 +43,10 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
       // Price range filter
       const matchesPrice = (!minPrice || p.priceRSD >= minPrice) && (!maxPrice || p.priceRSD <= maxPrice);
 
-      // Material filter - check if product has any of the selected materials in composition
-      const matchesMaterials = selectedMaterials.length === 0 || selectedMaterials.some(material => p.materialsAndCare.composition.toLowerCase().includes(material.toLowerCase()));
-
       // Customizable filter
       const matchesCustomizable = !isCustomizableOnly || p.isCustomizable;
 
-      return matchesCategory && matchesSearch && matchesPrice && matchesMaterials && matchesCustomizable;
+      return matchesSearch && matchesPrice && matchesCustomizable;
     });
 
     if (sortBy === 'price-asc') {
@@ -86,7 +58,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
     }
 
     return result;
-  }, [products, activeCategory, searchQuery, sortBy, minPrice, maxPrice, selectedMaterials, isCustomizableOnly]);
+  }, [products, searchQuery, sortBy, minPrice, maxPrice, isCustomizableOnly]);
 
   const inViewOptions = getInViewOptions();
 
@@ -127,63 +99,8 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
           className="bg-[#111111] border border-[#c9a96e]/20 rounded-none p-4 mb-10 flex flex-col md:flex-row items-center justify-between gap-4"
         >
 
-          {/* Category Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
-            {categories.map((cat) => (
-              <motion.button
-                key={cat.id}
-                type="button"
-                onClick={() => setActiveCategory(cat.id)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`px-4 py-2 text-xs font-sans uppercase tracking-[0.15em] transition-colors whitespace-nowrap ${
-                  activeCategory === cat.id
-                    ? 'bg-[#c9a96e] text-[#0a0a0a] font-semibold shadow-sm'
-                    : 'bg-[#1a1a1a] text-[#e8e0d4] hover:bg-[#c9a96e]/10 hover:text-[#c9a96e] border border-[#c9a96e]/20'
-                }`}
-              >
-                {cat.label}
-              </motion.button>
-            ))}
-          </div>
-
           {/* Advanced Filters */}
           <div className="flex items-center gap-4 w-full md:w-auto flex-wrap">
-            {/* Material Filters */}
-            <div className="relative">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1 text-xs text-[#e8e0d4]/70">
-                  <SlidersHorizontal className="w-3 h-3" />
-                  <span>Materijali</span>
-                </div>
-                <button
-                  onClick={() => setSelectedMaterials([])}
-                  className="p-1 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors hidden md:block"
-                >
-                  <SlidersHorizontal className="w-3 h-3" />
-                </button>
-              </div>
-              <div className="mt-2 space-y-1">
-                {uniqueMaterials.map((material) => (
-                  <label key={material} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={selectedMaterials.includes(material)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedMaterials([...selectedMaterials, material]);
-                        } else {
-                          setSelectedMaterials(selectedMaterials.filter(m => m !== material));
-                        }
-                      }}
-                      className="w-4 h-4 text-[#c9a96e] border border-[#c9a96e]/20 focus:ring-[#c9a96e]"
-                    />
-                    <span className="text-xs">{material}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
             {/* Customizable Filter */}
             <div className="flex items-center gap-3">
               <label className="flex items-center gap-2 cursor-pointer text-xs">
@@ -311,11 +228,10 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
         ) : (
           <div className="text-center py-20 border border-[#c9a96e]/20 bg-[#111111] p-8">
             <p className="font-serif-luxury text-xl text-[#e8e0d4] mb-2">Nije pronađen nijedan model za odabrane kriterijume.</p>
-            <p className="text-xs text-[#e8e0d4]/60 mb-6">Pokušajte sa resetovanjem pretrage ili kategorije.</p>
+            <p className="text-xs text-[#e8e0d4]/60 mb-6">Pokušajte sa resetovanjem pretrage.</p>
             <button
               type="button"
               onClick={() => {
-                setActiveCategory('sve');
                 setSearchQuery('');
               }}
               className="px-6 py-2.5 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider"
