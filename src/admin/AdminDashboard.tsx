@@ -85,14 +85,14 @@ export const AdminDashboard: React.FC = () => {
         continue;
       }
       if (data) {
-        const { data: urlData, error } = await supabase.storage
-          .from('product-images')
-          .getPublicUrl(data.path);
-        if (error) {
-          console.error('Get public URL error:', error);
-          urlFetchError = true;
-        } else {
+        try {
+          const { data: urlData } = await supabase.storage
+            .from('product-images')
+            .getPublicUrl(data.path);
           uploadedUrls.push(urlData.publicUrl);
+        } catch (err) {
+          console.error('Get public URL error:', err);
+          urlFetchError = true;
         }
       }
     }
