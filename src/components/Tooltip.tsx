@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+// Temporary fix for tooltip issue - forcing rebuild
 
 interface TooltipProps {
   children: React.ReactNode;
