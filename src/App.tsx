@@ -11,6 +11,8 @@ import { ToastContainer, ToastMessage } from './components/Toast';
 import { fetchProducts } from './lib/supabase';
 import { UserProfile } from './components/UserProfile';
 import { VIPBenefitsModal } from './components/VIPBenefitsModal';
+import { AuthModal } from './components/AuthModal';
+import { AuthProvider, useAuth } from './lib/auth';
 
 const ProductDetailModal = lazy(() =>
   import('./components/ProductDetailModal').then((m) => ({ default: m.ProductDetailModal }))
@@ -38,7 +40,21 @@ function isAdminRoute() {
   return window.location.pathname.startsWith('/admin');
 }
 
-export default function App() {
+function AppContent() {
+  const { user, loading: authLoading } = useAuth();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('login');
+
+  const openLogin = () => {
+    setAuthModalMode('login');
+    setAuthModalOpen(true);
+  };
+
+  const openSignup = () => {
+    setAuthModalMode('signup');
+    setAuthModalOpen(true);
+  };
+
   // Products from Supabase (fallback to hardcoded)
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
 
@@ -212,8 +228,10 @@ export default function App() {
         wishlistCount={wishlistIds.length}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
-        onOpenUserProfile={handleOpenUserProfile}
+        onOpenUserProfile={user ? handleOpenUserProfile : openLogin}
         onOpenVIPBenefits={handleOpenVIPBenefits}
+        onOpenLogin={openLogin}
+        onOpenSignup={openSignup}
       />
 
       {/* Full Bleed Luxury Hero Section */}
@@ -308,6 +326,13 @@ export default function App() {
           onClose={() => setIsVipOpen(false)}
         />
 
+        {/* Auth Modal (Login/Signup) */}
+        <AuthModal
+          isOpen={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          initialMode={authModalMode}
+        />
+
         {/* High-Resolution Image Lightbox Zoom */}
         <ImageLightbox
           isOpen={isLightboxOpen}
@@ -322,5 +347,13 @@ export default function App() {
       </Suspense>
 
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }

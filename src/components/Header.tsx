@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Heart, Menu, X, Trophy, Star } from 'lucide-react';
+import { ShoppingBag, Heart, Menu, X, Trophy, Star, LogIn, UserPlus } from 'lucide-react';
 import { FORMAT_RSD } from '../data/products';
 import { Tooltip } from './Tooltip';
+import { useAuth } from '../lib/auth';
 
 interface HeaderProps {
   cartCount: number;
@@ -11,6 +12,8 @@ interface HeaderProps {
   onOpenWishlist: () => void;
   onOpenUserProfile: () => void;
   onOpenVIPBenefits: () => void;
+  onOpenLogin: () => void;
+  onOpenSignup: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = React.memo(({
@@ -20,8 +23,11 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   onOpenCart,
   onOpenWishlist,
   onOpenUserProfile,
-  onOpenVIPBenefits
+  onOpenVIPBenefits,
+  onOpenLogin,
+  onOpenSignup
 }) => {
+  const { user, profile, signOut } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -129,17 +135,38 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 </button>
               </Tooltip>
 
-              {/* User Profile Button */}
-              <Tooltip placement="bottom" label="Profil korisnika">
-                <button
-                  id="header-user-profile-btn"
-                  type="button"
-                  onClick={onOpenUserProfile}
-                  className="relative p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
-                >
-                  <Trophy className="w-4 h-4" />
-                </button>
-              </Tooltip>
+              {/* User Profile / Auth Button */}
+              {user ? (
+                <Tooltip placement="bottom" label={`Profil korisnika${profile?.full_name ? ` - ${profile.full_name}` : ''}`}>
+                  <button
+                    id="header-user-profile-btn"
+                    type="button"
+                    onClick={onOpenUserProfile}
+                    className="relative p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                  >
+                    <Trophy className="w-4 h-4" />
+                  </button>
+                </Tooltip>
+              ) : (
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={onOpenLogin}
+                    className="p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                    title="Prijava"
+                  >
+                    <LogIn className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onOpenSignup}
+                    className="p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                    title="Registracija"
+                  >
+                    <UserPlus className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
 
               {/* VIP Benefits Button */}
               <Tooltip placement="bottom" label="VIP Benefiti">

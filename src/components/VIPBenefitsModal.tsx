@@ -1,9 +1,9 @@
 import React from 'react';
-import { MOCK_USER } from '../data/mockUser';
-import { VIP_TIERS, getVIPTierByLevel, calculateVIPProgress } from '../data/vipBenefits';
+import { VIP_TIERS, calculateVIPProgress } from '../data/vipBenefits';
 import { FORMAT_RSD } from '../data/products';
-import { Trophy, Calendar, Users, ShieldCheck, Gift, Clock, Star, Check, X, ShoppingBag } from 'lucide-react';
+import { Trophy, Users, ShieldCheck, Gift, Star, Check, X, ShoppingBag } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useAuth } from '../lib/auth';
 
 interface VIPBenefitsModalProps {
   isOpen: boolean;
@@ -11,9 +11,15 @@ interface VIPBenefitsModalProps {
 }
 
 export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onClose }) => {
+  const { user, profile } = useAuth();
+
+  const loyaltyPoints = profile?.loyalty_points || 0;
+  const vipLevel = profile?.vip_level || 'none';
+  const orderCount = profile?.order_count || 0;
+
   const { currentTier, nextTier, progress, pointsUntilNext } = calculateVIPProgress(
-    MOCK_USER.loyaltyPoints,
-    MOCK_USER.vipLevel
+    loyaltyPoints,
+    vipLevel
   );
 
   if (!isOpen) return null;
@@ -54,7 +60,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
         </div>
 
         {/* VIP Content */}
-        <div className="flex-1 min-h-0 overflow-hidden p-4 sm:p-6 gap-6">
+        <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 space-y-6">
           {/* Current VIP Status */}
           <div className="space-y-4">
             <div className="text-center py-6">
@@ -68,7 +74,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                 <>
                   <div className="flex items-center justify-center space-x-4 mt-4">
                     <div className="w-8 h-0.5 bg-[#c9a96e]/20 flex-1"></div>
-                    <div className={`w-8 h-0.5 bg-[#c9a96e] flex-${progress / 100}`}></div>
+                    <div className="w-8 h-0.5 bg-[#c9a96e] flex-1" style={{ maxWidth: `${progress}%` }}></div>
                     <div className="w-8 h-0.5 bg-[#c9a96e]/20 flex-1"></div>
                   </div>
                   <div className="flex items-center justify-center mt-2 text-xs text-[#e8e0d4]/70">
@@ -78,39 +84,31 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
               )}
               {!nextTier && (
                 <p className="text-xs text-[#e8e0d4]/70 mt-2">
-                  Čestitamo! Dostigli ste najniži VIP status.
+                  Čestitamo! Dostigli ste najviši VIP status.
                 </p>
               )}
             </div>
 
             {/* VIP Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
               <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
                 <div className="text-[9px] uppercase tracking-wider text-[#c9a96e] mb-2">
                   Loyalty poeni
                 </div>
                 <div className="text-2xl font-semibold text-[#e8e0d4]">
-                  {MOCK_USER.loyaltyPoints.toLocaleString()}
+                  {loyaltyPoints.toLocaleString()}
                 </div>
               </div>
               <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
                 <div className="text-[9px] uppercase tracking-wider text-[#c9a96e] mb-2">
-                  Člana od
+                  Članica od
                 </div>
                 <div className="text-lg font-semibold text-[#e8e0d4]">
-                  {new Date(MOCK_USER.joinDate).toLocaleDateString('sr-RS', {
+                  {user?.created_at ? new Date(user.created_at).toLocaleDateString('sr-RS', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
-                  })}
-                </div>
-              </div>
-              <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
-                <div className="text-[9px] uppercase tracking-wider text-[#c9a96e] mb-2">
-                  Exclusive pozivi
-                </div>
-                <div className="text-2xl font-semibold text-[#e8e0d4]">
-                  {MOCK_USER.exclusiveInvitations.length}
+                  }) : '-'}
                 </div>
               </div>
               <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
@@ -118,7 +116,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                   Kupovina
                 </div>
                 <div className="text-2xl font-semibold text-[#e8e0d4]">
-                  {MOCK_USER.purchaseHistory.length}
+                  {orderCount}
                 </div>
               </div>
             </div>
@@ -126,45 +124,22 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
 
           {/* Benefits Tabs */}
           <div className="border-t border-[#e8e0d4]/10 pt-6">
-            <div className="flex items-center gap-3 sm:gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 font-sans">
-              {VIP_TIERS.map((tier) => (
-                <button
-                  key={tier.id}
-                  type="button"
-                  className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
-                    MOCK_USER.vipLevel === tier.id
-                      ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
-                      : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
-                  }`}
-                >
-                  {tier.name}
-                </button>
-              ))}
-            </div>
-
-            {/* Tab Content */}
-            <div className="space-y-4">
-              {VIP_TIERS.map((tier) => (
-                <div key={tier.id} className={`hidden ${MOCK_USER.vipLevel === tier.id ? 'block' : ''}`}>
-                  <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
-                    {tier.name} Benefiti
-                  </h3>
-                  <div className="space-y-3">
-                    {tier.benefits.map((benefit, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <div className="flex-shrink-0 mt-1">
-                          {tier.id === 'platinum' && <Star className="w-3 h-3 text-[#c9a96e]" />}
-                          {tier.id === 'gold' && <Users className="w-3 h-3 text-[#c9a96e]" />}
-                          {tier.id === 'silver' && <ShieldCheck className="w-3 h-3 text-[#c9a96e]" />}
-                          {tier.id === 'none' && <Check className="w-3 h-3 text-[#c9a96e]" />}
-                        </div>
-                        <div className="flex-1 space-y-1">
-                          <p className="text-sm text-[#e8e0d4] font-medium">
-                            {benefit}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+            <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-4">
+              {currentTier.name} Benefiti
+            </h3>
+            <div className="space-y-3">
+              {currentTier.benefits.map((benefit, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    {currentTier.id === 'platinum' && <Star className="w-3 h-3 text-[#c9a96e]" />}
+                    {currentTier.id === 'gold' && <Users className="w-3 h-3 text-[#c9a96e]" />}
+                    {currentTier.id === 'silver' && <ShieldCheck className="w-3 h-3 text-[#c9a96e]" />}
+                    {currentTier.id === 'none' && <Check className="w-3 h-3 text-[#c9a96e]" />}
+                  </div>
+                  <div className="flex-1 space-y-1">
+                    <p className="text-sm text-[#e8e0d4] font-medium">
+                      {benefit}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -174,7 +149,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
           {/* How to Earn More Points */}
           <div className="border-t border-[#e8e0d4]/10 pt-6">
             <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-4">
-              Kako da guadagnate više loyalty poena?
+              Kako da zaradite više loyalty poena?
             </h3>
             <div className="grid grid-cols-2 gap-4 text-center">
               <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
@@ -195,18 +170,18 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
               </div>
               <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
                 <div className="flex items-center justify-center mb-3">
-                  <Calendar className="w-6 h-6 text-[#c9a96e]" />
-                </div>
-                <p className="text-xs text-[#e8e0d4]/70">
-                  Monthly check-in: 50 poena
-                </p>
-              </div>
-              <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
-                <div className="flex items-center justify-center mb-3">
                   <Gift className="w-6 h-6 text-[#c9a96e]" />
                 </div>
                 <p className="text-xs text-[#e8e0d4]/70">
                   Rođendanski poklon: 1000 poena
+                </p>
+              </div>
+              <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
+                <div className="flex items-center justify-center mb-3">
+                  <Trophy className="w-6 h-6 text-[#c9a96e]" />
+                </div>
+                <p className="text-xs text-[#e8e0d4]/70">
+                  VIP nivo = posebni popusti
                 </p>
               </div>
             </div>

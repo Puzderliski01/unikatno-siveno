@@ -1,21 +1,94 @@
-import React, { useState } from 'react';
-import { MOCK_USER, getWishlistProducts, getPurchaseHistoryWithDetails } from '../data/mockUser';
+import React, { useState, useEffect } from 'react';
 import { Product } from '../types';
-import { FORMAT_RSD } from '../data/products';
-import { Eye, ShoppingBag, Sparkles, Trophy, Calendar, Users, Check, Heart, X } from 'lucide-react';
+import { PRODUCTS, FORMAT_RSD } from '../data/products';
+import { ShoppingBag, Trophy, Calendar, Users, Check, Heart, X, Loader2, LogOut } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useAuth } from '../lib/auth';
+import { supabase } from '../lib/supabase';
 
 interface UserProfileProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => {
-  const wishlistProducts = getWishlistProducts();
-  const purchaseHistory = getPurchaseHistoryWithDetails();
-  const [activeTab, setActiveTab] = useState('purchase-history');
+interface OrderItem {
+  id: string;
+  created_at: string;
+  status: string;
+  total_amount: number;
+  items: Array<{
+    name: string;
+    size: string;
+    price: number;
+    quantity: number;
+  }>;
+}
 
-  if (!isOpen) return null;
+interface WishlistItem {
+  id: string;
+  product_id: string;
+  product?: Product;
+}
+
+export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => {
+  const { user, profile, refreshProfile, signOut } = useAuth();
+  const [activeTab, setActiveTab] = useState('purchase-history');
+  const [orders, setOrders] = useState<OrderItem[]>([]);
+  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen && user) {
+      fetchUserData();
+    }
+  }, [isOpen, user]);
+
+  const fetchUserData = async () => {
+    if (!user) return;
+    setLoading(true);
+
+    try {
+      const [ordersResult, wishlistResult] = await Promise.all([
+        supabase
+          .from('orders')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('wishlists')
+          .select('*')
+          .eq('user_id', user.id)
+      ]);
+
+      if (ordersResult.data) {
+        setOrders(ordersResult.data);
+      }
+
+      if (wishlistResult.data) {
+        const itemsWithProducts = await Promise.all(
+          wishlistResult.data.map(async (item) => {
+            const product = PRODUCTS.find(p => p.id === item.product_id);
+            return { ...item, product };
+          })
+        );
+        setWishlistItems(itemsWithProducts);
+      }
+    } catch (err) {
+      console.error('Error fetching user data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    await signOut();
+    onClose();
+  };
+
+  if (!isOpen || !user) return null;
+
+  const vipLevel = profile?.vip_level || 'none';
+  const vipLevelNumber = vipLevel === 'silver' ? 2 : vipLevel === 'gold' ? 3 : vipLevel === 'platinum' ? 4 : 0;
 
   return (
     <div
@@ -41,6 +114,15 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
 
           <div className="flex items-center gap-3">
             <button
+              type="button"
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] uppercase tracking-wider text-[#e8e0d4]/60 hover:text-[#e8e0d4] hover:bg-[#e8e0d4]/5 transition-colors"
+              title="Odjavi se"
+            >
+              <LogOut className="w-3 h-3" />
+              <span className="hidden sm:inline">Odjavi se</span>
+            </button>
+            <button
               id="user-profile-close-btn"
               type="button"
               onClick={onClose}
@@ -53,25 +135,28 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Profile Content */}
-        <div className="flex-1 min-h-0 overflow-hidden p-4 sm:p-6 gap-6">
+        <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 space-y-6">
           {/* User Info Section */}
           <div className="space-y-4">
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 bg-[#1a1a1a] flex items-center justify-center rounded-full border border-[#c9a96e]/20">
-                <Sparkles className="w-8 h-8 text-[#c9a96e]" />
+                <span className="text-2xl font-serif-luxury text-[#c9a96e]">
+                  {profile?.full_name?.charAt(0) || user.email?.charAt(0)?.toUpperCase()}
+                </span>
               </div>
               <div className="space-y-1">
                 <h2 className="font-serif-luxury text-xl text-[#e8e0d4] font-normal leading-snug">
-                  {MOCK_USER.fullName}
+                  {profile?.full_name || 'Korisnik'}
                 </h2>
                 <p className="text-sm text-[#e8e0d4]/70 flex items-center gap-2">
                   <Calendar className="w-3 h-3 text-[#c9a96e]" />
-                  <span>Članica od {new Date(MOCK_USER.joinDate).toLocaleDateString('sr-RS', {
+                  <span>Članica od {new Date(user.created_at).toLocaleDateString('sr-RS', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
                   })}</span>
                 </p>
+                <p className="text-xs text-[#e8e0d4]/50">{user.email}</p>
               </div>
             </div>
 
@@ -83,17 +168,13 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
               </div>
               <div className="flex-1 space-x-4 text-right">
                 <span className="font-semibold text-[18px]">
-                  {MOCK_USER.vipLevel === 'none' ? 'Standard' : MOCK_USER.vipLevel.toUpperCase()}
+                  {vipLevel === 'none' ? 'Standard' : vipLevel.toUpperCase()}
                 </span>
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 justify-end">
                   {[1, 2, 3, 4].map((level) => (
                     <div
                       key={level}
-                      className={`w-2 h-2 bg-[#c9a96e] ${level <= (
-                        MOCK_USER.vipLevel === 'silver' ? 2 :
-                        MOCK_USER.vipLevel === 'gold' ? 3 :
-                        MOCK_USER.vipLevel === 'platinum' ? 4 : 0
-                      ) ? '' : '/20'} rounded-full`}
+                      className={`w-2 h-2 bg-[#c9a96e] ${level <= vipLevelNumber ? '' : '/20'} rounded-full`}
                     />
                   ))}
                 </div>
@@ -107,7 +188,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
                 <span className="text-xs uppercase tracking-wider text-[#c9a96e]">Loyalty poeni</span>
               </div>
               <div className="flex-1 text-right font-semibold text-[24px]">
-                {MOCK_USER.loyaltyPoints.toLocaleString()}
+                {profile?.loyalty_points?.toLocaleString() || '0'}
               </div>
             </div>
           </div>
@@ -137,175 +218,120 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
               >
                 Lista želja
               </button>
-              <button
-                type="button"
-                className={`whitespace-nowrap text-[11px] sm:text-xs uppercase tracking-wider pb-2 relative transition-colors flex-shrink-0 ${
-                  activeTab === 'exclusive'
-                    ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
-                    : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
-                }`}
-                onClick={() => setActiveTab('exclusive')}
-              >
-                Ekskluzivni pozivi
-              </button>
             </div>
 
             {/* Tab Content */}
             <div className="space-y-4">
-              {activeTab === 'purchase-history' && (
-                <div className="space-y-4">
-                  <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
-                    Povijest kupovina
-                  </h3>
-
-                  {purchaseHistory.length > 0 ? (
-                    purchaseHistory.map((item) => (
-                      <div key={item.id} className="border border-[#e8e0d4]/10 p-4 flex items-center gap-4">
-                        <div className="w-20 h-24 flex-shrink-0">
-                          <motion.img
-                            src={item.product.images[0]}
-                            alt={item.product.nameSr}
-                            className="w-full h-full object-cover object-center"
-                          />
-                        </div>
-                        <div className="flex-1 space-y-2">
-                          <h4 className="font-serif-luxury text-sm text-[#e8e0d4] font-normal">
-                            {item.product.nameSr}
-                          </h4>
-                          <p className="text-xs text-[#e8e0d4]/70">
-                            {item.product.subtitleSr}
-                          </p>
-                          <div className="flex items-center gap-4 text-xs">
-                            <span className="font-mono">{FORMAT_RSD(item.price)}</span>
-                            <span className="text-[#e8e0d4]/50">|</span>
-                            <span>{item.size}</span>
-                            <span className="text-[#e8e0d4]/50">|</span>
-                            <span className={`
-                              px-2 py-0.5 text-[9px] rounded
-                              ${item.status === 'delivered' ? 'bg-[#1a1a1a] text-[#c9a96e]' :
-                                item.status === 'processing' ? 'bg-[#1a1a1a] text-[#a08540]' :
-                                item.status === 'shipped' ? 'bg-[#1a1a1a] text-[#c9a96e]/50' :
-                                item.status === 'cancelled' ? 'bg-[#1a1a1a]/20 text-[#e8e0d4]/50' :
-                                                              'bg-[#1a1a1a]/20 text-[#e8e0d4]/50'}
-                            `}>
-                              {item.status === 'delivered' && 'Isporučeno'}
-                              {item.status === 'processing' && 'U obradi'}
-                              {item.status === 'shipped' && 'U transporte'}
-                              {item.status === 'cancelled' && 'Otkaženo'}
-                              {item.status === 'confirmed' && 'Potvrđeno'}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-center py-8 text-[#e8e0d4]/50">
-                      Nema kupovina u povijesti
-                    </p>
-                  )}
+              {loading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-6 h-6 text-[#c9a96e] animate-spin" />
                 </div>
-              )}
-              {activeTab === 'wishlist' && (
-                <div className="space-y-4">
-                  <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
-                    Lista želja
-                  </h3>
+              ) : (
+                <>
+                  {activeTab === 'purchase-history' && (
+                    <div className="space-y-4">
+                      <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
+                        Istorija kupovina
+                      </h3>
 
-                  {wishlistProducts.length > 0 ? (
-                    wishlistProducts.map((product) => (
-                      <div key={product.id} className="border border-[#e8e0d4]/10 p-4 flex items-center gap-4">
-                        <div className="w-20 h-24 flex-shrink-0">
-                          <motion.img
-                            src={product.images[0]}
-                            alt={product.nameSr}
-                            className="w-full h-full object-cover object-center"
-                          />
-                        </div>
-                        <div className="flex-1 space-y-2">
-                          <h4 className="font-serif-luxury text-sm text-[#e8e0d4] font-normal">
-                            {product.nameSr}
-                          </h4>
-                          <p className="text-xs text-[#e8e0d4]/70">
-                            {product.subtitleSr}
-                          </p>
-                          <div className="flex items-center gap-4 text-xs">
-                            <span className="font-mono">{FORMAT_RSD(product.priceRSD)}</span>
-                            <ShoppingBag className="w-3 h-3 text-[#c9a96e]" />
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-center py-8 text-[#e8e0d4]/50">
-                      Lista želja je prazna
-                    </p>
-                  )}
-                </div>
-              )}
-              {activeTab === 'exclusive' && (
-                <div className="space-y-4">
-                  <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
-                    Ekskluzivni pozivi
-                  </h3>
-
-                  {MOCK_USER.exclusiveInvitations.length > 0 ? (
-                    MOCK_USER.exclusiveInvitations.map((inv) => (
-                      <div key={inv.id} className="border border-[#e8e0d4]/10 p-4 flex items-center gap-4">
-                        <div className="w-20 h-24 flex-shrink-0">
-                          <div className="w-full h-full bg-[#1a1a1a] flex items-center justify-center">
-                            <Users className="w-6 h-6 text-[#c9a96e]" />
-                          </div>
-                        </div>
-                        <div className="flex-1 space-y-2">
-                          <h4 className="font-serif-luxury text-sm text-[#e8e0d4] font-normal">
-                            {inv.title}
-                          </h4>
-                          <p className="text-xs text-[#e8e0d4]/70">
-                            {inv.description}
-                          </p>
-                          <div className="flex items-center gap-4 text-xs">
-                            <span className="font-mono">
-                              {new Date(inv.date).toLocaleDateString('sr-RS', {
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric'
-                              })}
-                            </span>
-                            {inv.expiresAt && (
-                              <>
-                                <span className="text-[#e8e0d4]/50 mx-2">|</span>
-                                <span className="text-[9px] text-[#a08540]">
-                                  Važi do: {new Date(inv.expiresAt).toLocaleDateString('sr-RS', {
-                                    day: 'numeric',
-                                    month: 'short'
-                                  })}
-                                </span>
-                              </>
-                            )}
-                          </div>
-                          {inv.isRsvp && (
-                            <div className="mt-2 flex items-center gap-2 text-[9px]">
-                              <span className="text-[#e8e0d4]/50">RSVP:</span>
-                              <span className={`px-2 py-0.5 rounded
-                                ${inv.rsvpStatus === 'accepted' ? 'bg-[#1a1a1a] text-[#c9a96e]' :
-                                  inv.rsvpStatus === 'declined' ? 'bg-[#1a1a1a]/20 text-[#e8e0d4]/50' :
-                                                                'bg-[#1a1a1a] text-[#a08540]'}
+                      {orders.length > 0 ? (
+                        orders.map((order) => (
+                          <div key={order.id} className="border border-[#e8e0d4]/10 p-4">
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="text-xs text-[#e8e0d4]/50">
+                                {new Date(order.created_at).toLocaleDateString('sr-RS', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })}
+                              </div>
+                              <span className={`
+                                px-2 py-0.5 text-[9px] rounded
+                                ${order.status === 'delivered' ? 'bg-[#1a1a1a] text-[#c9a96e]' :
+                                  order.status === 'processing' ? 'bg-[#1a1a1a] text-[#a08540]' :
+                                  order.status === 'shipped' ? 'bg-[#1a1a1a] text-[#c9a96e]/50' :
+                                  order.status === 'cancelled' ? 'bg-[#1a1a1a]/20 text-[#e8e0d4]/50' :
+                                                                'bg-[#1a1a1a]/20 text-[#e8e0d4]/50'}
                               `}>
-                                {inv.rsvpStatus === 'pending' && 'Na čekanju'}
-                                {inv.rsvpStatus === 'accepted' && 'Prihvaćeno'}
-                                {inv.rsvpStatus === 'declined' && 'Odbaceno'}
+                                {order.status === 'delivered' && 'Isporučeno'}
+                                {order.status === 'processing' && 'U obradi'}
+                                {order.status === 'shipped' && 'U transportu'}
+                                {order.status === 'cancelled' && 'Otkazano'}
+                                {order.status === 'confirmed' && 'Potvrđeno'}
                               </span>
                             </div>
-                          )}
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-center py-8 text-[#e8e0d4]/50">
-                      Nema ekskluzivnih poziva
-                    </p>
+                            {order.items?.map((item, idx) => (
+                              <div key={idx} className="flex items-center gap-3 py-2 border-t border-[#e8e0d4]/5">
+                                <div className="w-12 h-14 flex-shrink-0 bg-[#1a1a1a] flex items-center justify-center">
+                                  <ShoppingBag className="w-4 h-4 text-[#c9a96e]" />
+                                </div>
+                                <div className="flex-1">
+                                  <p className="font-serif-luxury text-sm text-[#e8e0d4]">{item.name}</p>
+                                  <p className="text-xs text-[#e8e0d4]/50">Veličina: {item.size}</p>
+                                </div>
+                                <div className="text-right">
+                                  <p className="font-mono text-sm">{FORMAT_RSD(item.price)}</p>
+                                  <p className="text-xs text-[#e8e0d4]/50">x{item.quantity}</p>
+                                </div>
+                              </div>
+                            ))}
+                            <div className="mt-3 pt-3 border-t border-[#e8e0d4]/10 flex justify-between items-center">
+                              <span className="text-xs text-[#e8e0d4]/50">Ukupno</span>
+                              <span className="font-mono font-semibold">{FORMAT_RSD(order.total_amount)}</span>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-center py-8 text-[#e8e0d4]/50">
+                          Nema kupovina u istoriji
+                        </p>
+                      )}
+                    </div>
                   )}
-                </div>
+                  {activeTab === 'wishlist' && (
+                    <div className="space-y-4">
+                      <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
+                        Lista želja
+                      </h3>
+
+                      {wishlistItems.length > 0 ? (
+                        wishlistItems.map((item) => (
+                          <div key={item.id} className="border border-[#e8e0d4]/10 p-4 flex items-center gap-4">
+                            <div className="w-20 h-24 flex-shrink-0">
+                              {item.product?.images?.[0] ? (
+                                <img
+                                  src={item.product.images[0]}
+                                  alt={item.product.nameSr}
+                                  className="w-full h-full object-cover object-center"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-[#1a1a1a] flex items-center justify-center">
+                                  <Heart className="w-4 h-4 text-[#c9a96e]" />
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex-1 space-y-2">
+                              <h4 className="font-serif-luxury text-sm text-[#e8e0d4] font-normal">
+                                {item.product?.nameSr || 'Proizvod'}
+                              </h4>
+                              <p className="text-xs text-[#e8e0d4]/70">
+                                {item.product?.subtitleSr || ''}
+                              </p>
+                              <div className="flex items-center gap-4 text-xs">
+                                <span className="font-mono">{FORMAT_RSD(item.product?.priceRSD || 0)}</span>
+                                <ShoppingBag className="w-3 h-3 text-[#c9a96e]" />
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-center py-8 text-[#e8e0d4]/50">
+                          Lista želja je prazna
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
