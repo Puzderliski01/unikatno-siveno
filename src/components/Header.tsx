@@ -67,7 +67,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   return (
     <header className={`sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'shadow-lg' : ''}`}>
       {/* Top Announcement Bar */}
-      <div className="bg-[#111111] text-[#e8e0d4] text-[10px] sm:text-xs py-2 text-center font-sans tracking-[0.2em] uppercase border-b border-[#c9a96e]/20">
+      <div className="bg-[#111111] text-[#e8e0d4] text-[9px] sm:text-xs py-1 sm:py-2 text-center font-sans tracking-[0.2em] uppercase border-b border-[#c9a96e]/20">
         <span className="flex items-center justify-center gap-2 px-4">
           Besplatna dostava u Srbiji za porudžbine preko 10.000 RSD
         </span>
@@ -77,11 +77,11 @@ export const Header: React.FC<HeaderProps> = React.memo(({
       <nav
         className={`transition-all duration-300 border-b border-[#c9a96e]/20 ${
           isScrolled
-            ? 'bg-[#0a0a0a]/95 backdrop-blur-md py-3'
-            : 'bg-[#0a0a0a] py-4 sm:py-5'
+            ? 'bg-[#0a0a0a]/95 backdrop-blur-md py-2 sm:py-3'
+            : 'bg-[#0a0a0a] py-2.5 sm:py-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between lg:grid lg:grid-cols-3">
             
             {/* Desktop Left Nav Links */}
@@ -107,28 +107,28 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 }}
                 className="inline-block group"
               >
-                <h1 className="text-lg sm:text-xl lg:text-2xl tracking-[0.3em] font-light uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury">
+                <h1 className="text-base sm:text-xl lg:text-2xl tracking-[0.3em] font-light uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury">
                   Unikatno šiveno
                 </h1>
-                <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.4em] sm:tracking-[0.5em] text-[#c9a96e]/80 -mt-0.5 sm:-mt-1 font-sans">
+                <p className="text-[8px] sm:text-[10px] uppercase tracking-[0.4em] sm:tracking-[0.5em] text-[#c9a96e]/80 -mt-0.5 sm:-mt-1 font-sans">
                   Jelena Erić
                 </p>
               </a>
             </div>
 
             {/* Right Action Icons */}
-            <div className="flex items-center justify-end gap-1 sm:gap-2 lg:gap-4">
+            <div className="flex items-center justify-end gap-0.5 sm:gap-2 lg:gap-4">
               {/* Wishlist Button */}
               <Tooltip placement="bottom" label={`Lista želja (${wishlistCount} predmeta)`}>
                 <button
                   id="header-wishlist-btn"
                   type="button"
                   onClick={onOpenWishlist}
-                  className="relative p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                  className="relative p-1 sm:p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 >
-                  <Heart className={`w-4 h-4 sm:w-5 sm:h-5 ${wishlistCount > 0 ? 'fill-[#c9a96e] text-[#c9a96e]' : ''}`} />
+                  <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${wishlistCount > 0 ? 'fill-[#c9a96e] text-[#c9a96e]' : ''}`} />
                   {wishlistCount > 0 && (
-                    <span className="absolute top-0 right-0 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-[#c9a96e] text-[#0a0a0a] text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center">
+                    <span className="absolute top-0 right-0 w-3 h-3 sm:w-3.5 sm:h-3.5 bg-[#c9a96e] text-[#0a0a0a] text-[8px] sm:text-[9px] font-bold rounded-full flex items-center justify-center">
                       {wishlistCount}
                     </span>
                   )}
@@ -142,28 +142,28 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     id="header-user-profile-btn"
                     type="button"
                     onClick={onOpenUserProfile}
-                    className="relative p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                    className="relative p-1 sm:p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                   >
-                    <Trophy className="w-4 h-4" />
+                    <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                 </Tooltip>
               ) : (
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-0.5">
                   <button
                     type="button"
                     onClick={onOpenLogin}
-                    className="p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                    className="p-1 sm:p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                     title="Prijava"
                   >
-                    <LogIn className="w-4 h-4" />
+                    <LogIn className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                   <button
                     type="button"
                     onClick={onOpenSignup}
-                    className="p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                    className="p-1 sm:p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                     title="Registracija"
                   >
-                    <UserPlus className="w-4 h-4" />
+                    <UserPlus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                 </div>
               )}
@@ -174,9 +174,9 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   id="header-vip-btn"
                   type="button"
                   onClick={onOpenVIPBenefits}
-                  className="relative p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                  className="relative p-1 sm:p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 >
-                  <Star className="w-4 h-4" />
+                  <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </button>
               </Tooltip>
 
@@ -186,14 +186,14 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   id="header-cart-btn"
                   type="button"
                   onClick={onOpenCart}
-                  className="relative flex items-center gap-1 sm:gap-2 px-1.5 sm:px-3 py-1.5 border-b border-[#c9a96e]/50 hover:border-[#c9a96e] text-[#e8e0d4] hover:text-[#c9a96e] transition-all group"
+                  className="relative flex items-center gap-1 sm:gap-2 px-1 sm:px-2 py-1 border-b border-[#c9a96e]/50 hover:border-[#c9a96e] text-[#e8e0d4] hover:text-[#c9a96e] transition-all group"
                 >
-                  <ShoppingBag className="w-4 h-4 text-[#c9a96e] group-hover:scale-110 transition-transform" />
+                  <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#c9a96e] group-hover:scale-110 transition-transform" />
                   <span className="hidden sm:inline text-[10px] sm:text-xs uppercase tracking-widest font-sans font-medium">
                     Korpa ({cartCount})
                   </span>
                   {cartCount > 0 && (
-                    <span className="sm:hidden w-4 h-4 bg-[#c9a96e] text-[#0a0a0a] text-[9px] font-bold rounded-full flex items-center justify-center -mt-2 -mr-1">
+                    <span className="sm:hidden w-3 h-3 sm:w-4 sm:h-4 bg-[#c9a96e] text-[#0a0a0a] text-[8px] sm:text-[9px] font-bold rounded-full flex items-center justify-center -mt-2 -mr-1">
                       {cartCount}
                     </span>
                   )}
@@ -210,10 +210,10 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 id="mobile-menu-toggle-btn"
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                className="lg:hidden p-1 sm:p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 aria-label="Otvori navigacioni meni"
               >
-                {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
+                {mobileMenuOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
               </button>
             </div>
           </div>
