@@ -290,11 +290,16 @@
 }
 
 /* Mobile bottom nav bar glass effect */
-@media (max-width: 1023px) {
-  .liquid-glass:last-child {
-    border-top: 1px solid rgba(201, 169, 110, 0.25);
-    border-bottom: none;
-  }
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(10, 10, 10, 0.5);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border-top: 1px solid rgba(201, 169, 110, 0.25);
 }
 
 /* Add bottom padding on mobile for fixed bottom nav */

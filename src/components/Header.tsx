@@ -59,19 +59,19 @@ export const Header: React.FC<HeaderProps> = React.memo(({
     <>
       {/* Top Logo Bar - Mobile */}
       <div className="lg:hidden sticky top-0 z-40 liquid-glass">
-        <div className="flex items-center justify-center py-2.5">
+        <div className="flex items-center justify-center py-3">
           <a
             href="#"
             onClick={(e) => {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="inline-block group"
+            className="inline-block group text-center"
           >
-            <h1 className="text-base tracking-[0.3em] font-light uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury">
+            <h1 className="text-lg tracking-[0.3em] font-light uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury">
               Unikatno šiveno
             </h1>
-            <p className="text-[8px] uppercase tracking-[0.4em] text-[#c9a96e]/80 -mt-0.5 font-sans">
+            <p className="text-[9px] uppercase tracking-[0.4em] text-[#c9a96e]/80 font-sans text-center w-full">
               Jelena Erić
             </p>
           </a>
@@ -184,7 +184,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
       </header>
 
       {/* Mobile Bottom Nav Bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 liquid-glass border-t border-[#c9a96e]/25">
+      <div className="lg:hidden mobile-bottom-nav">
         <div className="flex items-center justify-around py-2 px-2">
           <button
             type="button"
