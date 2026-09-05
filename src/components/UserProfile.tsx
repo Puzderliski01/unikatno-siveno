@@ -2,7 +2,7 @@ import React from 'react';
 import { MOCK_USER, getWishlistProducts, getPurchaseHistoryWithDetails } from '../data/mockUser';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
-import { Eye, ShoppingBag, Sparkles, Trophy, Calendar, Users, Coin, Heart } from 'lucide-react';
+import { Eye, ShoppingBag, Sparkles, Trophy, Calendar, Users, Check, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface UserProfileProps {
@@ -102,7 +102,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
             {/* Loyalty Points */}
             <div className="flex items-center gap-4 bg-[#111111] p-4 rounded-none border border-[#c9a96e]/20">
               <div className="flex items-center gap-2">
-                <Coin className="w-4 h-4 text-[#c9a96e]" />
+                <Check className="w-4 h-4 text-[#c9a96e]" />
                 <span className="text-xs uppercase tracking-wider text-[#c9a96e]">Loyalty poeni</span>
               </div>
               <div className="flex-1 text-right font-semibold text-[24px]">

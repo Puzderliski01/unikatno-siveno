@@ -2,7 +2,7 @@ import React from 'react';
 import { MOCK_USER } from '../data/mockUser';
 import { VIP_TIERS, getVIPTierByLevel, calculateVIPProgress } from '../data/vipBenefits';
 import { FORMAT_RSD } from '../data/products';
-import { Trophy, Calendar, Users, Coin, ShieldCheck, Gift, Gift, Clock, Star } from 'lucide-react';
+import { Trophy, Calendar, Users, ShieldCheck, Gift, Clock, Star, Check } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface VIPBenefitsModalProps {
@@ -65,14 +65,16 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                 Vaš VIP status: {currentTier.name}
               </h2>
               {nextTier && (
-                <div className="flex items-center justify-center space-x-4 mt-4">
-                  <div className="w-8 h-0.5 bg-[#c9a96e]/20 flex-1"></div>
-                  <div className={`w-8 h-0.5 bg-[#c9a96e] flex-${progress / 100}`}></div>
-                  <div className="w-8 h-0.5 bg-[#c9a96e]/20 flex-1"></div>
-                </div>
-                <div className="flex items-center justify-center mt-2 text-xs text-[#e8e0d4]/70">
-                  <span>{pointsUntilNext} poena do {nextTier.name} statusa</span>
-                </div>
+                <>
+                  <div className="flex items-center justify-center space-x-4 mt-4">
+                    <div className="w-8 h-0.5 bg-[#c9a96e]/20 flex-1"></div>
+                    <div className={`w-8 h-0.5 bg-[#c9a96e] flex-${progress / 100}`}></div>
+                    <div className="w-8 h-0.5 bg-[#c9a96e]/20 flex-1"></div>
+                  </div>
+                  <div className="flex items-center justify-center mt-2 text-xs text-[#e8e0d4]/70">
+                    <span>{pointsUntilNext} poena do {nextTier.name} statusa</span>
+                  </div>
+                </>
               )}
               {!nextTier && (
                 <p className="text-xs text-[#e8e0d4]/70 mt-2">
@@ -146,7 +148,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                 <div key={tier.id} className={`hidden ${MOCK_USER.vipLevel === tier.id ? 'block' : ''}`}>
                   <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
                     {tier.name} Benefiti
-                  </p>
+                  </h3>
                   <div className="space-y-3">
                     {tier.benefits.map((benefit, index) => (
                       <div key={index} className="flex items-start gap-3">
@@ -154,7 +156,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                           {tier.id === 'platinum' && <Star className="w-3 h-3 text-[#c9a96e]" />}
                           {tier.id === 'gold' && <Users className="w-3 h-3 text-[#c9a96e]" />}
                           {tier.id === 'silver' && <ShieldCheck className="w-3 h-3 text-[#c9a96e]" />}
-                          {tier.id === 'none' && <Coin className="w-3 h-3 text-[#c9a96e]" />}
+                          {tier.id === 'none' && <Check className="w-3 h-3 text-[#c9a96e]" />}
                         </div>
                         <div className="flex-1 space-y-1">
                           <p className="text-sm text-[#e8e0d4] font-medium">
@@ -181,7 +183,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                 </div>
                 <p className="text-xs text-[#e8e0d4]/70">
                   Svaka potrošena 100 RSD = 1 poen
-                </div>
+                </p>
               </div>
               <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
                 <div className="flex items-center justify-center mb-3">
@@ -189,7 +191,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                 </div>
                 <p className="text-xs text-[#e8e0d4]/70">
                   Preporučite prijatelja: 500 poena
-                </div>
+                </p>
               </div>
               <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
                 <div className="flex items-center justify-center mb-3">
@@ -197,7 +199,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                 </div>
                 <p className="text-xs text-[#e8e0d4]/70">
                   Monthly check-in: 50 poena
-                </div>
+                </p>
               </div>
               <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
                 <div className="flex items-center justify-center mb-3">
@@ -205,7 +207,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                 </div>
                 <p className="text-xs text-[#e8e0d4]/70">
                   Rođendanski poklon: 1000 poena
-                </div>
+                </p>
               </div>
             </div>
           </div>

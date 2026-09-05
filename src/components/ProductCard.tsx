@@ -92,13 +92,9 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
               }}
               whileHover={{ scale: 1.15 }}
               whileTap={{ scale: 0.85 }}
-              className={`p-2 transition-all duration-300 ${
-                isWishlisted
-                  ? 'bg-[#c9a96e] text-[#0a0a0a] shadow-md'
-                  : 'bg-[#0a0a0a]/90 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] border border-[#c9a96e]/20'
-              }"}
+              className={`p-2 transition-all duration-300 ${isWishlisted ? 'bg-[#c9a96e] text-[#0a0a0a] shadow-md' : 'bg-[#0a0a0a]/90 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] border border-[#c9a96e]/20'}`}
             >
-              <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
+              <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-center' : ''}`} />
             </motion.button>
           </Tooltip>
         </div>
@@ -126,11 +122,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
                         e.stopPropagation();
                         setSelectedQuickSize(size);
                       }}
-                      className={`px-2 py-0.5 text-[9px] font-mono transition-colors ${
-                        selectedQuickSize === size
-                          ? 'bg-[#c9a96e] text-[#0a0a0a] font-bold'
-                          : 'bg-white/10 text-white hover:bg-white/20'
-                      }`}
+                      className={`px-2 py-0.5 text-[9px] font-mono transition-colors ${selectedQuickSize === size ? 'bg-[#c9a96e] text-[#0a0a0a] font-bold' : 'bg-white/10 text-white hover:bg-white/20'}`}
                     >
                       {size.split(' ')[0]}
                     </button>
@@ -179,11 +171,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
                     disabled={isQuickAdding}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`py-2 px-1.5 font-medium text-[10px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-all ${
-                      addedJustNow
-                        ? 'bg-[#0a0a0a] text-[#c9a96e]'
-                        : 'bg-[#c9a96e] hover:bg-[#a7823b] text-[#0a0a0a]'
-                    }`}
+                    className={`py-2 px-1.5 font-medium text-[10px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-all ${addedJustNow ? 'bg-[#0a0a0a] text-[#c9a96e]' : 'bg-[#c9a96e] hover:bg-[#a7823b] text-[#0a0a0a]'}`}
                   >
                     {addedJustNow ? (
                       <>

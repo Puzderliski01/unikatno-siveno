@@ -1,6 +1,5 @@
 import { useCallback, useRef, useEffect } from 'react';
 import { Product } from '../types';
-import { useImagePreloader } from './useImagePreloader';
 
 interface PredictivePreloadOptions {
   preloadOnHover?: boolean;
@@ -28,7 +27,6 @@ export const usePredictivePreload = (
     maxPreload = 5
   } = options;
 
-  const [imagePreloader] = useImagePreloader([]);
   const interactionHistory = useRef<UserInteraction[]>([]);
   const preloadedProducts = useRef<Set<string>>(new Set());
   const lastScrollPosition = useRef(0);

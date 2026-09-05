@@ -5,7 +5,7 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductGrid } from './components/ProductGrid';
 import { AboutSection } from './components/AboutSection';
-import { ContactSection } from './components/ContactSection };
+import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { ToastContainer, ToastMessage } from './components/Toast';
 import { fetchProducts } from './lib/supabase';
