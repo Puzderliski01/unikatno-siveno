@@ -32,5 +32,6 @@
   "categories": ["shopping", "lifestyle", "fashion"],
   "lang": "sr-RS",
   "dir": "ltr",
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "version": "2.0.0"
 }

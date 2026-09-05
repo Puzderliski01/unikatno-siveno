@@ -1,15 +1,14 @@
 // Service Worker for Unikatno šiveno – Jelena Erić PWA
-const CACHE_NAME = 'unikatno-siveno-v1';
+const CACHE_NAME = 'unikatno-siveno-v2'; // Incremented to bust cache
 const OFFLINE_URL = '/offline.html';
 
+// Only cache essential app shell - NOT dynamic asset chunks
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/manifest.json',
   '/logo.png',
-  '/offline.html',
-  '/src/main.tsx',
-  // Add other critical resources here
+  '/offline.html'
 ];
 
 // Install event - cache essential files
@@ -39,47 +38,83 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - network-first for fresh content, cache fallback for offline
 self.addEventListener('fetch', (event) => {
-  // Skip cross-origin requests
-  if (!event.request.url.startsWith(self.location.origin)) {
+  // Skip cross-origin requests and non-GET requests
+  if (!event.request.url.startsWith(self.location.origin) ||
+      event.request.method !== 'GET') {
     return;
   }
 
   event.respondWith(
-    caches.match(event.request)
-      .then((cachedResponse) => {
-        // Return cached response if found
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        // Otherwise, fetch from network
-        return fetch(event.request)
-          .then((networkResponse) => {
-            // Don't cache non-success responses
-            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-              return networkResponse;
+    // Try network first for fresh content
+    fetch(event.request)
+      .then((networkResponse) => {
+        // Return network response immediately
+        return networkResponse;
+      })
+      .catch(() => {
+        // If network fails, try cache
+        return caches.match(event.request)
+          .then((cachedResponse) => {
+            // Return cached response if found
+            if (cachedResponse) {
+              return cachedResponse;
             }
 
-            // Clone the response since it's a stream that can only be consumed once
-            const responseToCache = networkResponse.clone();
-
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-
-            return networkResponse;
-          })
-          .catch(() => {
-            // If network fails, try to return offline page
+            // If it's a navigation request, return offline page
             if (event.request.mode === 'navigate') {
               return caches.match(OFFLINE_URL);
             }
+
+            // Otherwise, return nothing (let browser handle error)
+            return null;
           });
       })
   );
+});
+
+// Listen for push notifications
+self.addEventListener('push', (event) => {
+  const options = {
+    body: event.data ? event.data.text() : 'Nova poruka od Jelene Erić',
+    icon: '/logo.png',
+    badge: '/logo.png',
+    tag: 'unikatno-siveno-push',
+    renotify: true,
+    actions: [
+      {
+        action: 'explore',
+        title: 'Istražite kolekciju',
+        icon: '/logo.png'
+      },
+      {
+        action: 'close',
+        title: 'Zatvori',
+        icon: '/logo.png'
+      }
+    ]
+  };
+
+  event.waitUntil(
+    self.registration.showNotification('Unikatno šiveno – Jelena Erić', options)
+  );
+});
+
+// Handle notification clicks
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+
+  if (event.action === 'explore') {
+    event.waitUntil(
+      clients.openWindow('/')
+    );
+  } else {
+    // Default action - open app
+    event.waitUntil(
+      clients.openWindow('/')
+    );
+  }
 });
 
 // Listen for push notifications
