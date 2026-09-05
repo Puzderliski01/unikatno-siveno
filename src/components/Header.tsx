@@ -91,7 +91,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             </div>
 
             {/* Brand Logo Centered */}
-            <div className="text-center">
+            <div className="flex items-center justify-center">
               <a
                 href="#"
                 onClick={(e) => {
