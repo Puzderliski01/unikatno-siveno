@@ -21,6 +21,7 @@
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
+    font-feature-settings: "lnum", "tnum"; /* Lining and Tabular numbers */
   }
 
   body {
@@ -29,6 +30,104 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings: slight tightening for luxury */
+  h1, h2, h3 {
+    letter-spacing: -0.02em;
+  }
+
+  /* Body text: improved line height for readability */
+  p {
+    line-height: 1.6;
+    margin-bottom: 1.4rem;
+  }
+
+  /* Price numbers: tabular alignment */
+  .price {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Luxury gold accent with subtle texture */
+  .luxury-gold {
+    /* Using a very fine noise pattern as background-image for texture */
+    background-image:
+      radial-gradient(circle at center, rgba(201,169,110,0.03) 1px, transparent 1px),
+      linear-gradient(135deg, var(--color-gold-500) 0%, var(--color-gold-600) 100%);
+    background-size: 20px 20px, 100% 100%;
+  }
+
+  /* Luxury background gradient for sections */
+  .luxury-bg {
+    background-image:
+      linear-gradient(180deg, var(--color-canvas) 0%, rgba(10,10,10,0.9) 100%);
+    /* Alternative: subtle gradient to add depth */
+    /* background-image: linear-gradient(180deg, #0a0a0a 0%, #080808 100%); */
+  }
+
+  /* Animated luxury background for footer */
+  .footer-bg-animate {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-bg-animate::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(45deg, transparent 30%, rgba(201, 169, 110, 0.03) 50%, transparent 70%),
+      linear-gradient(-45deg, transparent 30%, rgba(201, 169, 110, 0.03) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: footerGradientShift 15s ease infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  @keyframes footerGradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Material simulation hover effect */
+  .luxury-hover:hover {
+    @apply shadow-[0_4px_12px_rgba(201,169,110,0.3)];
+    transform: translate-y(-1px);
+  }
+
+  /* Footer column hover effect */
+  .footer-column-hover:hover {
+    @apply shadow-[0_2px_8px_rgba(201,169,110,0.2)];
+    transform: translate-y(-2px);
+    transition: all 0.4s cubic-bezier(0.25, 0.09, 0.4, 0.93);
+  }
+
+  /* Studio light overlay for product images */
+  .studio-light-overlay {
+    position: relative;
+  }
+  .studio-light-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.15) 100%);
+    pointer-events: none;
+  }
+
+  /* Perspective for 3D transforms */
+  .perspective-1000 {
+    perspective: 1000px;
   }
 
   /* Custom subtle scrollbar */
@@ -59,4 +158,85 @@
 
 .geometric-grid-border {
   border-color: rgba(197, 160, 89, 0.3);
+}
+
+/* Luxury Tooltips */
+.luxury-tooltip {
+  position: fixed;
+  padding: 6px 12px;
+  background: rgba(10, 10, 10, 0.95);
+  color: #e8e0d4;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0;
+  transform: scale(0.9);
+  will-change: opacity, transform;
+}
+
+.luxury-tooltip-top {
+  transform-origin: bottom center;
+}
+
+.luxury-tooltip-bottom {
+  transform-origin: top center;
+}
+
+.luxury-tooltip-left {
+  transform-origin: center right;
+}
+
+.luxury-tooltip-right {
+  transform-origin: center left;
+}
+
+/* Tooltip arrow */
+.luxury-tooltip::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+}
+
+/* Position-specific arrows */
+.luxury-tooltip-top::after {
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: rgba(10, 10, 10, 0.95);
+}
+
+.luxury-tooltip-bottom::after {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: rgba(10, 10, 10, 0.95);
+}
+
+.luxury-tooltip-left::after {
+  top: 50%;
+  right: -5px;
+  transform: translateY(-50%);
+  border-left-color: rgba(10, 10, 10, 0.95);
+}
+
+.luxury-tooltip-right::after {
+  top: 50%;
+  left: -5px;
+  transform: translateY(-50%);
+  border-right-color: rgba(10, 10, 10, 0.95);
+}
+
+/* Show tooltip on hover */
+.luxury-tooltip.show {
+  opacity: 1;
+  transform: scale(1);
 }

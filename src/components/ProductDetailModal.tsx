@@ -3,6 +3,8 @@ import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Rul
 import { motion } from 'motion/react';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
+import { OptimizedImage } from './OptimizedImage';
+import { usePredictivePreload } from '../hooks/usePredictivePreload';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -27,6 +29,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [selectedSize, setSelectedSize] = useState<string>('S (36)');
   const [activeTab, setActiveTab] = useState<'opis' | 'materijali' | 'velicine' | 'isporuka'>('opis');
   const [addedAnimation, setAddedAnimation] = useState(false);
+  const { handleProductView } = usePredictivePreload(product ? [product] : [], {
+    preloadOnHover: false,
+    preloadOnScroll: false,
+    preloadNextInCategory: true,
+    preloadPopularItems: true
+  });
   
   // Custom bespoke measurement state
   const [isCustomTailored, setIsCustomTailored] = useState(false);
@@ -44,6 +52,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     }
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
+
+  // Call predictive preload when product changes or modal opens
+  useEffect(() => {
+    if (product) {
+      handleProductView(product.id);
+    }
+  }, [product, handleProductView]);
 
   if (!isOpen || !product) return null;
 
@@ -120,13 +135,27 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           
           {/* Left Column: Image (fixed height on mobile, scrollable on desktop) */}
           <div className="lg:col-span-6">
-            <div className="relative aspect-square sm:aspect-[3/4] w-full overflow-hidden bg-[#111111] border border-[#e8e0d4]/10 group">
-              <img
-                src={product.images[activeImageIndex]}
-                alt={`${product.nameSr} - pogled ${activeImageIndex + 1}`}
-                className="w-full h-full object-cover object-center cursor-zoom-in"
-                onClick={() => onOpenZoom(product, activeImageIndex)}
-              />
+            <div className="relative aspect-square sm:aspect-[3/4] w-full overflow-hidden bg-[#111111] border border-[#e8e0d4]/10 group studio-light-overlay">
+              <motion.div
+                initial={{ scale: 1, rotate: 0 }}
+                animate={{
+                  scale: [1, 1.02],
+                  rotate: [-0.2, 0.2]
+                }}
+                transition={{
+                  duration: 20,
+                  ease: "linear",
+                  repeat: Infinity,
+                  repeatType: "loop"
+                }}
+              >
+                <OptimizedImage
+                  src={product.images[activeImageIndex]}
+                  alt={`${product.nameSr} - pogled ${activeImageIndex + 1}`}
+                  className="w-full h-full object-cover object-center cursor-zoom-in"
+                  onClick={() => onOpenZoom(product, activeImageIndex)}
+                />
+              </motion.div>
 
               {/* Carousel controls */}
               {product.images.length > 1 && (
@@ -179,7 +208,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         : 'border-[#e8e0d4]/15 opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt={`Sličica ${idx + 1}`} className="w-full h-full object-cover" />
+                    <OptimizedImage src={img} alt={`Sličica ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>

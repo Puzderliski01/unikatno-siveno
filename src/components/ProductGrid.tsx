@@ -4,6 +4,7 @@ import { Product } from '../types';
 import { ProductCard } from './ProductCard';
 import { motion } from 'motion/react';
 import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
+import { usePredictivePreload } from '../hooks/usePredictivePreload';
 
 interface ProductGridProps {
   products: Product[];
@@ -23,6 +24,13 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   onToggleWishlist,
 }) => {
   const { getVariants, getInViewOptions } = useScrollAnimation();
+  const { handleProductHover } = usePredictivePreload(products, {
+    preloadOnHover: true,
+    preloadOnScroll: true,
+    preloadNextInCategory: true,
+    preloadPopularItems: true,
+    maxPreload: 3
+  });
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc' | 'name'>('default');
   const [gridCols, setGridCols] = useState<1 | 2 | 3 | 4>(3);
@@ -75,7 +83,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
             hidden: { opacity: 0 },
             visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
           }}
-          className="text-center max-w-3xl mx-auto mb-14"
+          className="perspective-1000 text-center max-w-3xl mx-auto mb-14"
         >
           <motion.div variants={getVariants(staggerItemVariants)} className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-medium mb-3">
             <Sparkles className="w-3.5 h-3.5" />
@@ -96,7 +104,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
           whileInView="visible"
           viewport={inViewOptions}
           variants={getVariants(fadeInUpVariants)}
-          className="bg-[#111111] border border-[#c9a96e]/20 rounded-none p-4 mb-10 flex flex-col md:flex-row items-center justify-between gap-4"
+          className="perspective-1000 bg-[#111111] border border-[#c9a96e]/20 rounded-none p-4 mb-10 flex flex-col md:flex-row items-center justify-between gap-4"
         >
 
           {/* Advanced Filters */}

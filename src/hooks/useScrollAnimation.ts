@@ -35,6 +35,7 @@ export const fadeInUpVariants = {
   visible: {
     opacity: 1,
     y: 0,
+    translateZ: 20,
     transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
   },
 };

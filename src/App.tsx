@@ -5,10 +5,12 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductGrid } from './components/ProductGrid';
 import { AboutSection } from './components/AboutSection';
-import { ContactSection } from './components/ContactSection';
+import { ContactSection } from './components/ContactSection };
 import { Footer } from './components/Footer';
 import { ToastContainer, ToastMessage } from './components/Toast';
 import { fetchProducts } from './lib/supabase';
+import { UserProfile } from './components/UserProfile';
+import { VIPBenefitsModal } from './components/VIPBenefitsModal';
 
 const ProductDetailModal = lazy(() =>
   import('./components/ProductDetailModal').then((m) => ({ default: m.ProductDetailModal }))
@@ -55,6 +57,8 @@ export default function App() {
   // Modal / Drawer visibility states
   const [selectedProductForDetail, setSelectedProductForDetail] = useState<Product | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
+  const [isVipOpen, setIsVipOpen] = useState(false);
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -144,6 +148,16 @@ export default function App() {
     setWishlistIds((prev) => prev.filter((id) => id !== product.id));
   };
 
+  // User Profile Handler
+  const handleOpenUserProfile = () => {
+    setIsUserProfileOpen(true);
+  };
+
+  // VIP Benefits Handler
+  const handleOpenVIPBenefits = () => {
+    setIsVipOpen(true);
+  };
+
   // Zoom / Lightbox Handlers
   const handleOpenZoom = (product: Product, index: number = 0) => {
     setLightboxImages(product.images);
@@ -197,6 +211,8 @@ export default function App() {
         wishlistCount={wishlistIds.length}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
+        onOpenUserProfile={handleOpenUserProfile}
+        onOpenVIPBenefits={handleOpenVIPBenefits}
       />
 
       {/* Full Bleed Luxury Hero Section */}
@@ -277,6 +293,18 @@ export default function App() {
           onRemoveFromWishlist={handleToggleWishlist}
           onMoveToCart={handleMoveWishlistToCart}
           onOpenDetails={handleOpenDetails}
+        />
+
+        {/* User Profile Modal */}
+        <UserProfile
+          isOpen={isUserProfileOpen}
+          onClose={() => setIsUserProfileOpen(false)}
+        />
+
+        {/* VIP Benefits Modal */}
+        <VIPBenefitsModal
+          isOpen={isVipOpen}
+          onClose={() => setIsVipOpen(false)}
         />
 
         {/* High-Resolution Image Lightbox Zoom */}

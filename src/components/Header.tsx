@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Heart, Menu, X } from 'lucide-react';
+import { ShoppingBag, Heart, Menu, X, Trophy, Star } from 'lucide-react';
 import { FORMAT_RSD } from '../data/products';
+import { Tooltip } from './Tooltip';
 
 interface HeaderProps {
   cartCount: number;
@@ -8,6 +9,8 @@ interface HeaderProps {
   wishlistCount: number;
   onOpenCart: () => void;
   onOpenWishlist: () => void;
+  onOpenUserProfile: () => void;
+  onOpenVIPBenefits: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = React.memo(({
@@ -15,7 +18,9 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   cartTotal,
   wishlistCount,
   onOpenCart,
-  onOpenWishlist
+  onOpenWishlist,
+  onOpenUserProfile,
+  onOpenVIPBenefits
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -108,39 +113,71 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             {/* Right Action Icons */}
             <div className="flex items-center justify-end gap-2 sm:gap-4">
               {/* Wishlist Button */}
-              <button
-                id="header-wishlist-btn"
-                type="button"
-                onClick={onOpenWishlist}
-                className="relative p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
-                aria-label={`Lista želja (${wishlistCount} predmeta)`}
-              >
-                <Heart className={`w-4 h-4 sm:w-5 sm:h-5 ${wishlistCount > 0 ? 'fill-[#c9a96e] text-[#c9a96e]' : ''}`} />
-                {wishlistCount > 0 && (
-                  <span className="absolute top-0 right-0 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-[#c9a96e] text-[#0a0a0a] text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center">
-                    {wishlistCount}
+              <Tooltip placement="bottom" label={`Lista želja (${wishlistCount} predmeta)`}>
+                <button
+                  id="header-wishlist-btn"
+                  type="button"
+                  onClick={onOpenWishlist}
+                  className="relative p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                >
+                  <Heart className={`w-4 h-4 sm:w-5 sm:h-5 ${wishlistCount > 0 ? 'fill-[#c9a96e] text-[#c9a96e]' : ''}`} />
+                  {wishlistCount > 0 && (
+                    <span className="absolute top-0 right-0 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-[#c9a96e] text-[#0a0a0a] text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </button>
+              </Tooltip>
+
+              {/* User Profile Button */}
+              <Tooltip placement="bottom" label="Profil korisnika">
+                <button
+                  id="header-user-profile-btn"
+                  type="button"
+                  onClick={onOpenUserProfile}
+                  className="relative p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                >
+                  <Trophy className="w-4 h-4" />
+                  <span className="hidden sm:inline-block text-[10px] font-sans font-medium">
+                    Profil
                   </span>
-                )}
-              </button>
+                </button>
+              </Tooltip>
+
+              {/* VIP Benefits Button */}
+              <Tooltip placement="bottom" label="VIP Benefiti">
+                <button
+                  id="header-vip-btn"
+                  type="button"
+                  onClick={onOpenVIPBenefits}
+                  className="relative p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                >
+                  <Star className="w-4 h-4" />
+                  <span className="hidden sm:inline-block text-[10px] font-sans font-medium">
+                    VIP
+                  </span>
+                </button>
+              </Tooltip>
 
               {/* Mini-Cart Trigger Button */}
-              <button
-                id="header-cart-btn"
-                type="button"
-                onClick={onOpenCart}
-                className="relative flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 border-b border-[#c9a96e]/50 hover:border-[#c9a96e] text-[#e8e0d4] hover:text-[#c9a96e] transition-all group"
-                aria-label={`Korpa (${cartCount} artikala, ukupno ${FORMAT_RSD(cartTotal)})`}
-              >
-                <ShoppingBag className="w-4 h-4 text-[#c9a96e] group-hover:scale-110 transition-transform" />
-                <span className="text-[10px] sm:text-xs uppercase tracking-widest font-sans font-medium">
-                  Korpa ({cartCount})
-                </span>
-                {cartCount > 0 && (
-                  <span className="hidden md:inline text-[11px] font-mono text-[#c9a96e] font-semibold ml-1">
-                    • {FORMAT_RSD(cartTotal)}
+              <Tooltip placement="bottom" label={`Korpa (${cartCount} artikala, ukupno ${FORMAT_RSD(cartTotal)})`}>
+                <button
+                  id="header-cart-btn"
+                  type="button"
+                  onClick={onOpenCart}
+                  className="relative flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 border-b border-[#c9a96e]/50 hover:border-[#c9a96e] text-[#e8e0d4] hover:text-[#c9a96e] transition-all group"
+                >
+                  <ShoppingBag className="w-4 h-4 text-[#c9a96e] group-hover:scale-110 transition-transform" />
+                  <span className="text-[10px] sm:text-xs uppercase tracking-widest font-sans font-medium">
+                    Korpa ({cartCount})
                   </span>
-                )}
-              </button>
+                  {cartCount > 0 && (
+                    <span className="hidden md:inline text-[11px] font-mono text-[#c9a96e] font-semibold ml-1">
+                      • {FORMAT_RSD(cartTotal)}
+                    </span>
+                  )}
+                </button>
+              </Tooltip>
 
               {/* Mobile Menu Button */}
               <button

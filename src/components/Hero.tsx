@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowDown, Scissors, ShieldCheck, Ruler } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
@@ -9,6 +9,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
   const { isMobile } = useScrollAnimation();
+  const [videoEnded, setVideoEnded] = useState(false);
 
   const { scrollYProgress } = useScroll({
     offset: ['start start', 'end start'],
@@ -20,19 +21,33 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const contentScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.92]);
 
-  // Mobile: simple static hero
+  // Mobile: simple static hero with video fallback
   if (isMobile) {
     return (
       <div className="relative w-full bg-[#0a0a0a]">
-        <div
-          className="absolute inset-0 z-0 opacity-20"
-          style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=800&q=60")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'brightness(0.4) contrast(1.2)'
-          }}
-        />
+        {/* Video Background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 z-0"
+          onEnded={() => setVideoEnded(true)}
+        >
+          <source src="/videos/hero-mobile.mp4" type="video/mp4" />
+          <source src="/videos/hero-mobile.webm" type="video/webm" />
+          {/* Fallback to static image */}
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: 'url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=800&q=60")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'brightness(0.4) contrast(1.2)'
+            }}
+          />
+        </video>
+
         <div className="absolute inset-0 z-[1] pointer-events-none">
           <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/80 via-[#0a0a0a]/40 to-[#0a0a0a]/90" />
         </div>
@@ -76,25 +91,39 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
     );
   }
 
-  // Desktop: parallax hero with animations
+  // Desktop: parallax hero with video background
   return (
     <div className="relative" style={{ height: '120vh' }}>
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Background */}
+        {/* Video Background */}
         <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
           <motion.div className="absolute inset-0 bg-[#0a0a0a]" style={{ scale: bgScale }} />
-          <motion.div
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
             className="absolute inset-0 opacity-20"
             style={{
-              backgroundImage: 'url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=1200&q=70")',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'brightness(0.4) contrast(1.2)'
+              objectFit: 'cover',
+              width: '100%',
+              height: '100%'
             }}
-            initial={{ scale: 1.15, opacity: 0 }}
-            animate={{ scale: 1.2, opacity: 0.3 }}
-            transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
-          />
+            onEnded={() => setVideoEnded(true)}
+          >
+            <source src="/videos/hero-desktop.mp4" type="video/mp4" />
+            <source src="/videos/hero-desktop.webm" type="video/webm" />
+            {/* Fallback to static image */}
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: 'url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=1200&q=70")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'brightness(0.4) contrast(1.2)'
+              }}
+            />
+          </video>
         </motion.div>
 
         {/* Overlay */}

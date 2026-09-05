@@ -72,3 +72,37 @@ export interface CheckoutFormData {
   isGiftWrap: boolean;
   giftNote?: string;
 }
+
+export interface User {
+  id: string;
+  fullName: string;
+  email: string;
+  phone?: string;
+  joinDate: string;
+  loyaltyPoints: number;
+  vipLevel: 'none' | 'silver' | 'gold' | 'platinum';
+  purchaseHistory: PurchaseHistoryItem[];
+  wishlist: string[]; // Product IDs
+  exclusiveInvitations: ExclusiveInvitation[];
+}
+
+export interface PurchaseHistoryItem {
+  id: string;
+  date: string;
+  productId: string;
+  productName: string;
+  size: string;
+  price: number;
+  status: 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+}
+
+export interface ExclusiveInvitation {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  type: 'new_collection' | 'private_sale' | 'event' | 'limited_edition';
+  expiresAt?: string;
+  isRsvp: boolean;
+  rsvpStatus?: 'pending' | 'accepted' | 'declined';
+}
