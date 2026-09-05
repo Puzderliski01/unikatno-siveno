@@ -44,7 +44,8 @@ export default function App() {
 
   useEffect(() => {
     fetchProducts().then((dbProducts) => {
-      if (dbProducts.length > 0) setProducts(dbProducts);
+      const validProducts = dbProducts.filter(p => p.images && p.images.length > 0 && p.images[0]);
+      if (validProducts.length > 0) setProducts(validProducts);
     });
   }, []);
 

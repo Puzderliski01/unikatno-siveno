@@ -44,7 +44,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
   return (
     <div
       id={`product-card-${product.id}`}
-      className="group relative bg-[#111111] border border-[#c9a96e]/20 hover:border-[#c9a96e]/60 rounded-none overflow-hidden transition-all duration-500 flex flex-col cursor-pointer shadow-sm hover:shadow-[0_8px_40px_rgba(201,169,110,0.25)] hover:scale-105 hover:rotate-[0.5deg] perspective-1000"
+      className="group relative bg-[#111111] border border-[#c9a96e]/20 hover:border-[#c9a96e]/60 rounded-none overflow-hidden transition-all duration-500 flex flex-col cursor-pointer shadow-sm hover:shadow-[0_8px_40px_rgba(201,169,110,0.25)]"
       onMouseEnter={(e) => {
         setIsHovered(true);
         handleProductHover(product.id);
