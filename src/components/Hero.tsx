@@ -10,6 +10,7 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
   const { isMobile } = useScrollAnimation();
   const [videoEnded, setVideoEnded] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
 
   const { scrollYProgress } = useScroll({
     offset: ['start start', 'end start'],
@@ -26,27 +27,35 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
     return (
       <div className="relative w-full bg-[#0a0a0a]">
         {/* Video Background */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 z-0"
-          onEnded={() => setVideoEnded(true)}
-        >
-          <source src="/videos/hero-mobile.mp4" type="video/mp4" />
-          <source src="/videos/hero-mobile.webm" type="video/webm" />
-          {/* Fallback to static image */}
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              backgroundImage: 'url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=800&q=60")',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'brightness(0.4) contrast(1.2)'
-            }}
-          />
-        </video>
+        <div className="absolute inset-0 z-0">
+          {/* Try to load video */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0"
+            onEnded={() => setVideoEnded(true)}
+            onLoadStart={() => setIsVideoLoading(false)}
+            onError={() => setIsVideoLoading(false)}
+          >
+            <source src="/videos/hero-mobile.mp4" type="video/mp4" />
+            <source src="/videos/hero-mobile.webm" type="video/webm" />
+          </video>
+
+          {/* Show fallback if video fails to load or is loading */}
+          {!isVideoLoading && (
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: 'url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=800&q=60")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'brightness(0.4) contrast(1.2)'
+              }}
+            />
+          )}
+        </div>
 
         <div className="absolute inset-0 z-[1] pointer-events-none">
           <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/80 via-[#0a0a0a]/40 to-[#0a0a0a]/90" />
@@ -98,32 +107,42 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
         {/* Video Background */}
         <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
           <motion.div className="absolute inset-0 bg-[#0a0a0a]" style={{ scale: bgScale }} />
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 opacity-20"
-            style={{
-              objectFit: 'cover',
-              width: '100%',
-              height: '100%'
-            }}
-            onEnded={() => setVideoEnded(true)}
-          >
-            <source src="/videos/hero-desktop.mp4" type="video/mp4" />
-            <source src="/videos/hero-desktop.webm" type="video/webm" />
-            {/* Fallback to static image */}
-            <div
+
+          {/* Video container */}
+          <div className="absolute inset-0">
+            {/* Try to load video */}
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
               className="absolute inset-0"
               style={{
-                backgroundImage: 'url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=1200&q=70")',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                filter: 'brightness(0.4) contrast(1.2)'
+                objectFit: 'cover',
+                width: '100%',
+                height: '100%'
               }}
-            />
-          </video>
+              onEnded={() => setVideoEnded(true)}
+              onLoadStart={() => setIsVideoLoading(false)}
+              onError={() => setIsVideoLoading(false)}
+            >
+              <source src="/videos/hero-desktop.mp4" type="video/mp4" />
+              <source src="/videos/hero-desktop.webm" type="video/webm" />
+            </video>
+
+            {/* Show fallback if video fails to load or is loading */}
+            {!isVideoLoading && (
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: 'url("https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=1200&q=70")',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  filter: 'brightness(0.4) contrast(1.2)'
+                }}
+              />
+            )}
+          </div>
         </motion.div>
 
         {/* Overlay */}
