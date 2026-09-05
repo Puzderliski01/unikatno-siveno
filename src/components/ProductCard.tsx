@@ -5,7 +5,6 @@ import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
 import { OptimizedImage } from './OptimizedImage';
 import { usePredictivePreload } from '../hooks/usePredictivePreload';
-import { Tooltip } from './Tooltip';
 
 interface ProductCardProps {
   product: Product;
@@ -28,7 +27,6 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
   const [selectedQuickSize, setSelectedQuickSize] = useState<string>(product.sizes[1] || product.sizes[0]);
   const [isQuickAdding, setIsQuickAdding] = useState(false);
   const [addedJustNow, setAddedJustNow] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { handleProductHover } = usePredictivePreload([product], { preloadOnHover: true, preloadNextInCategory: false });
 
@@ -44,7 +42,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
   const handleMouseLeave = useCallback(() => {
     hideTimeoutRef.current = setTimeout(() => {
       setIsHovered(false);
-    }, 150);
+    }, 200);
   }, []);
 
   const handleOverlayMouseEnter = useCallback(() => {
@@ -58,17 +56,8 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
   const handleOverlayMouseLeave = useCallback(() => {
     hideTimeoutRef.current = setTimeout(() => {
       setIsHovered(false);
-    }, 150);
+    }, 200);
   }, []);
-
-  const handleTouchToggle = useCallback((e: React.TouchEvent) => {
-    setIsTouchDevice(true);
-    if (!isHovered) {
-      e.preventDefault();
-      setIsHovered(true);
-      handleProductHover(product.id);
-    }
-  }, [isHovered, handleProductHover, product.id]);
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -84,59 +73,48 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
   return (
     <div
       id={`product-card-${product.id}`}
-      className="group relative bg-[#111111] border border-[#c9a96e]/20 hover:border-[#c9a96e]/60 rounded-none overflow-hidden transition-all duration-500 flex flex-col cursor-pointer shadow-sm hover:shadow-[0_8px_40px_rgba(201,169,110,0.25)]"
+      className="group relative bg-[#111111] border border-[#c9a96e]/20 hover:border-[#c9a96e]/60 rounded-none overflow-hidden flex flex-col cursor-pointer shadow-sm hover:shadow-[0_8px_40px_rgba(201,169,110,0.25)]"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={() => onOpenDetails(product)}
     >
       {/* Product Image Container */}
-      <div
-        className="relative aspect-[3/4] w-full overflow-hidden bg-[#1a1a1a] pt-6 studio-light-overlay"
-        onTouchStart={handleTouchToggle}
-      >
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#1a1a1a]">
         <OptimizedImage
           src={product.images[0]}
           alt={product.nameSr}
-          className="h-full w-full object-cover object-center transition-transform duration-700"
+          className="h-full w-full object-cover object-center"
           loading="lazy"
           priority={false}
         />
 
         {/* Subtle Gradient Overlay at Bottom */}
         <div
-          className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-[#0a0a0a]/20 to-transparent transition-opacity duration-400"
+          className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-[#0a0a0a]/20 to-transparent pointer-events-none"
           style={{ opacity: isHovered ? 0.7 : 0.5 }}
         />
 
         {/* Top Badges & Wishlist Button */}
         <div className="absolute top-3 inset-x-3 flex items-center justify-between z-30">
           {product.badge ? (
-            <motion.span
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="inline-flex items-center gap-1 px-2.5 py-1 text-[9px] uppercase font-sans tracking-[0.2em] font-medium bg-[#0a0a0a] text-[#c9a96e] border border-[#c9a96e]/40"
-            >
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[9px] uppercase font-sans tracking-[0.2em] font-medium bg-[#0a0a0a] text-[#c9a96e] border border-[#c9a96e]/40">
               <Sparkles className="w-2.5 h-2.5 text-[#c9a96e]" />
               {product.badge}
-            </motion.span>
+            </span>
           ) : (
             <span />
           )}
 
-          <Tooltip placement="left" label={isWishlisted ? 'Ukloni iz liste želja' : 'Dodaj u listu želja'}>
-            <motion.button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleWishlist(product);
-              }}
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.85 }}
-              className={`p-2 transition-all duration-300 z-40 ${isWishlisted ? 'bg-[#c9a96e] text-[#0a0a0a] shadow-md' : 'bg-[#0a0a0a]/90 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] border border-[#c9a96e]/20'}`}
-            >
-              <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-center' : ''}`} />
-            </motion.button>
-          </Tooltip>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleWishlist(product);
+            }}
+            className={`p-2 transition-all duration-300 z-40 ${isWishlisted ? 'bg-[#c9a96e] text-[#0a0a0a] shadow-md' : 'bg-[#0a0a0a]/90 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] border border-[#c9a96e]/20'}`}
+          >
+            <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
+          </button>
         </div>
 
         {/* Hover Quick Actions Reveal Overlay */}
@@ -146,7 +124,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 40, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               className="absolute inset-x-0 bottom-0 p-3 flex flex-col gap-2 z-20"
               onClick={(e) => e.stopPropagation()}
               onMouseEnter={handleOverlayMouseEnter}
@@ -172,37 +150,34 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
 
               {/* Action buttons row */}
               <div className="grid grid-cols-3 gap-1.5">
-                <motion.button
+                <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     onOpenZoom(product, 0);
                   }}
-                  whileTap={{ scale: 0.95 }}
                   className="py-2 px-1.5 bg-[#0a0a0a] hover:bg-[#111111] text-[#e8e0d4] hover:text-[#c9a96e] text-[10px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-colors border border-[#c9a96e]/20"
                 >
                   <ZoomIn className="w-3.5 h-3.5 text-[#c9a96e]" />
                   <span className="hidden sm:inline">Uvećaj</span>
-                </motion.button>
+                </button>
 
-                <motion.button
+                <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     onOpenDetails(product);
                   }}
-                  whileTap={{ scale: 0.95 }}
                   className="py-2 px-1.5 bg-[#0a0a0a] hover:bg-[#111111] text-[#e8e0d4] hover:text-[#c9a96e] text-[10px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-colors border border-[#c9a96e]/20"
                 >
                   <Eye className="w-3.5 h-3.5 text-[#c9a96e]" />
                   <span className="hidden sm:inline">Detalji</span>
-                </motion.button>
+                </button>
 
-                <motion.button
+                <button
                   type="button"
                   onClick={handleQuickAdd}
                   disabled={isQuickAdding}
-                  whileTap={{ scale: 0.95 }}
                   className={`py-2 px-1.5 font-medium text-[10px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-all ${addedJustNow ? 'bg-[#0a0a0a] text-[#c9a96e]' : 'bg-[#c9a96e] hover:bg-[#a7823b] text-[#0a0a0a]'}`}
                 >
                   {addedJustNow ? (
@@ -216,7 +191,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
                       <span className="hidden sm:inline">Kupi</span>
                     </>
                   )}
-                </motion.button>
+                </button>
               </div>
             </motion.div>
           )}
@@ -236,7 +211,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
             {product.nameSr}
           </h3>
 
-          {/* Subtitle / Short description snippet */}
+          {/* Subtitle */}
           <p className="text-[11px] sm:text-xs text-[#e8e0d4]/70 line-clamp-2 leading-relaxed font-light font-sans">
             {product.subtitleSr}
           </p>
