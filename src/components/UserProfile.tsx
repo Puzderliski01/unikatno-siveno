@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MOCK_USER, getWishlistProducts, getPurchaseHistoryWithDetails } from '../data/mockUser';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
@@ -13,6 +13,7 @@ interface UserProfileProps {
 export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => {
   const wishlistProducts = getWishlistProducts();
   const purchaseHistory = getPurchaseHistoryWithDetails();
+  const [activeTab, setActiveTab] = useState('purchase-history');
 
   if (!isOpen) return null;
 
@@ -117,30 +118,33 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
               <button
                 type="button"
                 className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
-                  'purchase-history'
+                  activeTab === 'purchase-history'
                     ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                     : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                 }`}
+                onClick={() => setActiveTab('purchase-history')}
               >
                 Povijest kupovina
               </button>
               <button
                 type="button"
                 className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
-                  'wishlist'
+                  activeTab === 'wishlist'
                     ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                     : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                 }`}
+                onClick={() => setActiveTab('wishlist')}
               >
                 Lista želja
               </button>
               <button
                 type="button"
                 className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
-                  'exclusive'
+                  activeTab === 'exclusive'
                     ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                     : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                 }`}
+                onClick={() => setActiveTab('exclusive')}
               >
                 Eksklusivni pozivi
               </button>
@@ -148,160 +152,161 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
 
             {/* Tab Content */}
             <div className="space-y-4">
-              {/* Purchase History Tab */}
-              <div className="space-y-4">
-                <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
-                  Povijest kupovina
-                </h3>
+              {activeTab === 'purchase-history' && (
+                <div className="space-y-4">
+                  <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
+                    Povijest kupovina
+                  </h3>
 
-                {purchaseHistory.length > 0 ? (
-                  purchaseHistory.map((item) => (
-                    <div key={item.id} className="border border-[#e8e0d4]/10 p-4 flex items-center gap-4">
-                      <div className="w-20 h-24 flex-shrink-0">
-                        <motion.img
-                          src={item.product.images[0]}
-                          alt={item.product.nameSr}
-                          className="w-full h-full object-cover object-center"
-                        />
-                      </div>
-                      <div className="flex-1 space-y-2">
-                        <h4 className="font-serif-luxury text-sm text-[#e8e0d4] font-normal">
-                          {item.product.nameSr}
-                        </h4>
-                        <p className="text-xs text-[#e8e0d4]/70">
-                          {item.product.subtitleSr}
-                        </p>
-                        <div className="flex items-center gap-4 text-xs">
-                          <span className="font-mono">{FORMAT_RSD(item.price)}</span>
-                          <span className="text-[#e8e0d4]/50">|</span>
-                          <span>{item.size}</span>
-                          <span className="text-[#e8e0d4]/50">|</span>
-                          <span className={`
-                            px-2 py-0.5 text-[9px] rounded
-                            ${item.status === 'delivered' ? 'bg-[#1a1a1a] text-[#c9a96e]' :
-                              item.status === 'processing' ? 'bg-[#1a1a1a] text-[#a08540]' :
-                              item.status === 'shipped' ? 'bg-[#1a1a1a] text-[#c9a96e]/50' :
-                              item.status === 'cancelled' ? 'bg-[#1a1a1a]/20 text-[#e8e0d4]/50' :
-                                                            'bg-[#1a1a1a]/20 text-[#e8e0d4]/50'}
-                          `}>
-                            {item.status === 'delivered' && 'Isporučeno'}
-                            {item.status === 'processing' && 'U obradi'}
-                            {item.status === 'shipped' && 'U transporte'}
-                            {item.status === 'cancelled' && 'Otkaženo'}
-                            {item.status === 'confirmed' && 'Potvrđeno'}
-                          </span>
+                  {purchaseHistory.length > 0 ? (
+                    purchaseHistory.map((item) => (
+                      <div key={item.id} className="border border-[#e8e0d4]/10 p-4 flex items-center gap-4">
+                        <div className="w-20 h-24 flex-shrink-0">
+                          <motion.img
+                            src={item.product.images[0]}
+                            alt={item.product.nameSr}
+                            className="w-full h-full object-cover object-center"
+                          />
                         </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center py-8 text-[#e8e0d4]/50">
-                    Nema kupovina u povijesti
-                  </p>
-                )}
-              </div>
-
-              {/* Wishlist Tab */}
-              <div className="space-y-4">
-                <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
-                  Lista želja
-                </h3>
-
-                {wishlistProducts.length > 0 ? (
-                  wishlistProducts.map((product) => (
-                    <div key={product.id} className="border border-[#e8e0d4]/10 p-4 flex items-center gap-4">
-                      <div className="w-20 h-24 flex-shrink-0">
-                        <motion.img
-                          src={product.images[0]}
-                          alt={product.nameSr}
-                          className="w-full h-full object-cover object-center"
-                        />
-                      </div>
-                      <div className="flex-1 space-y-2">
-                        <h4 className="font-serif-luxury text-sm text-[#e8e0d4] font-normal">
-                          {product.nameSr}
-                        </h4>
-                        <p className="text-xs text-[#e8e0d4]/70">
-                          {product.subtitleSr}
-                        </p>
-                        <div className="flex items-center gap-4 text-xs">
-                          <span className="font-mono">{FORMAT_RSD(product.priceRSD)}</span>
-                          <ShoppingBag className="w-3 h-3 text-[#c9a96e]" />
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center py-8 text-[#e8e0d4]/50">
-                    Lista želja je prazna
-                  </p>
-                )}
-              </div>
-
-              {/* Exclusive Invitations Tab */}
-              <div className="space-y-4">
-                <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
-                  Eksklusivni pozivi
-                </h3>
-
-                {MOCK_USER.exclusiveInvitations.length > 0 ? (
-                  MOCK_USER.exclusiveInvitations.map((inv) => (
-                    <div key={inv.id} className="border border-[#e8e0d4]/10 p-4 flex items-center gap-4">
-                      <div className="w-20 h-24 flex-shrink-0">
-                        <div className="w-full h-full bg-[#1a1a1a] flex items-center justify-center">
-                          <Users className="w-6 h-6 text-[#c9a96e]" />
-                        </div>
-                      </div>
-                      <div className="flex-1 space-y-2">
-                        <h4 className="font-serif-luxury text-sm text-[#e8e0d4] font-normal">
-                          {inv.title}
-                        </h4>
-                        <p className="text-xs text-[#e8e0d4]/70">
-                          {inv.description}
-                        </p>
-                        <div className="flex items-center gap-4 text-xs">
-                          <span className="font-mono">
-                            {new Date(inv.date).toLocaleDateString('sr-RS', {
-                              day: 'numeric',
-                              month: 'short',
-                              year: 'numeric'
-                            })}
-                          </span>
-                          {inv.expiresAt && (
-                            <>
-                              <span className="text-[#e8e0d4]/50 mx-2">|</span>
-                              <span className="text-[9px] text-[#a08540]">
-                                Važi do: {new Date(inv.expiresAt).toLocaleDateString('sr-RS', {
-                                  day: 'numeric',
-                                  month: 'short'
-                                })}
-                              </span>
-                            </>
-                          )}
-                        </div>
-                        {inv.isRsvp && (
-                          <div className="mt-2 flex items-center gap-2 text-[9px]">
-                            <span className="text-[#e8e0d4]/50">RSVP:</span>
-                            <span className={`px-2 py-0.5 rounded
-                              ${inv.rsvpStatus === 'accepted' ? 'bg-[#1a1a1a] text-[#c9a96e]' :
-                                inv.rsvpStatus === 'declined' ? 'bg-[#1a1a1a]/20 text-[#e8e0d4]/50' :
-                                                              'bg-[#1a1a1a] text-[#a08540]'}
+                        <div className="flex-1 space-y-2">
+                          <h4 className="font-serif-luxury text-sm text-[#e8e0d4] font-normal">
+                            {item.product.nameSr}
+                          </h4>
+                          <p className="text-xs text-[#e8e0d4]/70">
+                            {item.product.subtitleSr}
+                          </p>
+                          <div className="flex items-center gap-4 text-xs">
+                            <span className="font-mono">{FORMAT_RSD(item.price)}</span>
+                            <span className="text-[#e8e0d4]/50">|</span>
+                            <span>{item.size}</span>
+                            <span className="text-[#e8e0d4]/50">|</span>
+                            <span className={`
+                              px-2 py-0.5 text-[9px] rounded
+                              ${item.status === 'delivered' ? 'bg-[#1a1a1a] text-[#c9a96e]' :
+                                item.status === 'processing' ? 'bg-[#1a1a1a] text-[#a08540]' :
+                                item.status === 'shipped' ? 'bg-[#1a1a1a] text-[#c9a96e]/50' :
+                                item.status === 'cancelled' ? 'bg-[#1a1a1a]/20 text-[#e8e0d4]/50' :
+                                                              'bg-[#1a1a1a]/20 text-[#e8e0d4]/50'}
                             `}>
-                              {inv.rsvpStatus === 'pending' && 'Na čekanju'}
-                              {inv.rsvpStatus === 'accepted' && 'Prihvaćeno'}
-                              {inv.rsvpStatus === 'declined' && 'Odbaceno'}
+                              {item.status === 'delivered' && 'Isporučeno'}
+                              {item.status === 'processing' && 'U obradi'}
+                              {item.status === 'shipped' && 'U transporte'}
+                              {item.status === 'cancelled' && 'Otkaženo'}
+                              {item.status === 'confirmed' && 'Potvrđeno'}
                             </span>
                           </div>
-                        )}
+                        </div>
                       </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center py-8 text-[#e8e0d4]/50">
-                    Nema eksklusivnih poziva
-                  </p>
-                )}
-              </div>
+                    ))
+                  ) : (
+                    <p className="text-center py-8 text-[#e8e0d4]/50">
+                      Nema kupovina u povijesti
+                    </p>
+                  )}
+                </div>
+              )}
+              {activeTab === 'wishlist' && (
+                <div className="space-y-4">
+                  <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
+                    Lista želja
+                  </h3>
+
+                  {wishlistProducts.length > 0 ? (
+                    wishlistProducts.map((product) => (
+                      <div key={product.id} className="border border-[#e8e0d4]/10 p-4 flex items-center gap-4">
+                        <div className="w-20 h-24 flex-shrink-0">
+                          <motion.img
+                            src={product.images[0]}
+                            alt={product.nameSr}
+                            className="w-full h-full object-cover object-center"
+                          />
+                        </div>
+                        <div className="flex-1 space-y-2">
+                          <h4 className="font-serif-luxury text-sm text-[#e8e0d4] font-normal">
+                            {product.nameSr}
+                          </h4>
+                          <p className="text-xs text-[#e8e0d4]/70">
+                            {product.subtitleSr}
+                          </p>
+                          <div className="flex items-center gap-4 text-xs">
+                            <span className="font-mono">{FORMAT_RSD(product.priceRSD)}</span>
+                            <ShoppingBag className="w-3 h-3 text-[#c9a96e]" />
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-center py-8 text-[#e8e0d4]/50">
+                      Lista želja je prazna
+                    </p>
+                  )}
+                </div>
+              )}
+              {activeTab === 'exclusive' && (
+                <div className="space-y-4">
+                  <h3 className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold mb-2">
+                    Ekskluzivni pozivi
+                  </h3>
+
+                  {MOCK_USER.exclusiveInvitations.length > 0 ? (
+                    MOCK_USER.exclusiveInvitations.map((inv) => (
+                      <div key={inv.id} className="border border-[#e8e0d4]/10 p-4 flex items-center gap-4">
+                        <div className="w-20 h-24 flex-shrink-0">
+                          <div className="w-full h-full bg-[#1a1a1a] flex items-center justify-center">
+                            <Users className="w-6 h-6 text-[#c9a96e]" />
+                          </div>
+                        </div>
+                        <div className="flex-1 space-y-2">
+                          <h4 className="font-serif-luxury text-sm text-[#e8e0d4] font-normal">
+                            {inv.title}
+                          </h4>
+                          <p className="text-xs text-[#e8e0d4]/70">
+                            {inv.description}
+                          </p>
+                          <div className="flex items-center gap-4 text-xs">
+                            <span className="font-mono">
+                              {new Date(inv.date).toLocaleDateString('sr-RS', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric'
+                              })}
+                            </span>
+                            {inv.expiresAt && (
+                              <>
+                                <span className="text-[#e8e0d4]/50 mx-2">|</span>
+                                <span className="text-[9px] text-[#a08540]">
+                                  Važi do: {new Date(inv.expiresAt).toLocaleDateString('sr-RS', {
+                                    day: 'numeric',
+                                    month: 'short'
+                                  })}
+                                </span>
+                              </>
+                            )}
+                          </div>
+                          {inv.isRsvp && (
+                            <div className="mt-2 flex items-center gap-2 text-[9px]">
+                              <span className="text-[#e8e0d4]/50">RSVP:</span>
+                              <span className={`px-2 py-0.5 rounded
+                                ${inv.rsvpStatus === 'accepted' ? 'bg-[#1a1a1a] text-[#c9a96e]' :
+                                  inv.rsvpStatus === 'declined' ? 'bg-[#1a1a1a]/20 text-[#e8e0d4]/50' :
+                                                                'bg-[#1a1a1a] text-[#a08540]'}
+                              `}>
+                                {inv.rsvpStatus === 'pending' && 'Na čekanju'}
+                                {inv.rsvpStatus === 'accepted' && 'Prihvaćeno'}
+                                {inv.rsvpStatus === 'declined' && 'Odbaceno'}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-center py-8 text-[#e8e0d4]/50">
+                      Nema ekskluzivnih poziva
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

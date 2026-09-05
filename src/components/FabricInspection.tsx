@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, ZoomIn, Zap, EyeDropper, Ruler } from 'lucide-react';
+import { X, ZoomIn, Zap, Ruler, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Tooltip } from './Tooltip';
 
 interface FabricInspectionProps {
   productImage: string;
@@ -109,14 +110,13 @@ export const FabricInspection: React.FC<FabricInspectionProps> = ({
         {/* Main Content */}
         <div className="flex-1 min-h-0 overflow-hidden flex">
           {/* Image Viewer */}
-          <div className="flex-1 relative bg-[#111111] overflow-hidden perspective-1000"
+          <div className={`flex-1 relative bg-[#111111] overflow-hidden perspective-1000 ${isZooming ? 'luxury-hover' : ''}`}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseLeave}
             onWheel={handleWheel}
             style={{ touchAction: 'none' }}
-            className={`${isZooming ? 'luxury-hover' : ''}`}
           >
             <div className="absolute inset-0 studio-light-overlay"
               style={{
@@ -159,7 +159,7 @@ export const FabricInspection: React.FC<FabricInspectionProps> = ({
                     <span className="ml-2">Tip kanvasa: {fabricDetails.weaveType}</span>
                   </div>
                   <div className="flex items-start">
-                    <EyeDropper className="w-3 h-3 mt-0.5 flex-shrink-0 text-[#c9a96e]" />
+                    <Zap className="w-3 h-3 mt-0.5 flex-shrink-0 text-[#c9a96e]" />
                     <span className="ml-2">Broj niти: {fabricDetails.threadCount}</span>
                   </div>
                   <div className="flex items-start">

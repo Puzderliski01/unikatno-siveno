@@ -5,6 +5,7 @@ import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
 import { OptimizedImage } from './OptimizedImage';
 import { usePredictivePreload } from '../hooks/usePredictivePreload';
+import { Tooltip } from './Tooltip';
 
 interface ProductCardProps {
   product: Product;

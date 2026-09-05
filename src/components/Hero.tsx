@@ -218,7 +218,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
               {[
                 { icon: Scissors, title: '100% Ručni rad', desc: 'Tradicionalno kanvasiranje i fiksirani šavovi' },
                 { icon: ShieldCheck, title: 'Prirodni materijali', desc: 'Pažljivo birani da prijaju telu' },
-                { icon: Ruler, title: 'Šivenje po meri', desc: 'Individualna konstrukcija za vašu figuru' },
+                { icon: Ruler, title: 'Šivenje po meri', desc: 'Individualna konstrukcija vašu figuru' },
               ].map((item, index) => (
                 <motion.div
                   key={item.title}
