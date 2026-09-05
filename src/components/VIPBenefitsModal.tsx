@@ -2,7 +2,7 @@ import React from 'react';
 import { MOCK_USER } from '../data/mockUser';
 import { VIP_TIERS, getVIPTierByLevel, calculateVIPProgress } from '../data/vipBenefits';
 import { FORMAT_RSD } from '../data/products';
-import { Trophy, Calendar, Users, ShieldCheck, Gift, Clock, Star, Check } from 'lucide-react';
+import { Trophy, Calendar, Users, ShieldCheck, Gift, Clock, Star, Check, X } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface VIPBenefitsModalProps {

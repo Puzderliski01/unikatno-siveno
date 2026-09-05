@@ -2,7 +2,7 @@ import React from 'react';
 import { MOCK_USER, getWishlistProducts, getPurchaseHistoryWithDetails } from '../data/mockUser';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
-import { Eye, ShoppingBag, Sparkles, Trophy, Calendar, Users, Check, Heart } from 'lucide-react';
+import { Eye, ShoppingBag, Sparkles, Trophy, Calendar, Users, Check, Heart, X } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface UserProfileProps {

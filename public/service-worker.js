@@ -7,6 +7,7 @@ const PRECACHE_URLS = [
   '/index.html',
   '/manifest.json',
   '/logo.png',
+  '/offline.html',
   '/src/main.tsx',
   // Add other critical resources here
 ];
