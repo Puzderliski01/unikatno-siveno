@@ -67,14 +67,14 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
           <h1 className="font-serif-luxury text-xl font-light text-[#e8e0d4] tracking-tight leading-[1.1] mb-2">
             Kolekcija. Unikatno šivenje
           </h1>
-          <p className="font-sans text-[11px] text-[#e8e0d4]/80 font-light leading-relaxed mb-4">
+          <p className="font-sans text-xs text-[#e8e0d4]/80 font-light leading-relaxed mb-4">
             Umetnost vanvremenske siluete i besprekornog kroja.
           </p>
           <button
             id="hero-explore-collection-btn"
             type="button"
             onClick={onExploreClick}
-            className="px-6 py-2.5 bg-transparent border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-[10px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10 mb-6"
+            className="px-6 py-2.5 bg-transparent border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10 mb-6"
           >
             Istražite kolekciju
           </button>
@@ -86,11 +86,11 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
             ].map((item) => (
               <div key={item.title} className="flex items-center gap-2.5 p-2 border border-[#c9a96e]/25 bg-[#0a0a0a]/50 backdrop-blur-sm">
                 <div className="p-1 text-[#c9a96e] border border-[#c9a96e]/30 bg-[#0a0a0a] flex-shrink-0">
-                  <item.icon className="w-3 h-3" />
+                  <item.icon className="w-3.5 h-3.5" />
                 </div>
                 <div className="text-left">
-                  <h4 className="text-[9px] uppercase tracking-[0.15em] text-[#e8e0d4] font-sans font-medium">{item.title}</h4>
-                  <p className="text-[8px] text-[#e8e0d4]/60">{item.desc}</p>
+                  <h4 className="text-[11px] uppercase tracking-[0.15em] text-[#e8e0d4] font-sans font-medium">{item.title}</h4>
+                  <p className="text-[10px] text-[#e8e0d4]/60">{item.desc}</p>
                 </div>
               </div>
             ))}

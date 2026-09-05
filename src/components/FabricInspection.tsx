@@ -108,7 +108,7 @@ export const FabricInspection: React.FC<FabricInspectionProps> = ({
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 min-h-0 overflow-hidden flex">
+        <div className="flex-1 min-h-0 overflow-hidden flex flex-col sm:flex-row">
           {/* Image Viewer */}
           <div className={`flex-1 relative bg-[#111111] overflow-hidden perspective-1000 ${isZooming ? 'luxury-hover' : ''}`}
             onMouseDown={handleMouseDown}
@@ -147,7 +147,7 @@ export const FabricInspection: React.FC<FabricInspectionProps> = ({
           </div>
 
           {/* Fabric Details Panel */}
-          <div className="w-64 bg-[#111111] border-l border-[#c9a96e]/20 px-4 py-4 overflow-y-auto">
+          <div className="w-full sm:w-64 bg-[#111111] border-t sm:border-t-0 sm:border-l border-[#c9a96e]/20 px-4 py-4 overflow-y-auto max-h-[40vh] sm:max-h-none">
             <div className="space-y-4">
               <div>
                 <h3 className="text-[11px] uppercase tracking-wider text-[#c9a96e] font-sans font-semibold mb-2">

@@ -47,7 +47,7 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
             hidden: { opacity: 0, y: 50, scale: 0.98 },
             visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
           }}
-          className="p-8 sm:p-10 bg-[#1a1a1a] border border-[#c9a96e]/30 mb-16 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-lg relative overflow-hidden"
+          className="p-4 sm:p-8 lg:p-10 bg-[#1a1a1a] border border-[#c9a96e]/30 mb-16 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 shadow-lg relative overflow-hidden"
         >
           {/* Subtle background glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#c9a96e]/5 via-transparent to-[#c9a96e]/5" />

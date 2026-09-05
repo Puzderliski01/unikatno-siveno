@@ -1,5 +1,8 @@
 -- Import existing products from products.ts
--- Run this in Supabase SQL Editor
+-- Run this in Supabase SQL Editor (https://supabase.com/dashboard -> SQL Editor)
+-- This will replace ALL existing products with the correct data
+
+TRUNCATE TABLE products;
 
 INSERT INTO products (name_sr, subtitle_sr, description_sr, story_sr, category, category_label_sr, price_rsd, original_price_rsd, lead_time_days, badge, sizes, features, materials_composition, materials_origin, materials_care, model_info, images, thumbnail, featured, active) VALUES
 

@@ -114,7 +114,7 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(({ onSho
                 </div>
                 <div className="flex items-start gap-3">
                   <Clock className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
-                  <span>Pon – Pet: 10:00 – 20:00 | Subota: 10:00 – 16:00 (uz najavu)</span>
+                  <span className="break-words">Pon – Pet: 10:00 – 20:00<br className="sm:hidden" /> <span className="hidden sm:inline">| </span>Subota: 10:00 – 16:00 (uz najavu)</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <Phone className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-// Temporary fix for tooltip issue - forcing rebuild
 
 interface TooltipProps {
   children: React.ReactNode;
@@ -9,59 +8,62 @@ interface TooltipProps {
 
 export const Tooltip: React.FC<TooltipProps> = ({ children, label, placement = 'top' }) => {
   const [showTooltip, setShowTooltip] = useState(false);
+  const triggerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (showTooltip && tooltipRef.current) {
-      const updatePosition = () => {
-        const rect = tooltipRef.current.getBoundingClientRect();
-        let top, left;
-        if (placement === 'top') {
-          top = rect.top - tooltipRef.current.offsetHeight - 8;
-          left = rect.left + rect.width / 2 - tooltipRef.current.offsetWidth / 2;
-        } else if (placement === 'bottom') {
-          top = rect.bottom + 8;
-          left = rect.left + rect.width / 2 - tooltipRef.current.offsetWidth / 2;
-        } else if (placement === 'left') {
-          top = rect.top + rect.height / 2 - tooltipRef.current.offsetHeight / 2;
-          left = rect.left - tooltipRef.current.offsetWidth - 8;
-        } else if (placement === 'right') {
-          top = rect.top + rect.height / 2 - tooltipRef.current.offsetHeight / 2;
-          left = rect.right + 8;
-        }
-        tooltipRef.current.style.top = `${top + window.scrollY}px`;
-        tooltipRef.current.style.left = `${left + window.scrollX}px`;
-        tooltipRef.current.classList.add('show');
-      };
+    if (showTooltip && tooltipRef.current && triggerRef.current) {
+      const triggerRect = triggerRef.current.getBoundingClientRect();
+      const tooltipEl = tooltipRef.current;
 
-      updatePosition();
-      const handleMouseMove = (e: MouseEvent) => updatePosition();
-      document.addEventListener('mousemove', handleMouseMove);
-      tooltipRef.current._handleMouseMove = handleMouseMove;
+      let top = 0;
+      let left = 0;
 
-      return () => {
-        document.removeEventListener('mousemove', tooltipRef.current._handleMouseMove);
-        tooltipRef.current.classList.remove('show');
-      };
+      if (placement === 'top') {
+        top = triggerRect.top + window.scrollY - tooltipEl.offsetHeight - 8;
+        left = triggerRect.left + window.scrollX + triggerRect.width / 2 - tooltipEl.offsetWidth / 2;
+      } else if (placement === 'bottom') {
+        top = triggerRect.bottom + window.scrollY + 8;
+        left = triggerRect.left + window.scrollX + triggerRect.width / 2 - tooltipEl.offsetWidth / 2;
+      } else if (placement === 'left') {
+        top = triggerRect.top + window.scrollY + triggerRect.height / 2 - tooltipEl.offsetHeight / 2;
+        left = triggerRect.left + window.scrollX - tooltipEl.offsetWidth - 8;
+      } else if (placement === 'right') {
+        top = triggerRect.top + window.scrollY + triggerRect.height / 2 - tooltipEl.offsetHeight / 2;
+        left = triggerRect.right + window.scrollX + 8;
+      }
+
+      tooltipEl.style.top = `${top}px`;
+      tooltipEl.style.left = `${left}px`;
+      tooltipEl.classList.add('show');
     }
+
+    return () => {
+      if (tooltipRef.current) {
+        tooltipRef.current.classList.remove('show');
+      }
+    };
   }, [showTooltip, placement]);
 
   return (
-    <div
-      className="relative inline-block"
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
-      ref={tooltipRef}
-    >
-      {children}
+    <>
+      <div
+        ref={triggerRef}
+        className="contents"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        {children}
+      </div>
       {showTooltip && (
         <div
-          className={`luxury-tooltip luxury-tooltip-${placement}`}
+          ref={tooltipRef}
+          className="luxury-tooltip luxury-tooltip-${placement}"
           role="tooltip"
         >
           {label}
         </div>
       )}
-    </div>
+    </>
   );
 };

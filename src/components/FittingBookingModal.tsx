@@ -225,7 +225,7 @@ export const FittingBookingModal: React.FC<FittingBookingModalProps> = ({
                   <label className="block text-xs uppercase tracking-wider text-[#1A1A1A] font-semibold mb-2">
                     4. Slobodan termin:
                   </label>
-                  <div className="grid grid-cols-4 gap-1.5">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
                     {timeSlots.slice(0, 4).map((t) => (
                       <button
                         key={t}

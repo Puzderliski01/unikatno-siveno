@@ -142,7 +142,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           <button
                             type="button"
                             onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                            className="p-3 sm:p-1 text-[#e8e0d4]/70 hover:text-[#e8e0d4]"
+                            className="p-2 sm:p-1 text-[#e8e0d4]/70 hover:text-[#e8e0d4]"
                             aria-label="Smanji količinu"
                           >
                             <Minus className="w-3 h-3" />
@@ -151,7 +151,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           <button
                             type="button"
                             onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                            className="p-3 sm:p-1 text-[#e8e0d4]/70 hover:text-[#e8e0d4]"
+                            className="p-2 sm:p-1 text-[#e8e0d4]/70 hover:text-[#e8e0d4]"
                             aria-label="Povećaj količinu"
                           >
                             <Plus className="w-3 h-3" />

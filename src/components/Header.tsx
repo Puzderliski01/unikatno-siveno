@@ -111,14 +111,14 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             </div>
 
             {/* Right Action Icons */}
-            <div className="flex items-center justify-end gap-2 sm:gap-4">
+            <div className="flex items-center justify-end gap-1 sm:gap-2 lg:gap-4">
               {/* Wishlist Button */}
               <Tooltip placement="bottom" label={`Lista želja (${wishlistCount} predmeta)`}>
                 <button
                   id="header-wishlist-btn"
                   type="button"
                   onClick={onOpenWishlist}
-                  className="relative p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                  className="relative p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 >
                   <Heart className={`w-4 h-4 sm:w-5 sm:h-5 ${wishlistCount > 0 ? 'fill-[#c9a96e] text-[#c9a96e]' : ''}`} />
                   {wishlistCount > 0 && (
@@ -135,12 +135,9 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   id="header-user-profile-btn"
                   type="button"
                   onClick={onOpenUserProfile}
-                  className="relative p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                  className="relative p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 >
                   <Trophy className="w-4 h-4" />
-                  <span className="hidden sm:inline-block text-[10px] font-sans font-medium">
-                    Profil
-                  </span>
                 </button>
               </Tooltip>
 
@@ -150,12 +147,9 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   id="header-vip-btn"
                   type="button"
                   onClick={onOpenVIPBenefits}
-                  className="relative p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                  className="relative p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 >
                   <Star className="w-4 h-4" />
-                  <span className="hidden sm:inline-block text-[10px] font-sans font-medium">
-                    VIP
-                  </span>
                 </button>
               </Tooltip>
 
@@ -165,12 +159,17 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   id="header-cart-btn"
                   type="button"
                   onClick={onOpenCart}
-                  className="relative flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 border-b border-[#c9a96e]/50 hover:border-[#c9a96e] text-[#e8e0d4] hover:text-[#c9a96e] transition-all group"
+                  className="relative flex items-center gap-1 sm:gap-2 px-1.5 sm:px-3 py-1.5 border-b border-[#c9a96e]/50 hover:border-[#c9a96e] text-[#e8e0d4] hover:text-[#c9a96e] transition-all group"
                 >
                   <ShoppingBag className="w-4 h-4 text-[#c9a96e] group-hover:scale-110 transition-transform" />
-                  <span className="text-[10px] sm:text-xs uppercase tracking-widest font-sans font-medium">
+                  <span className="hidden sm:inline text-[10px] sm:text-xs uppercase tracking-widest font-sans font-medium">
                     Korpa ({cartCount})
                   </span>
+                  {cartCount > 0 && (
+                    <span className="sm:hidden w-4 h-4 bg-[#c9a96e] text-[#0a0a0a] text-[9px] font-bold rounded-full flex items-center justify-center -mt-2 -mr-1">
+                      {cartCount}
+                    </span>
+                  )}
                   {cartCount > 0 && (
                     <span className="hidden md:inline text-[11px] font-mono text-[#c9a96e] font-semibold ml-1">
                       • {FORMAT_RSD(cartTotal)}
@@ -184,7 +183,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 id="mobile-menu-toggle-btn"
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                className="lg:hidden p-1.5 sm:p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 aria-label="Otvori navigacioni meni"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}

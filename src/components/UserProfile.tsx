@@ -114,21 +114,21 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
 
           {/* Tabs Section */}
           <div className="border-t border-[#e8e0d4]/10 pt-6">
-            <div className="flex items-center gap-3 sm:gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 font-sans">
+            <div className="flex items-center gap-2 sm:gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 font-sans overflow-x-auto scrollbar-none">
               <button
                 type="button"
-                className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                className={`whitespace-nowrap text-[11px] sm:text-xs uppercase tracking-wider pb-2 relative transition-colors flex-shrink-0 ${
                   activeTab === 'purchase-history'
                     ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                     : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                 }`}
                 onClick={() => setActiveTab('purchase-history')}
               >
-                Povijest kupovina
+                Kupovine
               </button>
               <button
                 type="button"
-                className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                className={`whitespace-nowrap text-[11px] sm:text-xs uppercase tracking-wider pb-2 relative transition-colors flex-shrink-0 ${
                   activeTab === 'wishlist'
                     ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                     : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
@@ -139,14 +139,14 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
               </button>
               <button
                 type="button"
-                className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors ${
+                className={`whitespace-nowrap text-[11px] sm:text-xs uppercase tracking-wider pb-2 relative transition-colors flex-shrink-0 ${
                   activeTab === 'exclusive'
                     ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
                     : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                 }`}
                 onClick={() => setActiveTab('exclusive')}
               >
-                Eksklusivni pozivi
+                Ekskluzivni pozivi
               </button>
             </div>
 
