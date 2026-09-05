@@ -65,20 +65,13 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   ];
 
   return (
-    <header className={`sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'shadow-lg' : ''}`}>
-      {/* Top Announcement Bar */}
-      <div className="bg-[#111111] text-[#e8e0d4] text-[9px] sm:text-xs py-1 sm:py-2 text-center font-sans tracking-[0.2em] uppercase border-b border-[#c9a96e]/20">
-        <span className="flex items-center justify-center gap-2 px-4">
-          Besplatna dostava u Srbiji za porudžbine preko 10.000 RSD
-        </span>
-      </div>
-
+    <header className="sticky top-0 z-40">
       {/* Main Navigation Bar */}
       <nav
-        className={`transition-all duration-300 border-b border-[#c9a96e]/20 ${
+        className={`transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#0a0a0a]/95 backdrop-blur-md py-2 sm:py-3'
-            : 'bg-[#0a0a0a] py-2.5 sm:py-4'
+            ? 'liquid-glass scrolled'
+            : 'liquid-glass'
         }`}
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
