@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowDown, Scissors, ShieldCheck, Ruler } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { TextReveal } from './TextReveal';
 
 interface HeroProps {
   onExploreClick: () => void;
@@ -173,14 +174,13 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
             </motion.div>
 
             {/* Headline */}
-            <motion.h1
+            <TextReveal
+              text="Kolekcija. Unikatno šivenje"
+              tag="h1"
               className="font-serif-luxury text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-light text-[#e8e0d4] tracking-tight leading-[1.1] mb-6 text-center"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            >
-              Kolekcija. Unikatno šivenje
-            </motion.h1>
+              delay={400}
+              staggerDelay={25}
+            />
 
             {/* Text */}
             <motion.p

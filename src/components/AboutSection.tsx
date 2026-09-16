@@ -14,7 +14,14 @@ export const AboutSection: React.FC = React.memo(() => {
   const imageY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   return (
-    <section id="o-radionici" className="py-24 bg-[#0a0a0a] text-[#e8e0d4] relative border-b border-[#c9a96e]/20 overflow-hidden">
+    <section id="o-radionici" className="py-24 bg-[#0a0a0a] text-[#e8e0d4] relative border-b-0 overflow-hidden">
+      
+      {/* Morphing SVG Border */}
+      <div className="section-border-morph in-view absolute top-0 left-0 right-0">
+        <svg viewBox="0 0 1200 40" preserveAspectRatio="none">
+          <path d="M0,20 Q150,5 300,20 T600,20 T900,20 T1200,20" />
+        </svg>
+      </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         

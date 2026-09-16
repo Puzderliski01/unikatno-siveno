@@ -34,7 +34,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: false,
     leadTimeDays: '2–3 radna dana',
-    modelInfo: 'Model je visoka 175 cm i nosi veličinu M (38)'
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu M (38)',
+    stockQuantity: 12,
   },
   {
     id: 'larisa-dress',
@@ -69,7 +70,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: 'Odmah dostupno',
-    modelInfo: 'Model je visoka 178 cm i nosi veličinu M (38)'
+    modelInfo: 'Model je visoka 178 cm i nosi veličinu M (38)',
+    stockQuantity: 8
   },
   {
     id: 'joli-suki-skirt',
@@ -104,7 +106,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: '3–5 radnih dana',
-    modelInfo: 'Model je visoka 176 cm i nosi veličinu L (40)'
+    modelInfo: 'Model je visoka 176 cm i nosi veličinu L (40)',
+    stockQuantity: 8
   },
   {
     id: 'olivia-dress',
@@ -137,7 +140,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: 'Odmah dostupno',
-    modelInfo: 'Model je visoka 175 cm i nosi veličinu L (40)'
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu L (40)',
+    stockQuantity: 8
   },
   {
     id: 'jullyet-top',
@@ -170,7 +174,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: false,
     leadTimeDays: 'Odmah dostupno',
-    modelInfo: 'Model je visoka 176 cm i nosi veličinu M (38)'
+    modelInfo: 'Model je visoka 176 cm i nosi veličinu M (38)',
+    stockQuantity: 8
   },
   {
     id: 'rahela-dress',
@@ -204,7 +209,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: 'Odmah dostupno',
-    modelInfo: 'Model je visoka 175 cm i nosi veličinu M (38)'
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu M (38)',
+    stockQuantity: 8
   },
   {
     id: 'letnja-lanena-haljina',
@@ -237,7 +243,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: 'Odmah dostupno',
-    modelInfo: 'Model je visoka 175 cm i nosi veličinu L (40)'
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu L (40)',
+    stockQuantity: 8
   },
   {
     id: 'crvena-asimetricna-haljina',
@@ -270,7 +277,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: '3–5 radnih dana',
-    modelInfo: 'Model je visoka 175 cm i nosi veličinu L (40)'
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu L (40)',
+    stockQuantity: 8
   },
   {
     id: 'zozelin-dress',
@@ -303,7 +311,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: 'Odmah dostupno',
-    modelInfo: 'Model je visoka 175 cm i nosi veličinu M (38)'
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu M (38)',
+    stockQuantity: 8
   },
   {
     id: 'unikatna-dress',
@@ -336,7 +345,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: '5–7 radnih dana',
-    modelInfo: 'Model je visoka 176 cm i nosi veličinu L (40)'
+    modelInfo: 'Model je visoka 176 cm i nosi veličinu L (40)',
+    stockQuantity: 8
   },
   {
     id: 'crna-asimetricna',
@@ -369,7 +379,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: '3–5 radnih dana',
-    modelInfo: 'Model je visoka 175 cm i nosi veličinu L (40)'
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu L (40)',
+    stockQuantity: 8
   },
   {
     id: 'linda-dress',
@@ -402,7 +413,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: '4–6 radnih dana',
-    modelInfo: 'Model je visoka 177 cm i nosi veličinu L (40)'
+    modelInfo: 'Model je visoka 177 cm i nosi veličinu L (40)',
+    stockQuantity: 8
   },
   {
     id: 'gaby-jacket',
@@ -435,7 +447,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: false,
     leadTimeDays: 'DOSTUPNO ODMAH',
-    modelInfo: 'Model je visoka 176 cm i nosi veličinu M (38)'
+    modelInfo: 'Model je visoka 176 cm i nosi veličinu M (38)',
+    stockQuantity: 8
   },
   {
     id: 'atina-tunika',
@@ -469,7 +482,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: '4–6 radnih dana',
-    modelInfo: 'Model je visoka 175 cm i nosi veličinu L (40)'
+    modelInfo: 'Model je visoka 175 cm i nosi veličinu L (40)',
+    stockQuantity: 8
   },
   {
     id: 'kaliope-dress',
@@ -505,7 +519,8 @@ export const PRODUCTS: Product[] = [
     ],
     isCustomizable: true,
     leadTimeDays: '5–7 radnih dana',
-    modelInfo: 'Model je visoka 178 cm i nosi veličinu L (40)'
+    modelInfo: 'Model je visoka 178 cm i nosi veličinu L (40)',
+    stockQuantity: 8
   }
 ];
 

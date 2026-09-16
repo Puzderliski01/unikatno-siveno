@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Ruler, Info, ShieldCheck, Truck, Heart } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Ruler, Info, ShieldCheck, Truck, Heart, Scissors } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
 import { OptimizedImage } from './OptimizedImage';
 import { usePredictivePreload } from '../hooks/usePredictivePreload';
+import { FabricInspection } from './FabricInspection';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -14,6 +15,8 @@ interface ProductDetailModalProps {
   onAddToCart: (product: Product, size: string, customMeasurements?: any) => void;
   onOpenZoom: (product: Product, index: number) => void;
   onToggleWishlist: (product: Product) => void;
+  onAddToOutfit?: (product: Product) => void;
+  isInOutfit?: boolean;
 }
 
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
@@ -24,6 +27,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   onAddToCart,
   onOpenZoom,
   onToggleWishlist,
+  onAddToOutfit,
+  isInOutfit,
 }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string>('S (36)');
@@ -43,6 +48,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [customWaist, setCustomWaist] = useState('');
   const [customHips, setCustomHips] = useState('');
   const [customNotes, setCustomNotes] = useState('');
+  const [isFabricOpen, setIsFabricOpen] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -61,6 +67,29 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   }, [product, handleProductView]);
 
   if (!isOpen || !product) return null;
+
+  const stockCount = product.badge === 'UNIKAT' ? 1 : product.badge === '1 of 1' ? 1 : product.badge === 'LIMITED EDITION' ? Math.floor(Math.random() * 3) + 2 : null;
+
+  // Generate fabric details from product composition
+  const fabricDetails = {
+    weaveType: product.materialsAndCare.composition.includes('Lan') ? 'Tkanje ravnomernog kanvasa'
+      : product.materialsAndCare.composition.includes('Svil') ? 'Mekani žersej sa sjajem'
+      : product.materialsAndCare.composition.includes('Pamuk') ? 'Fin pamučni keper'
+      : product.materialsAndCare.composition.includes('Vun') ? 'Vuneni flanel'
+      : 'Standardno tkanje',
+    threadCount: product.materialsAndCare.composition.includes('Lan') ? '280 niti/cm²'
+      : product.materialsAndCare.composition.includes('Svil') ? '320 niti/cm²'
+      : '240 niti/cm²',
+    materialFeel: product.materialsAndCare.composition.includes('Svil') ? 'Sjajna i hladna na dodir'
+      : product.materialsAndCare.composition.includes('Lan') ? 'Teksturisana i prozračna'
+      : product.materialsAndCare.composition.includes('Pamuk') ? 'Meka i udobna'
+      : 'Prijatna na koži',
+    lightReflection: product.materialsAndCare.composition.includes('Svil') ? 'Visok sjaj, svetlosna igra'
+      : product.materialsAndCare.composition.includes('Lan') ? 'Mat završnica sa blagim odsjajem'
+      : 'Blagi prirodni sjaj',
+    durability: 'Izdržljiva za svakodnevno nošenje',
+    careNotes: product.materialsAndCare.care,
+  };
 
   const handleNextImage = () => {
     setActiveImageIndex((prev) => (prev + 1) % product.images.length);
@@ -97,17 +126,32 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         {/* Top Header Controls */}
         <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 bg-[#111111]">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold">
-              {product.categoryLabelSr}
-            </span>
-            {product.badge && (
-              <span className="px-2 py-0.5 text-[10px] uppercase font-sans tracking-widest bg-[#c9a96e]/15 text-[#a08540] border border-[#c9a96e]/30">
-                {product.badge}
-              </span>
-            )}
+            {/* Luxury Breadcrumb */}
+            <nav className="luxury-breadcrumb">
+              <button onClick={onClose} className="hover:text-[#c9a96e] transition-colors">Početna</button>
+              <span className="luxury-breadcrumb-separator">&#9672;</span>
+              <button onClick={onClose} className="hover:text-[#c9a96e] transition-colors">Kolekcija</button>
+              <span className="luxury-breadcrumb-separator">&#9672;</span>
+              <span className="luxury-breadcrumb-current">{product.nameSr}</span>
+            </nav>
           </div>
 
           <div className="flex items-center gap-3">
+            {/* Outfit Button */}
+            {onAddToOutfit && (
+              <button
+                type="button"
+                onClick={() => onAddToOutfit(product)}
+                className={`px-3 py-2 border transition-all text-xs font-sans uppercase tracking-wider flex items-center gap-1.5 ${
+                  isInOutfit
+                    ? 'bg-[#c9a96e]/20 border-[#c9a96e]/60 text-[#c9a96e]'
+                    : 'border-[#e8e0d4]/15 text-[#e8e0d4] hover:bg-[#e8e0d4]/5'
+                }`}
+              >
+                <Scissors className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">{isInOutfit ? 'U outfitu' : 'Outfit'}</span>
+              </button>
+            )}
             <button
               type="button"
               onClick={() => onToggleWishlist(product)}
@@ -233,25 +277,48 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               </p>
 
               {/* Price & Lead Time */}
-              <div className="p-4 bg-[#111111] border border-[#e8e0d4]/10 mb-6 flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] uppercase tracking-wider text-[#e8e0d4]/60 font-sans">Cena kreacije</div>
-                  <div className="flex items-baseline gap-2.5">
-                    <span className="text-2xl sm:text-3xl font-semibold text-[#e8e0d4] font-mono tracking-tight">
-                      {FORMAT_RSD(product.priceRSD)}
-                    </span>
-                    {product.originalPriceRSD && (
-                      <span className="text-sm text-[#e8e0d4]/40 line-through font-mono">
-                        {FORMAT_RSD(product.originalPriceRSD)}
+              <div className="p-4 bg-[#111111] border border-[#e8e0d4]/10 mb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-wider text-[#e8e0d4]/60 font-sans">Cena kreacije</div>
+                    <div className="flex items-baseline gap-2.5">
+                      <span className="text-2xl sm:text-3xl font-semibold text-[#e8e0d4] font-mono tracking-tight">
+                        {FORMAT_RSD(product.priceRSD)}
                       </span>
-                    )}
+                      {product.originalPriceRSD && (
+                        <span className="text-sm text-[#e8e0d4]/40 line-through font-mono">
+                          {FORMAT_RSD(product.originalPriceRSD)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <div className="text-[10px] uppercase tracking-wider text-[#a08540] font-sans font-semibold">Rok izrade</div>
+                    <div className="text-xs text-[#e8e0d4] font-medium">{product.leadTimeDays.split('/')[0]}</div>
                   </div>
                 </div>
 
-                <div className="text-right">
-                  <div className="text-[10px] uppercase tracking-wider text-[#a08540] font-sans font-semibold">Rok izrade</div>
-                  <div className="text-xs text-[#e8e0d4] font-medium">{product.leadTimeDays.split('/')[0]}</div>
-                </div>
+                {/* Stock Indicator */}
+                {stockCount !== null && stockCount <= 3 && (
+                  <div className="flex items-center gap-2 pt-2 border-t border-[#e8e0d4]/10">
+                    <div className="stock-pulse">
+                      <span className="stock-pulse-dot" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wider text-red-400 font-sans font-medium">
+                      Još samo {stockCount} {stockCount === 1 ? 'komad' : 'komada'} preostalo
+                    </span>
+                  </div>
+                )}
+
+                {/* Pay Later Badge */}
+                {product.priceRSD >= 5000 && (
+                  <div className="flex items-center gap-2 pt-2 border-t border-[#e8e0d4]/10 mt-2">
+                    <span className="pay-later-badge">
+                      Plaćanje na rate: 3 × {FORMAT_RSD(Math.round(product.priceRSD / 3))} bez kamate
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Size Selector */}
@@ -480,6 +547,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                           ))}
                         </ul>
                       </div>
+                      <button
+                        type="button"
+                        onClick={() => setIsFabricOpen(true)}
+                        className="w-full py-3 border border-[#c9a96e]/40 bg-[#111111] hover:bg-[#1a1a1a] text-[#c9a96e] text-xs uppercase tracking-[0.15em] font-sans font-semibold transition-all flex items-center justify-center gap-2"
+                      >
+                        <ZoomIn className="w-4 h-4" />
+                        <span>Pregledaj tkaninu izbliza</span>
+                      </button>
                     </div>
                   )}
 
@@ -562,6 +637,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
         </div>
       </motion.div>
+
+      {/* Fabric Inspection Modal */}
+      <FabricInspection
+        isOpen={isFabricOpen}
+        onClose={() => setIsFabricOpen(false)}
+        productImage={product.images[0]}
+        fabricDetails={fabricDetails}
+      />
     </div>
   );
 };

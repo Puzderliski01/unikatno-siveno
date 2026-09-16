@@ -165,6 +165,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 <button
                   type="button"
                   onClick={onOpenCart}
+                  data-cart-icon
                   className="relative flex items-center gap-2 px-3 py-1.5 border-b border-[#c9a96e]/50 hover:border-[#c9a96e] text-[#e8e0d4] hover:text-[#c9a96e] transition-all group"
                 >
                   <ShoppingBag className="w-4 h-4 text-[#c9a96e] group-hover:scale-110 transition-transform" />
@@ -241,6 +242,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
           <button
             type="button"
             onClick={onOpenCart}
+            data-cart-icon
             className="relative flex flex-col items-center gap-0.5 p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
           >
             <ShoppingBag className="w-4 h-4" />

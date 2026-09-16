@@ -20,6 +20,7 @@ export interface Product {
   isCustomizable: boolean;
   leadTimeDays: string;
   modelInfo: string;
+  stockQuantity?: number;
 }
 
 export interface CartItem {

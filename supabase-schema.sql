@@ -26,8 +26,15 @@ CREATE TABLE IF NOT EXISTS products (
   images TEXT[] DEFAULT '{}',
   thumbnail TEXT DEFAULT '',
   featured BOOLEAN DEFAULT false,
-  active BOOLEAN DEFAULT true
+  active BOOLEAN DEFAULT true,
+  stock_quantity INTEGER DEFAULT NULL
 );
+
+-- Add stock_quantity column if it doesn't exist (for existing databases)
+DO $$ BEGIN
+  ALTER TABLE products ADD COLUMN IF NOT EXISTS stock_quantity INTEGER DEFAULT NULL;
+EXCEPTION WHEN duplicate_column THEN NULL;
+END $$;
 
 -- ============================================
 -- USER PROFILES TABLE

@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
-import { Sparkles, SlidersHorizontal, Search, LayoutGrid, LayoutList, Columns2, Columns3, Columns4, Grid2x2 } from 'lucide-react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { Sparkles, SlidersHorizontal, Search, LayoutGrid, LayoutList, Columns2, Columns3, Columns4, Grid2x2, X } from 'lucide-react';
 import { Product } from '../types';
 import { ProductCard } from './ProductCard';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
 import { usePredictivePreload } from '../hooks/usePredictivePreload';
 
@@ -13,6 +13,9 @@ interface ProductGridProps {
   onOpenZoom: (product: Product, index?: number) => void;
   onQuickAddToCart: (product: Product, size: string) => void;
   onToggleWishlist: (product: Product) => void;
+  onAddToOutfit?: (product: Product) => void;
+  outfitIds?: string[];
+  getStock?: (productId: string) => number | undefined;
 }
 
 export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
@@ -22,6 +25,9 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   onOpenZoom,
   onQuickAddToCart,
   onToggleWishlist,
+  onAddToOutfit,
+  outfitIds = [],
+  getStock,
 }) => {
   const { getVariants, getInViewOptions } = useScrollAnimation();
   const { handleProductHover } = usePredictivePreload(products, {
@@ -32,6 +38,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
     maxPreload: 3
   });
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [showAutocomplete, setShowAutocomplete] = useState(false);
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc' | 'name'>('default');
   const [gridCols, setGridCols] = useState<1 | 2 | 3 | 4>(3);
   // Price range filters
@@ -39,6 +46,55 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
   // Customizable filter
   const [isCustomizableOnly, setIsCustomizableOnly] = useState<boolean>(false);
+  // Category filter
+  const [selectedCategory, setSelectedCategory] = useState<string>('sve');
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  // Close autocomplete on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setShowAutocomplete(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Get unique categories
+  const categories = useMemo(() => {
+    const cats = [...new Set(products.map((p) => p.categoryLabelSr))];
+    return ['Sve', ...cats];
+  }, [products]);
+
+  // Autocomplete suggestions
+  const autocompleteSuggestions = useMemo(() => {
+    if (!searchQuery.trim() || searchQuery.length < 2) return [];
+    const q = searchQuery.toLowerCase();
+    const results: Array<{ type: 'product' | 'category'; name: string; id?: string; price?: number; image?: string }> = [];
+
+    // Product name matches
+    products.forEach((p) => {
+      if (p.nameSr.toLowerCase().includes(q) || p.subtitleSr.toLowerCase().includes(q)) {
+        results.push({
+          type: 'product',
+          name: p.nameSr,
+          id: p.id,
+          price: p.priceRSD,
+          image: p.images[0],
+        });
+      }
+    });
+
+    // Category matches
+    categories.forEach((cat) => {
+      if (cat !== 'Sve' && cat.toLowerCase().includes(q)) {
+        results.push({ type: 'category', name: cat });
+      }
+    });
+
+    return results.slice(0, 6);
+  }, [searchQuery, products, categories]);
 
   const filteredAndSortedProducts = useMemo(() => {
     let result = products.filter((p) => {
@@ -54,7 +110,10 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
       // Customizable filter
       const matchesCustomizable = !isCustomizableOnly || p.isCustomizable;
 
-      return matchesSearch && matchesPrice && matchesCustomizable;
+      // Category filter
+      const matchesCategory = selectedCategory === 'Sve' || p.categoryLabelSr === selectedCategory;
+
+      return matchesSearch && matchesPrice && matchesCustomizable && matchesCategory;
     });
 
     if (sortBy === 'price-asc') {
@@ -66,7 +125,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
     }
 
     return result;
-  }, [products, searchQuery, sortBy, minPrice, maxPrice, isCustomizableOnly]);
+  }, [products, searchQuery, sortBy, minPrice, maxPrice, isCustomizableOnly, selectedCategory]);
 
   const inViewOptions = getInViewOptions();
 
@@ -108,15 +167,68 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
         >
           {/* Row 1: Search + Sort */}
           <div className="flex items-center gap-2 sm:gap-3 mb-3">
-            <div className="relative flex-1">
+            <div className="relative flex-1" ref={searchRef}>
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#e8e0d4]/50" />
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Pretraži..."
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowAutocomplete(e.target.value.length >= 2);
+                }}
+                onFocus={() => searchQuery.length >= 2 && setShowAutocomplete(true)}
+                placeholder="Pretraži po imenu, kategoriji..."
                 className="w-full pl-9 pr-3 py-2 sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => { setSearchQuery(''); setShowAutocomplete(false); }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#e8e0d4]/40 hover:text-[#c9a96e] transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+
+              {/* Autocomplete Dropdown */}
+              <AnimatePresence>
+                {showAutocomplete && autocompleteSuggestions.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    className="absolute top-full left-0 right-0 mt-1 bg-[#111111] border border-[#c9a96e]/30 z-50 max-h-[280px] overflow-y-auto scrollbar-none shadow-xl"
+                  >
+                    {autocompleteSuggestions.map((suggestion, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => {
+                          if (suggestion.type === 'product' && suggestion.id) {
+                            const product = products.find((p) => p.id === suggestion.id);
+                            if (product) onOpenDetails(product);
+                          } else {
+                            setSelectedCategory(suggestion.name);
+                            setSearchQuery('');
+                          }
+                          setShowAutocomplete(false);
+                        }}
+                        className="w-full flex items-center gap-3 p-3 hover:bg-[#1a1a1a] transition-colors text-left border-b border-[#c9a96e]/10 last:border-0"
+                      >
+                        {suggestion.image && (
+                          <img src={suggestion.image} alt="" className="w-10 h-12 object-cover border border-[#c9a96e]/20" />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs text-[#e8e0d4] truncate">{suggestion.name}</p>
+                          <p className="text-[10px] text-[#c9a96e] uppercase tracking-wider">
+                            {suggestion.type === 'product' ? `${suggestion.price?.toLocaleString('sr-RS')} RSD` : 'Kategorija'}
+                          </p>
+                        </div>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             <div className="relative flex-shrink-0">
               <select
@@ -133,7 +245,25 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
             </div>
           </div>
 
-          {/* Row 2: Filters + Grid selector */}
+          {/* Row 2: Category Pills */}
+          <div className="flex items-center gap-1.5 mb-3 overflow-x-auto scrollbar-none pb-1">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1 text-[10px] uppercase tracking-wider font-sans whitespace-nowrap transition-all border ${
+                  selectedCategory === cat
+                    ? 'bg-[#c9a96e] text-[#0a0a0a] border-[#c9a96e] font-semibold'
+                    : 'bg-transparent text-[#e8e0d4]/60 border-[#c9a96e]/20 hover:border-[#c9a96e]/50 hover:text-[#e8e0d4]'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Row 3: Filters + Grid selector */}
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             {/* Customizable Filter */}
             <label className="flex items-center gap-1.5 cursor-pointer text-[11px] sm:text-xs">
@@ -216,6 +346,9 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                   onOpenZoom={onOpenZoom}
                   onQuickAddToCart={onQuickAddToCart}
                   onToggleWishlist={onToggleWishlist}
+                  onAddToOutfit={onAddToOutfit}
+                  isInOutfit={outfitIds.includes(product.id)}
+                  stockQuantity={getStock ? getStock(product.id) : product.stockQuantity}
                 />
               </motion.div>
             ))}
@@ -232,6 +365,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                 setMaxPrice(null);
                 setIsCustomizableOnly(false);
                 setSortBy('default');
+                setSelectedCategory('Sve');
               }}
               className="px-6 py-2.5 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider"
             >

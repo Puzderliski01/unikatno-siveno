@@ -1,6 +1,6 @@
-import React, { useState, Suspense, lazy, useEffect } from 'react';
+import React, { useState, Suspense, lazy, useEffect, useCallback, useRef } from 'react';
 import { Product, CartItem } from './types';
-import { PRODUCTS } from './data/products';
+import { PRODUCTS, FORMAT_RSD } from './data/products';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductGrid } from './components/ProductGrid';
@@ -13,6 +13,15 @@ import { UserProfile } from './components/UserProfile';
 import { VIPBenefitsModal } from './components/VIPBenefitsModal';
 import { AuthModal } from './components/AuthModal';
 import { AuthProvider, useAuth } from './lib/auth';
+import { RecentlyViewed } from './components/RecentlyViewed';
+import { FloatingActionBar } from './components/FloatingActionBar';
+import { OutfitBuilder } from './components/OutfitBuilder';
+import { ThemeToggle } from './components/ThemeToggle';
+import { LuxuryLoadingScreen } from './components/LuxuryLoadingScreen';
+import { CursorEffects } from './components/CursorEffects';
+import { PersonalizedRecommendations } from './components/PersonalizedRecommendations';
+import { usePersonalization } from './hooks/usePersonalization';
+import { useRealtimeStock } from './hooks/useRealtimeStock';
 
 const ProductDetailModal = lazy(() =>
   import('./components/ProductDetailModal').then((m) => ({ default: m.ProductDetailModal }))
@@ -65,11 +74,35 @@ function AppContent() {
     });
   }, []);
 
+  // Personalization
+  const {
+    trackView: trackProductView,
+    trackWishlist: trackWishlistBehavior,
+    trackCart: trackCartBehavior,
+    trackSize: trackSizeBehavior,
+    getRecommended,
+    hasBehavior,
+  } = usePersonalization(products);
+
+  // Real-time stock from Supabase
+  const { getStock } = useRealtimeStock(products);
+
   // Cart state
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   // Wishlist state
   const [wishlistIds, setWishlistIds] = useState<string[]>([]);
+
+  // Recently viewed products
+  const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+    } catch { return []; }
+  });
+
+  // Outfit builder state
+  const [outfitItems, setOutfitItems] = useState<Product[]>([]);
+  const [isOutfitOpen, setIsOutfitOpen] = useState(false);
 
   // Modal / Drawer visibility states
   const [selectedProductForDetail, setSelectedProductForDetail] = useState<Product | null>(null);
@@ -90,6 +123,27 @@ function AppContent() {
   // Toast notifications
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
+  // Loading screen
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Theme
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    try {
+      return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
+    } catch { return 'dark'; }
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  // Loading screen timer
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1800);
+    return () => clearTimeout(timer);
+  }, []);
+
   const addToast = (title: string, description: string, type: 'cart' | 'wishlist' | 'booking' | 'info' = 'info') => {
     const id = `${Date.now()}-${Math.random()}`;
     setToasts((prev) => [...prev, { id, title, description, type }]);
@@ -101,6 +155,16 @@ function AppContent() {
   const dismissToast = (id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   };
+
+  // Track recently viewed
+  const trackRecentlyViewed = useCallback((productId: string) => {
+    setRecentlyViewedIds((prev) => {
+      const filtered = prev.filter((id) => id !== productId);
+      const updated = [productId, ...filtered].slice(0, 12);
+      localStorage.setItem('recentlyViewed', JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
   // Cart Handlers
   const handleAddToCart = (product: Product, size: string, customMeasurements?: any) => {
@@ -128,6 +192,7 @@ function AppContent() {
       `${product.nameSr} (Veličina: ${size}) se nalazi u vašoj korpi.`,
       'cart'
     );
+    trackCartBehavior(product);
   };
 
   const handleQuickAddToCart = (product: Product, size: string) => {
@@ -153,9 +218,11 @@ function AppContent() {
   const handleToggleWishlist = (product: Product) => {
     if (wishlistIds.includes(product.id)) {
       setWishlistIds((prev) => prev.filter((id) => id !== product.id));
+      trackWishlistBehavior(product.id, false);
       addToast('Uklonjeno iz liste želja', `${product.nameSr} je uklonjen.`, 'info');
     } else {
       setWishlistIds((prev) => [...prev, product.id]);
+      trackWishlistBehavior(product.id, true);
       addToast('Dodato u listu želja', `${product.nameSr} je sačuvan za kasnije.`, 'wishlist');
     }
   };
@@ -187,6 +254,8 @@ function AppContent() {
   const handleOpenDetails = (product: Product) => {
     setSelectedProductForDetail(product);
     setIsDetailOpen(true);
+    trackRecentlyViewed(product.id);
+    trackProductView(product);
   };
 
   const scrollToGallery = () => {
@@ -200,6 +269,30 @@ function AppContent() {
         behavior: 'smooth',
       });
     }
+  };
+
+  // Outfit Builder handlers
+  const handleAddToOutfit = (product: Product) => {
+    if (outfitItems.find((p) => p.id === product.id)) {
+      setOutfitItems((prev) => prev.filter((p) => p.id !== product.id));
+      addToast('Uklonjeno iz outfita', `${product.nameSr} je uklonjen.`, 'info');
+    } else {
+      setOutfitItems((prev) => [...prev, product]);
+      addToast('Dodato u outfit', `${product.nameSr} je dodat u vaš outfit builder.`, 'info');
+    }
+  };
+
+  const handleRemoveFromOutfit = (productId: string) => {
+    setOutfitItems((prev) => prev.filter((p) => p.id !== productId));
+  };
+
+  // WhatsApp cart recovery message
+  const handleWhatsAppRecovery = () => {
+    if (cartItems.length === 0) return;
+    const items = cartItems.map((i) => `• ${i.product.nameSr} (${i.size})`).join('%0A');
+    const total = FORMAT_RSD(cartTotalAmount);
+    const msg = `Zdravo, zanima me kupovina:%0A%0A${items}%0A%0AUkupno: ${total}%0A%0AHvala!`;
+    window.open(`https://wa.me/38163616071?text=${msg}`, '_blank');
   };
 
   const cartTotalAmount = cartItems.reduce((acc, i) => acc + i.product.priceRSD * i.quantity, 0);
@@ -218,8 +311,17 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4] selection:bg-[#c9a96e]/30 selection:text-[#e8e0d4]">
       
+      {/* Luxury Loading Screen */}
+      <LuxuryLoadingScreen isLoading={isLoading} />
+
+      {/* Cursor Effects (spotlight + trail + custom cursor) */}
+      <CursorEffects />
+
       {/* Toast Notification Layer */}
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
+
+      {/* Theme Toggle */}
+      <ThemeToggle theme={theme} onToggle={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} />
 
       {/* Main Header & Navigation */}
       <Header
@@ -239,6 +341,14 @@ function AppContent() {
         onExploreClick={scrollToGallery}
       />
 
+      {/* Personalized Recommendations */}
+      {hasBehavior && (
+        <PersonalizedRecommendations
+          products={getRecommended()}
+          onOpenDetails={handleOpenDetails}
+        />
+      )}
+
       {/* Main Collection Gallery Grid */}
       <ProductGrid
         products={products}
@@ -247,10 +357,45 @@ function AppContent() {
         onOpenZoom={handleOpenZoom}
         onQuickAddToCart={handleQuickAddToCart}
         onToggleWishlist={handleToggleWishlist}
+        onAddToOutfit={handleAddToOutfit}
+        outfitIds={outfitItems.map(p => p.id)}
+        getStock={getStock}
+      />
+
+      {/* Recently Viewed Products */}
+      <RecentlyViewed
+        productIds={recentlyViewedIds}
+        allProducts={products}
+        onOpenDetails={handleOpenDetails}
       />
 
       {/* About & Slow Fashion Craftsmanship Section */}
       <AboutSection />
+
+      {/* Gift Registry Banner */}
+      <section className="py-16 bg-[#0a0a0a] relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="gift-registry-banner p-8 sm:p-12 text-center relative z-10">
+            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-medium mb-3">
+              <span>✨</span>
+              <span>Liste za Venčanja</span>
+            </div>
+            <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#e8e0d4] mb-3 font-normal">
+              Vaša lista želja za poseban dan
+            </h3>
+            <p className="text-xs sm:text-sm text-[#e8e0d4]/70 mb-6 max-w-lg mx-auto leading-relaxed">
+              Kreirajte personalizovanu listu želja za venčanje i podelite je sa gostima. Svaki komad je ručno šiven sa ljubavlju.
+            </p>
+            <button
+              type="button"
+              onClick={() => addToast('Uskoro dostupno', 'Funkcija listi za venčanja će uskoro biti dostupna.', 'info')}
+              className="px-8 py-3 bg-transparent border border-[#c9a96e] text-[#c9a96e] text-xs uppercase tracking-[0.2em] font-semibold hover:bg-[#c9a96e]/10 transition-colors"
+            >
+              Saznajte više
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* Contact, Atelier Salon & FAQ Section */}
       <ContactSection
@@ -260,6 +405,23 @@ function AppContent() {
       {/* Luxury Footer */}
       <Footer
         onShowToast={addToast}
+      />
+
+      {/* Floating Action Button */}
+      <FloatingActionBar
+        onWhatsApp={handleWhatsAppRecovery}
+        onCall={() => window.open('tel:+38163616071', '_blank')}
+        onBooking={() => addToast('Zakazivanje', 'Kontaktirajte nas putem WhatsApp-a za zakazivanje termina.', 'info')}
+      />
+
+      {/* Outfit Builder */}
+      <OutfitBuilder
+        isOpen={isOutfitOpen}
+        onToggle={() => setIsOutfitOpen(!isOutfitOpen)}
+        outfitItems={outfitItems}
+        onRemove={handleRemoveFromOutfit}
+        onOpenDetails={handleOpenDetails}
+        onAddToCart={handleQuickAddToCart}
       />
 
       {/* Lazy-loaded Modals */}
@@ -276,6 +438,8 @@ function AppContent() {
           onAddToCart={handleAddToCart}
           onOpenZoom={handleOpenZoom}
           onToggleWishlist={handleToggleWishlist}
+          onAddToOutfit={handleAddToOutfit}
+          isInOutfit={selectedProductForDetail ? outfitItems.some(p => p.id === selectedProductForDetail.id) : false}
         />
 
         {/* Mini-Cart Drawer */}

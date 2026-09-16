@@ -29,6 +29,7 @@ export interface DbProduct {
   thumbnail: string;
   featured: boolean;
   active: boolean;
+  stock_quantity: number | null;
 }
 
 export function dbProductToProduct(db: DbProduct): Product {
@@ -54,6 +55,7 @@ export function dbProductToProduct(db: DbProduct): Product {
     isCustomizable: db.sizes.some(s => s.includes('merama') || s.includes('meri')),
     leadTimeDays: db.lead_time_days,
     modelInfo: db.model_info,
+    stockQuantity: db.stock_quantity ?? undefined,
   };
 }
 
