@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useSwipe } from '../hooks/useSwipe';
 
 interface ImageLightboxProps {
   isOpen: boolean;
@@ -33,6 +34,13 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onNext, onPrev, onClose]);
+
+  // Swipe gesture for lightbox
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: onNext,
+    onSwipeRight: onPrev,
+    threshold: 50,
+  });
 
   if (!isOpen || images.length === 0) return null;
 
@@ -94,8 +102,9 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
         {/* Main image */}
         <div
-          className="relative max-w-5xl max-h-[80vh] flex items-center justify-center overflow-hidden"
+          className="relative max-w-5xl max-h-[80vh] flex items-center justify-center overflow-hidden touch-pan-y"
           onClick={e => e.stopPropagation()}
+          {...swipeHandlers}
         >
           <motion.img
             key={currentIndex}

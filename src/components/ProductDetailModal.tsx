@@ -6,6 +6,7 @@ import { FORMAT_RSD } from '../data/products';
 import { OptimizedImage } from './OptimizedImage';
 import { usePredictivePreload } from '../hooks/usePredictivePreload';
 import { FabricInspection } from './FabricInspection';
+import { useSwipe } from '../hooks/useSwipe';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -99,6 +100,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     setActiveImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
   };
 
+  // Swipe gesture for image carousel
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: handleNextImage,
+    onSwipeRight: handlePrevImage,
+    threshold: 40,
+  });
+
   const handleAdd = () => {
     const measurements = isCustomTailored
       ? { height: customHeight, bust: customBust, waist: customWaist, hips: customHips, notes: customNotes }
@@ -179,7 +187,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           
           {/* Left Column: Image (fixed height on mobile, scrollable on desktop) */}
           <div className="lg:col-span-6">
-            <div className="relative aspect-square sm:aspect-[3/4] w-full overflow-hidden bg-[#111111] border border-[#e8e0d4]/10 group studio-light-overlay">
+            <div
+              className="relative aspect-square sm:aspect-[3/4] w-full overflow-hidden bg-[#111111] border border-[#e8e0d4]/10 group studio-light-overlay touch-pan-y"
+              {...swipeHandlers}
+            >
               <motion.div
                 initial={{ scale: 1, rotate: 0 }}
                 animate={{
