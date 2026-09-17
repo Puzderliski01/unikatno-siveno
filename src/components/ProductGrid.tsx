@@ -47,7 +47,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   // Customizable filter
   const [isCustomizableOnly, setIsCustomizableOnly] = useState<boolean>(false);
   // Category filter
-  const [selectedCategory, setSelectedCategory] = useState<string>('sve');
+  const [selectedCategory, setSelectedCategory] = useState<string>('Sve');
   const searchRef = useRef<HTMLDivElement>(null);
 
   // Close autocomplete on outside click

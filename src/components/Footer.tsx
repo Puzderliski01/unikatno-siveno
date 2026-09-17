@@ -130,9 +130,9 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
                 href="https://www.instagram.com/jelena.ericc/"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ scale: 1.1, backgroundColor: '#c9a96e', color: '#000000' }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 bg-white/5 text-[#e8e0d4] transition-colors"
+                className="p-2 bg-white/5 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-colors"
               >
                 <Instagram className="w-4 h-4" />
               </motion.a>
@@ -142,9 +142,9 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
                 href="https://www.instagram.com/jelena.ericc/"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ scale: 1.1, backgroundColor: '#c9a96e', color: '#000000' }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 bg-white/5 text-[#e8e0d4] transition-colors"
+                className="p-2 bg-white/5 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-colors"
               >
                 <Facebook className="w-4 h-4" />
               </motion.a>

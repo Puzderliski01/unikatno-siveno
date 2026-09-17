@@ -136,6 +136,9 @@ function AppContent() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
+    // Update meta theme-color for mobile browser chrome
+    const meta = document.getElementById('theme-color-meta') as HTMLMetaElement | null;
+    if (meta) meta.content = theme === 'light' ? '#f5f0e8' : '#0a0a0a';
   }, [theme]);
 
   // Loading screen timer
@@ -425,7 +428,7 @@ function AppContent() {
       />
 
       {/* Lazy-loaded Modals */}
-      <Suspense fallback={null}>
+      <Suspense fallback={<div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />}>
         {/* Product Detail Modal */}
         <ProductDetailModal
           product={selectedProductForDetail}

@@ -169,9 +169,9 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
           </button>
         </div>
 
-        {/* Stock indicator */}
+        {/* Stock indicator - bottom left, below gradient */}
         {stockCount !== null && stockCount <= 3 && stockCount > 0 && (
-          <div className="absolute top-3 left-3 z-30">
+          <div className="absolute bottom-3 left-3 z-30">
             <div className="stock-pulse">
               <span className="stock-pulse-dot" />
               <span className="text-[9px] uppercase tracking-wider text-red-400 font-sans font-medium bg-[#0a0a0a]/90 px-2 py-0.5">

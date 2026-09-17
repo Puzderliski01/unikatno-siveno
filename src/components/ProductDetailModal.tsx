@@ -183,7 +183,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         </div>
 
         {/* Modal Body: Image + Details */}
-        <div className="flex-1 min-h-0 overflow-hidden grid grid-cols-1 lg:grid-cols-12 p-4 sm:p-6 gap-4 sm:gap-8">
+        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 p-4 sm:p-6 gap-4 sm:gap-8 overflow-y-auto">
           
           {/* Left Column: Image (fixed height on mobile, scrollable on desktop) */}
           <div className="lg:col-span-6">
