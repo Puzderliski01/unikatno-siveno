@@ -25,6 +25,7 @@ import { CursorEffects } from './components/CursorEffects';
 import { PersonalizedRecommendations } from './components/PersonalizedRecommendations';
 import { usePersonalization } from './hooks/usePersonalization';
 import { useRealtimeStock } from './hooks/useRealtimeStock';
+import { useScrollSwing } from './hooks/useScrollSwing';
 
 const CartDrawer = lazy(() =>
   import('./components/CartDrawer').then((m) => ({ default: m.CartDrawer }))
@@ -86,6 +87,9 @@ function AppContent() {
 
   // Real-time stock from Supabase
   const { getStock } = useRealtimeStock(products);
+
+  // Scroll velocity → swing CSS variable
+  useScrollSwing();
 
   // Cart state
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -314,6 +318,12 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4] selection:bg-[#c9a96e]/30 selection:text-[#e8e0d4]">
       
+      {/* Atmospheric vignette — always-on cinematic border darkening */}
+      <div
+        className="fixed inset-0 pointer-events-none z-[9998]"
+        style={{ background: 'radial-gradient(ellipse at center, transparent 50%, rgba(10,10,10,0.45) 100%)' }}
+      />
+
       {/* Luxury Loading Screen */}
       <LuxuryLoadingScreen isLoading={isLoading} />
 
@@ -416,7 +426,7 @@ function AppContent() {
             <button
               type="button"
               onClick={() => addToast('Uskoro dostupno', 'Funkcija listi za venčanja će uskoro biti dostupna.', 'info')}
-              className="px-8 py-3 bg-transparent border border-[#c9a96e] text-[#c9a96e] text-xs uppercase tracking-[0.2em] font-semibold hover:bg-[#c9a96e]/10 transition-colors"
+              className="shine-btn px-8 py-3 bg-transparent border border-[#c9a96e] text-[#c9a96e] text-xs uppercase tracking-[0.2em] font-semibold hover:bg-[#c9a96e]/10 transition-colors"
             >
               Saznajte više
             </button>

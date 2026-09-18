@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowDown, Scissors, ShieldCheck, Ruler } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { TextReveal } from './TextReveal';
+import { HangingLetters } from './HangingLetters';
 
 interface HeroProps {
   onExploreClick: () => void;
@@ -72,7 +72,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
             id="hero-explore-collection-btn"
             type="button"
             onClick={onExploreClick}
-            className="px-6 py-2.5 bg-transparent border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10 mb-6"
+            className="shine-btn px-6 py-2.5 bg-transparent border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10 mb-6"
           >
             Istražite kolekciju
           </button>
@@ -164,13 +164,12 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
               </div>
             </motion.div>
 
-            {/* Headline */}
-            <TextReveal
+            {/* Headline — hanging letters that sway on springs */}
+            <HangingLetters
               text="Kolekcija. Unikatno šivenje"
               tag="h1"
               className="font-serif-luxury text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-light text-[#e8e0d4] tracking-tight leading-[1.1] mb-6 text-center"
               delay={400}
-              staggerDelay={25}
             />
 
             {/* Text */}
@@ -193,7 +192,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
                 id="hero-explore-collection-btn"
                 type="button"
                 onClick={onExploreClick}
-                className="px-10 py-4 bg-transparent border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs sm:text-sm uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10"
+                className="shine-btn px-10 py-4 bg-transparent border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs sm:text-sm uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10"
               >
                 Istražite kolekciju
               </button>

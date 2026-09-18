@@ -3,6 +3,7 @@ import { ShoppingBag, Heart, Trophy, Star, LogIn, UserPlus, Home, Sparkles, Phon
 import { FORMAT_RSD } from '../data/products';
 import { useAuth } from '../lib/auth';
 import { NotificationBell } from './NotificationBell';
+import { CursorGlow } from './CursorGlow';
 
 interface HeaderProps {
   cartCount: number;
@@ -30,6 +31,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   const { user } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,7 +84,8 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
       {/* Desktop Header */}
       <header className="hidden lg:block sticky top-0 z-40">
-        <nav className={`transition-all duration-300 ${isScrolled ? 'liquid-glass scrolled' : 'liquid-glass'}`}>
+        <nav ref={navRef} className={`transition-all duration-300 ${isScrolled ? 'liquid-glass scrolled' : 'liquid-glass'}`}>
+          <CursorGlow parentRef={navRef} />
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex items-center justify-between lg:grid lg:grid-cols-3">
               

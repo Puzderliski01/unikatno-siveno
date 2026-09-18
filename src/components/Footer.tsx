@@ -47,7 +47,7 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
             hidden: { opacity: 0, y: 50, scale: 0.98 },
             visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
           }}
-          className="p-4 sm:p-8 lg:p-10 bg-[#1a1a1a] border border-[#c9a96e]/30 mb-16 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 shadow-lg relative overflow-hidden"
+          className="lift-hover p-4 sm:p-8 lg:p-10 bg-[#1a1a1a] border border-[#c9a96e]/30 mb-16 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 shadow-lg relative overflow-hidden"
         >
           {/* Subtle background glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#c9a96e]/5 via-transparent to-[#c9a96e]/5" />
@@ -79,7 +79,7 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-[#c9a96e] hover:bg-[#A7823B] text-black font-semibold text-xs uppercase tracking-[0.15em] transition-colors whitespace-nowrap flex items-center justify-center gap-1.5"
+                className="shine-btn px-6 py-3 bg-[#c9a96e] hover:bg-[#A7823B] text-black font-semibold text-xs uppercase tracking-[0.15em] transition-colors whitespace-nowrap flex items-center justify-center gap-1.5"
               >
                 <span>{subscribed ? 'Prijavljeni' : 'Prijavite se'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -158,33 +158,25 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
               Navigacija
             </h4>
             <ul className="space-y-2.5 text-[#e8e0d4]/75">
-              <li>
-                <motion.button 
-                  onClick={() => scrollTo('kolekcija')} 
-                  whileHover={{ x: 4 }}
-                  className="hover:text-[#c9a96e] transition-colors text-left"
-                >
-                  Kolekcija i galerija modela
-                </motion.button>
-              </li>
-              <li>
-                <motion.button 
-                  onClick={() => scrollTo('o-radionici')} 
-                  whileHover={{ x: 4 }}
-                  className="hover:text-[#c9a96e] transition-colors text-left"
-                >
-                  O radionici & Jeleni Erić
-                </motion.button>
-              </li>
-              <li>
-                <motion.button 
-                  onClick={() => scrollTo('kontakt')} 
-                  whileHover={{ x: 4 }}
-                  className="hover:text-[#c9a96e] transition-colors text-left"
-                >
-                  Kontakt & Lokacija
-                </motion.button>
-              </li>
+              {[
+                { id: 'kolekcija', label: 'Kolekcija i galerija modela' },
+                { id: 'o-radionici', label: 'O radionici & Jeleni Erić' },
+                { id: 'kontakt', label: 'Kontakt & Lokacija' },
+              ].map((link, idx) => (
+                <li key={link.id}>
+                  <motion.button 
+                    onClick={() => scrollTo(link.id)} 
+                    whileHover={{ x: 4 }}
+                    className="hanging-link hover:text-[#c9a96e] transition-colors text-left pl-3"
+                    style={{ 
+                      transformOrigin: 'top center',
+                      animationDelay: `${idx * 0.1}s`,
+                    }}
+                  >
+                    {link.label}
+                  </motion.button>
+                </li>
+              ))}
             </ul>
           </motion.div>
 
