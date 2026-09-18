@@ -11,7 +11,7 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
   const { isMobile } = useScrollAnimation();
   const [videoEnded, setVideoEnded] = useState(false);
-  const [isVideoLoading, setIsVideoLoading] = useState(true);
+  const [videoFailed, setVideoFailed] = useState(false);
 
   const { scrollYProgress } = useScroll({
     offset: ['start start', 'end start'],
@@ -37,14 +37,12 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
             className="absolute inset-0 w-full h-full object-cover scale-105"
             style={{ filter: 'blur(1px) brightness(0.55) contrast(1.15) saturate(0.9)' }}
             onEnded={() => setVideoEnded(true)}
-            onLoadStart={() => setIsVideoLoading(false)}
-            onError={() => setIsVideoLoading(false)}
+            onError={() => setVideoFailed(true)}
           >
             <source src="/videos/video1.mp4" type="video/mp4" />
           </video>
 
-          {/* Fallback if video fails */}
-          {isVideoLoading === false && (
+          {videoFailed && (
             <div
               className="absolute inset-0"
               style={{
@@ -118,14 +116,12 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
               className="absolute inset-0 w-full h-full object-cover scale-105"
               style={{ filter: 'blur(1.5px) brightness(0.5) contrast(1.2) saturate(0.85)' }}
               onEnded={() => setVideoEnded(true)}
-              onLoadStart={() => setIsVideoLoading(false)}
-              onError={() => setIsVideoLoading(false)}
+              onError={() => setVideoFailed(true)}
             >
               <source src="/videos/video1.mp4" type="video/mp4" />
             </video>
 
-            {/* Fallback if video fails */}
-            {isVideoLoading === false && (
+            {videoFailed && (
               <div
                 className="absolute inset-0"
                 style={{
