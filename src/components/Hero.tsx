@@ -28,24 +28,23 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
     return (
       <div className="relative w-full bg-[#0a0a0a]">
         {/* Video Background */}
-        <div className="absolute inset-0 z-0">
-          {/* Try to load video */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <video
             autoPlay
             muted
             loop
             playsInline
-            className="absolute inset-0"
+            className="absolute inset-0 w-full h-full object-cover scale-105"
+            style={{ filter: 'blur(1px) brightness(0.55) contrast(1.15) saturate(0.9)' }}
             onEnded={() => setVideoEnded(true)}
             onLoadStart={() => setIsVideoLoading(false)}
             onError={() => setIsVideoLoading(false)}
           >
-            <source src="/videos/hero-mobile.mp4" type="video/mp4" />
-            <source src="/videos/hero-mobile.webm" type="video/webm" />
+            <source src="/videos/video1.mp4" type="video/mp4" />
           </video>
 
-          {/* Show fallback if video fails to load or is loading */}
-          {!isVideoLoading && (
+          {/* Fallback if video fails */}
+          {isVideoLoading === false && (
             <div
               className="absolute inset-0"
               style={{
@@ -110,29 +109,23 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
           <motion.div className="absolute inset-0 bg-[#0a0a0a]" style={{ scale: bgScale }} />
 
           {/* Video container */}
-          <div className="absolute inset-0">
-            {/* Try to load video */}
+          <div className="absolute inset-0 overflow-hidden">
             <video
               autoPlay
               muted
               loop
               playsInline
-              className="absolute inset-0"
-              style={{
-                objectFit: 'cover',
-                width: '100%',
-                height: '100%'
-              }}
+              className="absolute inset-0 w-full h-full object-cover scale-105"
+              style={{ filter: 'blur(1.5px) brightness(0.5) contrast(1.2) saturate(0.85)' }}
               onEnded={() => setVideoEnded(true)}
               onLoadStart={() => setIsVideoLoading(false)}
               onError={() => setIsVideoLoading(false)}
             >
-              <source src="/videos/hero-desktop.mp4" type="video/mp4" />
-              <source src="/videos/hero-desktop.webm" type="video/webm" />
+              <source src="/videos/video1.mp4" type="video/mp4" />
             </video>
 
-            {/* Show fallback if video fails to load or is loading */}
-            {!isVideoLoading && (
+            {/* Fallback if video fails */}
+            {isVideoLoading === false && (
               <div
                 className="absolute inset-0"
                 style={{
@@ -146,10 +139,12 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
           </div>
         </motion.div>
 
-        {/* Overlay */}
+        {/* Overlay - gradients + vignette + grain for quality masking */}
         <div className="absolute inset-0 z-[1] pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/80 via-[#0a0a0a]/40 to-[#0a0a0a]/90" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/60 via-transparent to-[#0a0a0a]/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/80 via-[#0a0a0a]/30 to-[#0a0a0a]/90" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/50 via-transparent to-[#0a0a0a]/50" />
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(10,10,10,0.6) 100%)' }} />
+          <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
         </div>
 
         {/* Content */}

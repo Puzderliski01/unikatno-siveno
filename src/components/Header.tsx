@@ -60,7 +60,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
     <>
       {/* Top Logo Bar - Mobile */}
       <div className="lg:hidden sticky top-0 z-40 liquid-glass">
-        <div className="flex items-center justify-center py-3">
+        <div className="flex items-center justify-between py-3 px-4">
           <a
             href="#"
             onClick={(e) => {
@@ -76,6 +76,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
               Jelena Erić
             </p>
           </a>
+          <NotificationBell />
         </div>
       </div>
 
