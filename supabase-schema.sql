@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS products (
   thumbnail TEXT DEFAULT '',
   featured BOOLEAN DEFAULT false,
   active BOOLEAN DEFAULT true,
-  stock_quantity INTEGER DEFAULT NULL
+  stock_quantity INTEGER DEFAULT NULL,
+  fabric_image TEXT DEFAULT NULL
 );
 
 -- Add stock_quantity column if it doesn't exist (for existing databases)
@@ -183,3 +184,8 @@ CREATE POLICY "Authenticated upload access" ON storage.objects
 DROP POLICY IF EXISTS "Authenticated delete access" ON storage.objects;
 CREATE POLICY "Authenticated delete access" ON storage.objects
   FOR DELETE USING (bucket_id = 'product-images' AND auth.role() = 'authenticated');
+
+-- ============================================
+-- MIGRATION: Run if table already exists
+-- ============================================
+-- ALTER TABLE products ADD COLUMN IF NOT EXISTS fabric_image TEXT DEFAULT NULL;

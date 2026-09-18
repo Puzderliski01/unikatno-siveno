@@ -33,6 +33,8 @@ const EMPTY_PRODUCT: Partial<DbProduct> = {
   thumbnail: '',
   featured: false,
   active: true,
+  stock_quantity: null,
+  fabric_image: null,
 };
 
 export const AdminDashboard: React.FC = () => {
@@ -121,6 +123,8 @@ export const AdminDashboard: React.FC = () => {
           thumbnail: '',
           featured: false,
           active: true,
+          stock_quantity: null,
+          fabric_image: null,
         };
         const currentImages = initialState.images || [];
         return { ...initialState, images: [...currentImages, ...uploadedUrls] };
@@ -495,6 +499,46 @@ const AdminProductForm: React.FC<AdminProductFormProps> = ({
             <label className={labelClass}>Info o modelu</label>
             <input type="text" value={product.model_info || ''} onChange={(e) => update('model_info', e.target.value)} className={inputClass} placeholder="npr. Model nosi veličinu S" />
           </div>
+          <div>
+            <label className={labelClass}>Količina / Zaliha</label>
+            <input type="number" min="0" value={product.stock_quantity ?? ''} onChange={(e) => update('stock_quantity', e.target.value === '' ? null : parseInt(e.target.value) || 0)} className={inputClass} placeholder="null = neograničeno" />
+          </div>
+        </section>
+
+        {/* Fabric Close-up Image */}
+        <section>
+          <label className={labelClass}>Slika materijala izbliza</label>
+          {product.fabric_image ? (
+            <div className="relative w-48 aspect-[4/3] bg-[#111111] border border-[#e8e0d4]/10 overflow-hidden group mb-2">
+              <img src={product.fabric_image} alt="Materijal izbliza" className="w-full h-full object-cover" />
+              <button
+                onClick={() => update('fabric_image', null)}
+                className="absolute top-1 right-1 p-1 bg-red-600/80 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          ) : (
+            <label className="flex items-center gap-3 w-fit px-4 py-3 border-2 border-dashed border-[#e8e0d4]/15 cursor-pointer hover:border-[#c9a96e]/50 transition-colors">
+              <Upload className="w-4 h-4 text-[#e8e0d4]/30" />
+              <span className="text-xs text-[#e8e0d4]/40">Okačite sliku materijala</span>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const fileName = `fabric-${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+                  const { data } = await supabase.storage.from('product-images').upload(fileName, file);
+                  if (data) {
+                    const { data: urlData } = await supabase.storage.from('product-images').getPublicUrl(data.path);
+                    update('fabric_image', urlData.publicUrl);
+                  }
+                }}
+              />
+            </label>
+          )}
         </section>
 
         {/* Description & Story */}

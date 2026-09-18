@@ -84,7 +84,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
   if (!isOpen || !product) return null;
 
-  const stockCount = product.badge === 'UNIKAT' ? 1 : product.badge === '1 of 1' ? 1 : product.badge === 'LIMITED EDITION' ? Math.floor(Math.random() * 3) + 2 : null;
+  const stockCount = product.stockQuantity ?? (product.badge === 'UNIKAT' ? 1 : product.badge === '1 of 1' ? 1 : null);
 
   // Generate fabric details from product composition
   const fabricDetails = {
@@ -558,6 +558,18 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                           ))}
                         </ul>
                       </div>
+                      {product.fabricImage && (
+                        <div className="mb-4">
+                          <div className="text-[10px] uppercase tracking-[0.15em] text-[#a08540] font-sans font-semibold mb-2">Materijal izbliza</div>
+                          <div className="relative w-full aspect-[16/9] bg-[#111111] border border-[#e8e0d4]/10 overflow-hidden cursor-pointer" onClick={() => setIsFabricOpen(true)}>
+                            <img src={product.fabricImage} alt="Materijal izbliza" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                            <div className="absolute bottom-2 right-2 px-2 py-1 bg-[#c9a96e]/90 text-[#0a0a0a] text-[9px] uppercase tracking-wider font-sans font-semibold flex items-center gap-1">
+                              <ZoomIn className="w-3 h-3" /> Uvećaj
+                            </div>
+                          </div>
+                        </div>
+                      )}
                       <button
                         type="button"
                         onClick={() => setIsFabricOpen(true)}
@@ -653,7 +665,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       <FabricInspection
         isOpen={isFabricOpen}
         onClose={() => setIsFabricOpen(false)}
-        productImage={product.images[0]}
+        productImage={product.fabricImage || product.images[0]}
         fabricDetails={fabricDetails}
       />
     </div>

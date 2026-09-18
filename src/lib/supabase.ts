@@ -30,6 +30,7 @@ export interface DbProduct {
   featured: boolean;
   active: boolean;
   stock_quantity: number | null;
+  fabric_image: string | null;
 }
 
 export function dbProductToProduct(db: DbProduct): Product {
@@ -56,6 +57,7 @@ export function dbProductToProduct(db: DbProduct): Product {
     leadTimeDays: db.lead_time_days,
     modelInfo: db.model_info,
     stockQuantity: db.stock_quantity ?? undefined,
+    fabricImage: db.fabric_image ?? undefined,
   };
 }
 

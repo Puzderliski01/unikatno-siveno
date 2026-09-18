@@ -21,6 +21,7 @@ export interface Product {
   leadTimeDays: string;
   modelInfo: string;
   stockQuantity?: number;
+  fabricImage?: string;
 }
 
 export interface CartItem {
