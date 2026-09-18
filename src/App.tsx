@@ -3,6 +3,7 @@ import { Product, CartItem } from './types';
 import { PRODUCTS, FORMAT_RSD } from './data/products';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { ProductDetailModal } from './components/ProductDetailModal';
 import { ProductGrid } from './components/ProductGrid';
 import { AboutSection } from './components/AboutSection';
 import { ContactSection } from './components/ContactSection';
@@ -23,9 +24,6 @@ import { PersonalizedRecommendations } from './components/PersonalizedRecommenda
 import { usePersonalization } from './hooks/usePersonalization';
 import { useRealtimeStock } from './hooks/useRealtimeStock';
 
-const ProductDetailModal = lazy(() =>
-  import('./components/ProductDetailModal').then((m) => ({ default: m.ProductDetailModal }))
-);
 const CartDrawer = lazy(() =>
   import('./components/CartDrawer').then((m) => ({ default: m.CartDrawer }))
 );
@@ -427,24 +425,24 @@ function AppContent() {
         onAddToCart={handleQuickAddToCart}
       />
 
-      {/* Lazy-loaded Modals */}
-      <Suspense fallback={<div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />}>
-        {/* Product Detail Modal */}
-        <ProductDetailModal
-          product={selectedProductForDetail}
-          isOpen={isDetailOpen}
-          isWishlisted={selectedProductForDetail ? wishlistIds.includes(selectedProductForDetail.id) : false}
-          onClose={() => {
-            setIsDetailOpen(false);
-            setSelectedProductForDetail(null);
-          }}
-          onAddToCart={handleAddToCart}
-          onOpenZoom={handleOpenZoom}
-          onToggleWishlist={handleToggleWishlist}
-          onAddToOutfit={handleAddToOutfit}
-          isInOutfit={selectedProductForDetail ? outfitItems.some(p => p.id === selectedProductForDetail.id) : false}
-        />
+      {/* Product Detail Modal (eager-loaded) */}
+      <ProductDetailModal
+        product={selectedProductForDetail}
+        isOpen={isDetailOpen}
+        isWishlisted={selectedProductForDetail ? wishlistIds.includes(selectedProductForDetail.id) : false}
+        onClose={() => {
+          setIsDetailOpen(false);
+          setSelectedProductForDetail(null);
+        }}
+        onAddToCart={handleAddToCart}
+        onOpenZoom={handleOpenZoom}
+        onToggleWishlist={handleToggleWishlist}
+        onAddToOutfit={handleAddToOutfit}
+        isInOutfit={selectedProductForDetail ? outfitItems.some(p => p.id === selectedProductForDetail.id) : false}
+      />
 
+      {/* Lazy-loaded Modals */}
+      <Suspense fallback={null}>
         {/* Mini-Cart Drawer */}
         <CartDrawer
           isOpen={isCartOpen}

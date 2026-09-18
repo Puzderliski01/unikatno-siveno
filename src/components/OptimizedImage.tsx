@@ -21,8 +21,8 @@ export const OptimizedImage: FC<OptimizedImageProps> = ({
   priority = false,
   onClick,
 }) => {
-  const [isInView, setIsInView] = useState(priority || loading === 'eager');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(priority || loading === 'eager');
   const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,10 +41,20 @@ export const OptimizedImage: FC<OptimizedImageProps> = ({
           observer.disconnect();
         }
       },
-      { rootMargin: '300px' }
+      { rootMargin: '400px' }
     );
     observer.observe(el);
-    return () => observer.disconnect();
+
+    // Fallback: if observer doesn't fire within 500ms, show image anyway
+    const fallback = setTimeout(() => {
+      setIsInView(true);
+      observer.disconnect();
+    }, 500);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(fallback);
+    };
   }, [loading, priority]);
 
   return (
@@ -54,7 +64,6 @@ export const OptimizedImage: FC<OptimizedImageProps> = ({
       style={{ width, height }}
       onClick={onClick}
     >
-      {/* Placeholder */}
       {!isLoaded && (
         <div className="absolute inset-0 bg-[#111111] animate-pulse" />
       )}
@@ -64,7 +73,7 @@ export const OptimizedImage: FC<OptimizedImageProps> = ({
           src={src}
           alt={alt}
           className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-          loading={loading}
+          loading={priority ? 'eager' : 'lazy'}
           width={width}
           height={height}
           decoding="async"

@@ -124,10 +124,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       onClick={onClose}
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        transition={{ duration: 0.3 }}
+        initial={{ scale: 0.96, y: 15 }}
+        animate={{ scale: 1, y: 0 }}
+        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
         className="relative w-full max-w-5xl bg-[#0a0a0a] border border-[#e8e0d4]/20 shadow-2xl text-[#e8e0d4] max-h-[90vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
@@ -192,6 +191,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               {...swipeHandlers}
             >
               <motion.div
+                className="w-full h-full"
                 initial={{ scale: 1, rotate: 0 }}
                 animate={{
                   scale: [1, 1.02],
