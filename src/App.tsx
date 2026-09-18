@@ -17,7 +17,6 @@ import { AuthProvider, useAuth } from './lib/auth';
 import { RecentlyViewed } from './components/RecentlyViewed';
 import { FloatingActionBar } from './components/FloatingActionBar';
 import { OutfitBuilder } from './components/OutfitBuilder';
-import { ThemeToggle } from './components/ThemeToggle';
 import { LuxuryLoadingScreen } from './components/LuxuryLoadingScreen';
 import { CursorEffects } from './components/CursorEffects';
 import { PersonalizedRecommendations } from './components/PersonalizedRecommendations';
@@ -321,8 +320,7 @@ function AppContent() {
       {/* Toast Notification Layer */}
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
 
-      {/* Theme Toggle */}
-      <ThemeToggle theme={theme} onToggle={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} />
+      {/* Theme Toggle - integrated in FloatingActionBar */}
 
       {/* Main Header & Navigation */}
       <Header
@@ -413,6 +411,8 @@ function AppContent() {
         onWhatsApp={handleWhatsAppRecovery}
         onCall={() => window.open('tel:+38163616071', '_blank')}
         onBooking={() => addToast('Zakazivanje', 'Kontaktirajte nas putem WhatsApp-a za zakazivanje termina.', 'info')}
+        theme={theme}
+        onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
       />
 
       {/* Outfit Builder */}

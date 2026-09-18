@@ -145,10 +145,18 @@ export const AdminDashboard: React.FC = () => {
       thumbnail: editingProduct.images?.[0] || '',
     };
 
+    let result;
     if (editingProduct.id) {
-      await supabase.from('products').update(productData).eq('id', editingProduct.id);
+      result = await supabase.from('products').update(productData).eq('id', editingProduct.id);
     } else {
-      await supabase.from('products').insert([productData]);
+      result = await supabase.from('products').insert([productData]);
+    }
+
+    if (result.error) {
+      console.error('Save error:', result.error);
+      alert(`Greška pri čuvanju: ${result.error.message}`);
+      setSaving(false);
+      return;
     }
 
     setEditingProduct(null);
