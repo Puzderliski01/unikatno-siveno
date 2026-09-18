@@ -149,8 +149,8 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
         {/* Top Badges & Wishlist Button */}
         <div className="absolute top-3 inset-x-3 flex items-center justify-between z-30">
           {product.badge ? (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[9px] uppercase font-sans tracking-[0.2em] font-medium bg-[#0a0a0a] text-[#c9a96e] border border-[#c9a96e]/40">
-              <Sparkles className="w-2.5 h-2.5 text-[#c9a96e]" />
+            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[8px] uppercase font-sans tracking-wider font-medium bg-[#0a0a0a] text-[#c9a96e] border border-[#c9a96e]/40">
+              <Sparkles className="w-2 h-2 text-[#c9a96e]" />
               {product.badge}
             </span>
           ) : (

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ShoppingBag, Heart, Trophy, Star, LogIn, UserPlus, Home, Sparkles, Phone } from 'lucide-react';
 import { FORMAT_RSD } from '../data/products';
 import { useAuth } from '../lib/auth';
+import { NotificationBell } from './NotificationBell';
 
 interface HeaderProps {
   cartCount: number;
@@ -153,6 +154,8 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     </button>
                   </div>
                 )}
+
+                <NotificationBell />
 
                 <button
                   type="button"

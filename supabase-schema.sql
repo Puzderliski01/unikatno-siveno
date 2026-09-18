@@ -189,3 +189,60 @@ CREATE POLICY "Authenticated delete access" ON storage.objects
 -- MIGRATION: Run if table already exists
 -- ============================================
 -- ALTER TABLE products ADD COLUMN IF NOT EXISTS fabric_image TEXT DEFAULT NULL;
+
+-- ============================================
+-- BLOG POSTS TABLE
+-- ============================================
+CREATE TABLE IF NOT EXISTS blog_posts (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  title TEXT NOT NULL,
+  slug TEXT NOT NULL UNIQUE,
+  excerpt TEXT DEFAULT '',
+  content TEXT DEFAULT '',
+  image TEXT DEFAULT '',
+  category TEXT DEFAULT 'general',
+  author TEXT DEFAULT 'Jelena Erić',
+  published BOOLEAN DEFAULT false
+);
+
+-- ============================================
+-- NOTIFICATIONS TABLE
+-- ============================================
+CREATE TABLE IF NOT EXISTS notifications (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  title TEXT NOT NULL,
+  message TEXT DEFAULT '',
+  type TEXT DEFAULT 'info' CHECK (type IN ('info', 'promo', 'order', 'system')),
+  target TEXT DEFAULT 'all' CHECK (target IN ('all', 'logged_in', 'vip')),
+  link TEXT DEFAULT '',
+  read_by UUID[] DEFAULT '{}'
+);
+
+-- ============================================
+-- BLOG RLS POLICIES
+-- ============================================
+ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public read published blog posts" ON blog_posts;
+CREATE POLICY "Public read published blog posts" ON blog_posts
+  FOR SELECT USING (published = true);
+
+DROP POLICY IF EXISTS "Authenticated full access blog" ON blog_posts;
+CREATE POLICY "Authenticated full access blog" ON blog_posts
+  FOR ALL USING (auth.role() = 'authenticated');
+
+-- ============================================
+-- NOTIFICATIONS RLS POLICIES
+-- ============================================
+ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public read notifications" ON notifications;
+CREATE POLICY "Public read notifications" ON notifications
+  FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Authenticated full access notifications" ON notifications;
+CREATE POLICY "Authenticated full access notifications" ON notifications
+  FOR ALL USING (auth.role() = 'authenticated');

@@ -1,6 +1,7 @@
 import React, { useState, Suspense, lazy, useEffect, useCallback, useRef } from 'react';
 import { Product, CartItem } from './types';
 import { PRODUCTS, FORMAT_RSD } from './data/products';
+import { Sparkles } from 'lucide-react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductDetailModal } from './components/ProductDetailModal';
@@ -12,6 +13,8 @@ import { ToastContainer, ToastMessage } from './components/Toast';
 import { fetchProducts } from './lib/supabase';
 import { UserProfile } from './components/UserProfile';
 import { VIPBenefitsModal } from './components/VIPBenefitsModal';
+import { BlogSection } from './components/BlogSection';
+import { NotificationBell } from './components/NotificationBell';
 import { AuthModal } from './components/AuthModal';
 import { AuthProvider, useAuth } from './lib/auth';
 import { RecentlyViewed } from './components/RecentlyViewed';
@@ -340,8 +343,30 @@ function AppContent() {
         onExploreClick={scrollToGallery}
       />
 
-      {/* Personalized Recommendations */}
-      {hasBehavior && (
+      {/* Personalized Recommendations or Login Prompt */}
+      {!user ? (
+        <section className="py-12 bg-[#0a0a0a] text-[#e8e0d4] relative border-b border-[#c9a96e]/20">
+          <div className="max-w-xl mx-auto px-4 text-center">
+            <Sparkles className="w-5 h-5 text-[#c9a96e] mx-auto mb-3" />
+            <h3 className="font-serif-luxury text-xl sm:text-2xl text-[#e8e0d4] mb-2">Personalizovano iskustvo</h3>
+            <p className="text-xs text-[#e8e0d4]/60 mb-5 font-sans">Prijavite se ili kreirajte nalog da biste dobili personalizovane preporuke na osnovu vaših preferencija.</p>
+            <div className="flex items-center justify-center gap-3">
+              <button
+                onClick={() => { setAuthModalMode('login'); setAuthModalOpen(true); }}
+                className="px-6 py-2.5 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors font-sans"
+              >
+                Prijavi se
+              </button>
+              <button
+                onClick={() => { setAuthModalMode('signup'); setAuthModalOpen(true); }}
+                className="px-6 py-2.5 border border-[#c9a96e]/40 text-[#c9a96e] text-xs font-semibold uppercase tracking-wider hover:bg-[#c9a96e]/10 transition-colors font-sans"
+              >
+                Registruj se
+              </button>
+            </div>
+          </div>
+        </section>
+      ) : hasBehavior && (
         <PersonalizedRecommendations
           products={getRecommended()}
           onOpenDetails={handleOpenDetails}
@@ -367,6 +392,9 @@ function AppContent() {
         allProducts={products}
         onOpenDetails={handleOpenDetails}
       />
+
+      {/* Blog Section */}
+      <BlogSection />
 
       {/* About & Slow Fashion Craftsmanship Section */}
       <AboutSection />

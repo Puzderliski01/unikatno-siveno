@@ -108,3 +108,28 @@ export interface ExclusiveInvitation {
   isRsvp: boolean;
   rsvpStatus?: 'pending' | 'accepted' | 'declined';
 }
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  image: string;
+  category: string;
+  author: string;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  type: 'info' | 'promo' | 'order' | 'system';
+  target: 'all' | 'logged_in' | 'vip';
+  link?: string;
+  read: boolean;
+  created_at: string;
+}

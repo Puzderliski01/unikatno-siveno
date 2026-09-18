@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, DbProduct } from '../lib/supabase';
-import { Plus, Pencil, Trash2, Eye, EyeOff, Star, LogOut, Upload, X, Save, Image as ImageIcon, ChevronDown } from 'lucide-react';
+import { BlogPost, Notification } from '../types';
+import { Plus, Pencil, Trash2, Eye, EyeOff, Star, LogOut, Upload, X, Save, Image as ImageIcon, ChevronDown, BookOpen, Bell, Package } from 'lucide-react';
 
 const CATEGORIES = [
   { id: 'haljine', label: 'Haljine' },
@@ -47,9 +48,22 @@ export const AdminDashboard: React.FC = () => {
   const [newFeature, setNewFeature] = useState('');
   const [newSize, setNewSize] = useState('');
   const [newCare, setNewCare] = useState('');
+  const [activeTab, setActiveTab] = useState<'products' | 'blog' | 'notifications'>('products');
+
+  // Blog state
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [editingBlogPost, setEditingBlogPost] = useState<Partial<BlogPost> | null>(null);
+  const [isCreatingBlog, setIsCreatingBlog] = useState(false);
+
+  // Notifications state
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [editingNotification, setEditingNotification] = useState<Partial<Notification> | null>(null);
+  const [isCreatingNotification, setIsCreatingNotification] = useState(false);
 
   useEffect(() => {
     loadProducts();
+    loadBlogPosts();
+    loadNotifications();
   }, []);
 
   const loadProducts = async () => {
@@ -60,6 +74,22 @@ export const AdminDashboard: React.FC = () => {
       .order('created_at', { ascending: false });
     setProducts(data || []);
     setLoading(false);
+  };
+
+  const loadBlogPosts = async () => {
+    const { data } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .order('created_at', { ascending: false });
+    setBlogPosts(data || []);
+  };
+
+  const loadNotifications = async () => {
+    const { data } = await supabase
+      .from('notifications')
+      .select('*')
+      .order('created_at', { ascending: false });
+    setNotifications(data || []);
   };
 
   const handleLogout = async () => {
@@ -181,6 +211,57 @@ export const AdminDashboard: React.FC = () => {
     await loadProducts();
   };
 
+  // Blog CRUD
+  const handleSaveBlogPost = async (post: Partial<BlogPost>) => {
+    setSaving(true);
+    const slug = post.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || '';
+    const postData = { ...post, slug, updated_at: new Date().toISOString() };
+    if (post.id) {
+      await supabase.from('blog_posts').update(postData).eq('id', post.id);
+    } else {
+      await supabase.from('blog_posts').insert([postData]);
+    }
+    setEditingBlogPost(null);
+    setIsCreatingBlog(false);
+    await loadBlogPosts();
+    setSaving(false);
+  };
+
+  const handleDeleteBlogPost = async (id: string) => {
+    if (!confirm('Da li ste sigurni da želite da obrišete ovaj članak?')) return;
+    await supabase.from('blog_posts').delete().eq('id', id);
+    await loadBlogPosts();
+  };
+
+  const handleToggleBlogPublished = async (post: BlogPost) => {
+    await supabase.from('blog_posts').update({ published: !post.published }).eq('id', post.id);
+    await loadBlogPosts();
+  };
+
+  // Notification CRUD
+  const handleSaveNotification = async (notif: Partial<Notification>) => {
+    setSaving(true);
+    const notifData = { ...notif };
+    delete notifData.id;
+    delete notifData.created_at;
+    delete notifData.read;
+    if (notif.id) {
+      await supabase.from('notifications').update(notifData).eq('id', notif.id);
+    } else {
+      await supabase.from('notifications').insert([notifData]);
+    }
+    setEditingNotification(null);
+    setIsCreatingNotification(false);
+    await loadNotifications();
+    setSaving(false);
+  };
+
+  const handleDeleteNotification = async (id: string) => {
+    if (!confirm('Da li ste sigurni da želite da obrišete ovo obaveštenje?')) return;
+    await supabase.from('notifications').delete().eq('id', id);
+    await loadNotifications();
+  };
+
   const removeImage = (index: number) => {
     setEditingProduct((prev) => {
       if (!prev) return prev;
@@ -215,23 +296,46 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4]">
       {/* Header */}
-      <header className="bg-[#111111] border-b border-[#c9a96e]/20 px-6 py-4 flex items-center justify-between">
+      <header className="bg-[#111111] border-b border-[#c9a96e]/20 px-4 sm:px-6 py-4 flex items-center justify-between">
         <div>
-          <h1 className="font-serif-luxury text-xl text-[#c9a96e] tracking-[0.3em] uppercase">
+          <h1 className="font-serif-luxury text-lg sm:text-xl text-[#c9a96e] tracking-[0.3em] uppercase">
             Admin Panel
           </h1>
           <p className="text-[10px] text-[#e8e0d4]/50 font-sans uppercase tracking-wider">
             Unikatno šiveno - Jelena Erić
           </p>
         </div>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setIsCreating(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            Novi proizvod
-          </button>
+        <div className="flex items-center gap-3">
+          {activeTab === 'products' && (
+            <button
+              onClick={() => setIsCreating(true)}
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="hidden sm:inline">Novi proizvod</span>
+              <span className="sm:hidden">+</span>
+            </button>
+          )}
+          {activeTab === 'blog' && (
+            <button
+              onClick={() => setIsCreatingBlog(true)}
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="hidden sm:inline">Novi članak</span>
+              <span className="sm:hidden">+</span>
+            </button>
+          )}
+          {activeTab === 'notifications' && (
+            <button
+              onClick={() => setIsCreatingNotification(true)}
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="hidden sm:inline">Novo obaveštenje</span>
+              <span className="sm:hidden">+</span>
+            </button>
+          )}
           <button
             onClick={handleLogout}
             className="p-2 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors"
@@ -242,84 +346,105 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </header>
 
-      {/* Product List */}
-      <div className="max-w-6xl mx-auto p-6">
-        {loading ? (
-          <div className="text-center py-20 text-[#e8e0d4]/50">Učitavanje...</div>
-        ) : products.length === 0 ? (
-          <div className="text-center py-20 border border-[#c9a96e]/20">
-            <p className="text-[#e8e0d4]/60 mb-4">Nema proizvoda. Dodajte prvi!</p>
-            <button
-              onClick={() => setIsCreating(true)}
-              className="px-6 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider"
-            >
-              Dodaj proizvod
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="bg-[#111111] border border-[#e8e0d4]/10 p-4 flex items-center gap-4 hover:border-[#c9a96e]/30 transition-colors"
-              >
-                {/* Thumbnail */}
-                <div className="w-16 h-20 overflow-hidden bg-[#1a1a1a] flex-shrink-0">
-                  {product.thumbnail ? (
-                    <img src={product.thumbnail} alt={product.name_sr} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-[#e8e0d4]/20">
-                      <ImageIcon className="w-6 h-6" />
-                    </div>
-                  )}
-                </div>
+      {/* Tabs */}
+      <div className="bg-[#111111] border-b border-[#e8e0d4]/10 px-4 sm:px-6 flex gap-1 overflow-x-auto">
+        {([
+          { id: 'products' as const, label: 'Proizvodi', icon: <Package className="w-4 h-4" />, count: products.length },
+          { id: 'blog' as const, label: 'Blog', icon: <BookOpen className="w-4 h-4" />, count: blogPosts.length },
+          { id: 'notifications' as const, label: 'Obaveštenja', icon: <Bell className="w-4 h-4" />, count: notifications.length },
+        ]).map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex items-center gap-2 px-4 py-3 text-xs font-sans uppercase tracking-wider border-b-2 transition-colors whitespace-nowrap ${
+              activeTab === tab.id
+                ? 'border-[#c9a96e] text-[#c9a96e]'
+                : 'border-transparent text-[#e8e0d4]/40 hover:text-[#e8e0d4]/70'
+            }`}
+          >
+            {tab.icon}
+            {tab.label}
+            <span className="text-[9px] bg-[#0a0a0a] px-1.5 py-0.5 rounded">{tab.count}</span>
+          </button>
+        ))}
+      </div>
 
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-serif-luxury text-sm text-[#e8e0d4] truncate">{product.name_sr}</h3>
-                  <p className="text-[10px] text-[#e8e0d4]/50 font-sans uppercase tracking-wider">
-                    {product.category_label_sr} · {product.price_rsd.toLocaleString('sr-RS')} RSD
-                  </p>
+      {/* Content */}
+      <div className="max-w-6xl mx-auto p-4 sm:p-6">
+        {activeTab === 'products' && (
+          loading ? (
+            <div className="text-center py-20 text-[#e8e0d4]/50">Učitavanje...</div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-20 border border-[#c9a96e]/20">
+              <p className="text-[#e8e0d4]/60 mb-4">Nema proizvoda. Dodajte prvi!</p>
+              <button onClick={() => setIsCreating(true)} className="px-6 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider">
+                Dodaj proizvod
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {products.map((product) => (
+                <div key={product.id} className="bg-[#111111] border border-[#e8e0d4]/10 p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:border-[#c9a96e]/30 transition-colors">
+                  <div className="w-12 h-14 sm:w-16 sm:h-20 overflow-hidden bg-[#1a1a1a] flex-shrink-0">
+                    {product.thumbnail ? (
+                      <img src={product.thumbnail} alt={product.name_sr} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[#e8e0d4]/20"><ImageIcon className="w-5 h-5" /></div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-serif-luxury text-sm text-[#e8e0d4] truncate">{product.name_sr}</h3>
+                    <p className="text-[10px] text-[#e8e0d4]/50 font-sans uppercase tracking-wider">
+                      {product.category_label_sr} · {product.price_rsd.toLocaleString('sr-RS')} RSD
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button onClick={() => handleToggleActive(product)} className={`p-1.5 transition-colors ${product.active ? 'text-emerald-400' : 'text-[#e8e0d4]/20'}`} title={product.active ? 'Aktivan' : 'Neaktivan'}>
+                      {product.active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                    </button>
+                    <button onClick={() => handleToggleFeatured(product)} className={`p-1.5 transition-colors ${product.featured ? 'text-[#c9a96e]' : 'text-[#e8e0d4]/20'}`} title={product.featured ? 'Istaknut' : 'Nije istaknut'}>
+                      <Star className={`w-4 h-4 ${product.featured ? 'fill-current' : ''}`} />
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button onClick={() => setEditingProduct(product)} className="p-2 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors" title="Izmeni"><Pencil className="w-4 h-4" /></button>
+                    <button onClick={() => handleDelete(product.id)} className="p-2 text-[#e8e0d4]/50 hover:text-red-400 transition-colors" title="Obriši"><Trash2 className="w-4 h-4" /></button>
+                  </div>
                 </div>
+              ))}
+            </div>
+          )
+        )}
 
-                {/* Status */}
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => handleToggleActive(product)}
-                    className={`p-1.5 transition-colors ${product.active ? 'text-emerald-400' : 'text-[#e8e0d4]/20'}`}
-                    title={product.active ? 'Aktivan' : 'Neaktivan'}
-                  >
-                    {product.active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                  </button>
-                  <button
-                    onClick={() => handleToggleFeatured(product)}
-                    className={`p-1.5 transition-colors ${product.featured ? 'text-[#c9a96e]' : 'text-[#e8e0d4]/20'}`}
-                    title={product.featured ? 'Istaknut' : 'Nije istaknut'}
-                  >
-                    <Star className={`w-4 h-4 ${product.featured ? 'fill-current' : ''}`} />
-                  </button>
-                </div>
+        {activeTab === 'blog' && (
+          <BlogAdmin
+            posts={blogPosts}
+            editingPost={editingBlogPost}
+            isCreating={isCreatingBlog}
+            saving={saving}
+            onEdit={(post) => setEditingBlogPost(post)}
+            onCreate={() => setIsCreatingBlog(true)}
+            onSave={handleSaveBlogPost}
+            onCancel={() => { setEditingBlogPost(null); setIsCreatingBlog(false); }}
+            onDelete={handleDeleteBlogPost}
+            onTogglePublished={handleToggleBlogPublished}
+            onChange={(post) => setEditingBlogPost(post)}
+          />
+        )}
 
-                {/* Actions */}
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => setEditingProduct(product)}
-                    className="p-2 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors"
-                    title="Izmeni"
-                  >
-                    <Pencil className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(product.id)}
-                    className="p-2 text-[#e8e0d4]/50 hover:text-red-400 transition-colors"
-                    title="Obriši"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+        {activeTab === 'notifications' && (
+          <NotificationAdmin
+            notifications={notifications}
+            editingNotification={editingNotification}
+            isCreating={isCreatingNotification}
+            saving={saving}
+            onEdit={(n) => setEditingNotification(n)}
+            onCreate={() => setIsCreatingNotification(true)}
+            onSave={handleSaveNotification}
+            onCancel={() => { setEditingNotification(null); setIsCreatingNotification(false); }}
+            onDelete={handleDeleteNotification}
+            onChange={(n) => setEditingNotification(n)}
+          />
         )}
       </div>
     </div>
@@ -634,6 +759,204 @@ const AdminProductForm: React.FC<AdminProductFormProps> = ({
           </label>
         </section>
       </div>
+    </div>
+  );
+};
+
+// Blog Admin Component
+interface BlogAdminProps {
+  posts: BlogPost[];
+  editingPost: Partial<BlogPost> | null;
+  isCreating: boolean;
+  saving: boolean;
+  onEdit: (post: BlogPost) => void;
+  onCreate: () => void;
+  onSave: (post: Partial<BlogPost>) => void;
+  onCancel: () => void;
+  onDelete: (id: string) => void;
+  onTogglePublished: (post: BlogPost) => void;
+  onChange: (post: Partial<BlogPost> | null) => void;
+}
+
+const BlogAdmin: React.FC<BlogAdminProps> = ({
+  posts, editingPost, isCreating, saving,
+  onEdit, onCreate, onSave, onCancel, onDelete, onTogglePublished, onChange,
+}) => {
+  const inputClass = "w-full px-4 py-2.5 bg-[#0a0a0a] border border-[#e8e0d4]/15 text-sm text-[#e8e0d4] outline-none focus:border-[#c9a96e] transition-colors";
+  const labelClass = "block text-[10px] uppercase tracking-[0.2em] text-[#e8e0d4]/60 font-sans mb-1.5";
+
+  if (editingPost || isCreating) {
+    const post = editingPost || { title: '', slug: '', excerpt: '', content: '', image: '', category: 'moda', author: 'Jelena Erić', published: false };
+    return (
+      <div className="bg-[#111111] border border-[#e8e0d4]/10 p-4 sm:p-6 space-y-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-serif-luxury text-lg text-[#c9a96e]">{isCreating ? 'Novi članak' : 'Izmena članka'}</h3>
+          <div className="flex gap-2">
+            <button onClick={onCancel} className="px-4 py-2 text-xs text-[#e8e0d4]/60 hover:text-[#e8e0d4] transition-colors">Otkaži</button>
+            <button onClick={() => onSave(post)} disabled={saving || !post.title} className="flex items-center gap-2 px-6 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors disabled:opacity-50">
+              <Save className="w-4 h-4" />{saving ? 'Čuvanje...' : 'Sačuvaj'}
+            </button>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="sm:col-span-2">
+            <label className={labelClass}>Naslov *</label>
+            <input type="text" value={post.title || ''} onChange={(e) => onChange({ ...post, title: e.target.value })} className={inputClass} placeholder="Naslov članka" />
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelClass}>Izvod</label>
+            <textarea value={post.excerpt || ''} onChange={(e) => onChange({ ...post, excerpt: e.target.value })} rows={2} className={`${inputClass} resize-none`} placeholder="Kratki opis..." />
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelClass}>Sadržaj</label>
+            <textarea value={post.content || ''} onChange={(e) => onChange({ ...post, content: e.target.value })} rows={10} className={`${inputClass} resize-none`} placeholder="Tekst članka..." />
+          </div>
+          <div>
+            <label className={labelClass}>Kategorija</label>
+            <input type="text" value={post.category || ''} onChange={(e) => onChange({ ...post, category: e.target.value })} className={inputClass} placeholder="npr. moda, tehnika, inspiracija" />
+          </div>
+          <div>
+            <label className={labelClass}>Autor</label>
+            <input type="text" value={post.author || ''} onChange={(e) => onChange({ ...post, author: e.target.value })} className={inputClass} placeholder="Jelena Erić" />
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelClass}>URL slike</label>
+            <input type="text" value={post.image || ''} onChange={(e) => onChange({ ...post, image: e.target.value })} className={inputClass} placeholder="https://..." />
+          </div>
+          <div>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked={post.published ?? false} onChange={(e) => onChange({ ...post, published: e.target.checked })} className="w-4 h-4 accent-[#c9a96e]" />
+              <span className="text-xs text-[#e8e0d4]/70">Objavljen</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {posts.length === 0 ? (
+        <div className="text-center py-20 border border-[#c9a96e]/20">
+          <p className="text-[#e8e0d4]/60 mb-4">Nema članaka. Dodajte prvi!</p>
+          <button onClick={onCreate} className="px-6 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider">Dodaj članak</button>
+        </div>
+      ) : (
+        posts.map(post => (
+          <div key={post.id} className="bg-[#111111] border border-[#e8e0d4]/10 p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:border-[#c9a96e]/30 transition-colors">
+            <div className="w-16 h-10 overflow-hidden bg-[#1a1a1a] flex-shrink-0">
+              {post.image ? <img src={post.image} alt={post.title} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-[#e8e0d4]/20"><BookOpen className="w-4 h-4" /></div>}
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm text-[#e8e0d4] truncate">{post.title}</h3>
+              <p className="text-[10px] text-[#e8e0d4]/50 font-sans">{post.category} · {new Date(post.created_at).toLocaleDateString('sr-Latn-RS')}</p>
+            </div>
+            <button onClick={() => onTogglePublished(post)} className={`p-1.5 transition-colors ${post.published ? 'text-emerald-400' : 'text-[#e8e0d4]/20'}`} title={post.published ? 'Objavljen' : 'Skica'}>
+              {post.published ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+            </button>
+            <button onClick={() => onEdit(post)} className="p-2 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors"><Pencil className="w-4 h-4" /></button>
+            <button onClick={() => onDelete(post.id)} className="p-2 text-[#e8e0d4]/50 hover:text-red-400 transition-colors"><Trash2 className="w-4 h-4" /></button>
+          </div>
+        ))
+      )}
+    </div>
+  );
+};
+
+// Notification Admin Component
+interface NotificationAdminProps {
+  notifications: Notification[];
+  editingNotification: Partial<Notification> | null;
+  isCreating: boolean;
+  saving: boolean;
+  onEdit: (n: Notification) => void;
+  onCreate: () => void;
+  onSave: (n: Partial<Notification>) => void;
+  onCancel: () => void;
+  onDelete: (id: string) => void;
+  onChange: (n: Partial<Notification> | null) => void;
+}
+
+const NotificationAdmin: React.FC<NotificationAdminProps> = ({
+  notifications, editingNotification, isCreating, saving,
+  onEdit, onCreate, onSave, onCancel, onDelete, onChange,
+}) => {
+  const inputClass = "w-full px-4 py-2.5 bg-[#0a0a0a] border border-[#e8e0d4]/15 text-sm text-[#e8e0d4] outline-none focus:border-[#c9a96e] transition-colors";
+  const labelClass = "block text-[10px] uppercase tracking-[0.2em] text-[#e8e0d4]/60 font-sans mb-1.5";
+
+  if (editingNotification || isCreating) {
+    const n = editingNotification || { title: '', message: '', type: 'info' as const, target: 'all' as const, link: '' };
+    return (
+      <div className="bg-[#111111] border border-[#e8e0d4]/10 p-4 sm:p-6 space-y-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-serif-luxury text-lg text-[#c9a96e]">{isCreating ? 'Novo obaveštenje' : 'Izmena obaveštenja'}</h3>
+          <div className="flex gap-2">
+            <button onClick={onCancel} className="px-4 py-2 text-xs text-[#e8e0d4]/60 hover:text-[#e8e0d4] transition-colors">Otkaži</button>
+            <button onClick={() => onSave(n)} disabled={saving || !n.title} className="flex items-center gap-2 px-6 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors disabled:opacity-50">
+              <Save className="w-4 h-4" />{saving ? 'Čuvanje...' : 'Sačuvaj'}
+            </button>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="sm:col-span-2">
+            <label className={labelClass}>Naslov *</label>
+            <input type="text" value={n.title || ''} onChange={(e) => onChange({ ...n, title: e.target.value })} className={inputClass} placeholder="Naslov obaveštenja" />
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelClass}>Poruka</label>
+            <textarea value={n.message || ''} onChange={(e) => onChange({ ...n, message: e.target.value })} rows={3} className={`${inputClass} resize-none`} placeholder="Tekst obaveštenja..." />
+          </div>
+          <div>
+            <label className={labelClass}>Tip</label>
+            <select value={n.type || 'info'} onChange={(e) => onChange({ ...n, type: e.target.value as Notification['type'] })} className={`${inputClass} appearance-none cursor-pointer`}>
+              <option value="info">Info</option>
+              <option value="promo">Promocija</option>
+              <option value="order">Porudžbina</option>
+              <option value="system">Sistem</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelClass}>Ciljna grupa</label>
+            <select value={n.target || 'all'} onChange={(e) => onChange({ ...n, target: e.target.value as Notification['target'] })} className={`${inputClass} appearance-none cursor-pointer`}>
+              <option value="all">Svi</option>
+              <option value="logged_in">Prijavljeni korisnici</option>
+              <option value="vip">VIP članovi</option>
+            </select>
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelClass}>Link (opciono)</label>
+            <input type="text" value={n.link || ''} onChange={(e) => onChange({ ...n, link: e.target.value })} className={inputClass} placeholder="npr. /proizvod-xyz" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const typeLabels: Record<string, string> = { info: 'Info', promo: 'Promocija', order: 'Porudžbina', system: 'Sistem' };
+  const targetLabels: Record<string, string> = { all: 'Svi', logged_in: 'Prijavljeni', vip: 'VIP' };
+
+  return (
+    <div className="space-y-3">
+      {notifications.length === 0 ? (
+        <div className="text-center py-20 border border-[#c9a96e]/20">
+          <p className="text-[#e8e0d4]/60 mb-4">Nema obaveštenja. Dodajte prvo!</p>
+          <button onClick={onCreate} className="px-6 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider">Dodaj obaveštenje</button>
+        </div>
+      ) : (
+        notifications.map(n => (
+          <div key={n.id} className="bg-[#111111] border border-[#e8e0d4]/10 p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:border-[#c9a96e]/30 transition-colors">
+            <div className="flex-shrink-0">
+              <Bell className={`w-4 h-4 ${n.type === 'promo' ? 'text-[#c9a96e]' : n.type === 'order' ? 'text-green-400' : 'text-[#e8e0d4]/50'}`} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm text-[#e8e0d4] truncate">{n.title}</h3>
+              <p className="text-[10px] text-[#e8e0d4]/50 font-sans">{typeLabels[n.type]} · {targetLabels[n.target]} · {new Date(n.created_at).toLocaleDateString('sr-Latn-RS')}</p>
+            </div>
+            <button onClick={() => onEdit(n)} className="p-2 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors"><Pencil className="w-4 h-4" /></button>
+            <button onClick={() => onDelete(n.id)} className="p-2 text-[#e8e0d4]/50 hover:text-red-400 transition-colors"><Trash2 className="w-4 h-4" /></button>
+          </div>
+        ))
+      )}
     </div>
   );
 };
