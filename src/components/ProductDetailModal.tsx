@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Ruler, Info, ShieldCheck, Truck, Heart, Scissors } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Product } from '../types';
@@ -67,6 +67,21 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     }
   }, [product, handleProductView]);
 
+  // Swipe gesture — must be BEFORE early return (Rules of Hooks)
+  const handleNextImage = useCallback(() => {
+    if (product) setActiveImageIndex((prev) => (prev + 1) % product.images.length);
+  }, [product]);
+
+  const handlePrevImage = useCallback(() => {
+    if (product) setActiveImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
+  }, [product]);
+
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: handleNextImage,
+    onSwipeRight: handlePrevImage,
+    threshold: 40,
+  });
+
   if (!isOpen || !product) return null;
 
   const stockCount = product.badge === 'UNIKAT' ? 1 : product.badge === '1 of 1' ? 1 : product.badge === 'LIMITED EDITION' ? Math.floor(Math.random() * 3) + 2 : null;
@@ -91,21 +106,6 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     durability: 'Izdržljiva za svakodnevno nošenje',
     careNotes: product.materialsAndCare.care,
   };
-
-  const handleNextImage = () => {
-    setActiveImageIndex((prev) => (prev + 1) % product.images.length);
-  };
-
-  const handlePrevImage = () => {
-    setActiveImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
-  };
-
-  // Swipe gesture for image carousel
-  const swipeHandlers = useSwipe({
-    onSwipeLeft: handleNextImage,
-    onSwipeRight: handlePrevImage,
-    threshold: 40,
-  });
 
   const handleAdd = () => {
     const measurements = isCustomTailored

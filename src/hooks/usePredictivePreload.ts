@@ -109,17 +109,11 @@ export const usePredictivePreload = (
       // We need to recreate the hook with new images, but since we can't do that directly,
       // we'll create link elements manually for preloading
       imagesToPreload.forEach(src => {
-        // Preload WebP/AVIF versions if they exist
-        const webpSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-        const avifSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.avif');
-
-        [src, webpSrc, avifSrc].forEach(url => {
           const link = document.createElement('link');
           link.rel = 'preload';
           link.as = 'image';
-          link.href = url;
+          link.href = src;
           document.head.appendChild(link);
-        });
       });
     }
   }, []);
