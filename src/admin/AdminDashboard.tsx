@@ -19,8 +19,8 @@ const EMPTY_PRODUCT: Partial<DbProduct> = {
   subtitle_sr: '',
   description_sr: '',
   story_sr: '',
-  category: 'Haljine',
-  category_label_sr: '',
+  category: 'haljine',
+  category_label_sr: 'Haljine',
   price_rsd: 0,
   original_price_rsd: null,
   lead_time_days: 'Odmah dostupno!',
@@ -609,8 +609,12 @@ const AdminProductForm: React.FC<AdminProductFormProps> = ({
           <div>
             <label className={labelClass}>Kategorija</label>
             <select value={product.category || ''} onChange={(e) => {
-              update('category', e.target.value);
-              update('category_label_sr', CATEGORIES.find(c => c.id === e.target.value)?.label || '');
+              const categoryId = e.target.value;
+              onChange({
+                ...product,
+                category: categoryId,
+                category_label_sr: CATEGORIES.find(c => c.id === categoryId)?.label || '',
+              });
             }} className={`${inputClass} appearance-none cursor-pointer`}>
               {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
             </select>
