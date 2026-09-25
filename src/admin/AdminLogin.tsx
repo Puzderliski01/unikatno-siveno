@@ -69,7 +69,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#c9a96e]/20 text-sm text-[#e8e0d4] placeholder-[#e8e0d4]/30 outline-none focus:border-[#c9a96e] transition-colors"
-              placeholder="jelena@example.com"
+              placeholder="email@nesto.com"
             />
           </div>
 

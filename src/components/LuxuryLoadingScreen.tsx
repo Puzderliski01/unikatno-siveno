@@ -14,7 +14,7 @@ export const LuxuryLoadingScreen: React.FC<LuxuryLoadingScreenProps> = React.mem
       <div className="loading-thread" />
 
       {/* Pulsing brand text */}
-      <div className="loading-text">Unikatno šiveno</div>
+      <div className="loading-text">Unikatno šiveno - Jelena Eric</div>
     </div>
   );
 });

@@ -19,7 +19,7 @@ const EMPTY_PRODUCT: Partial<DbProduct> = {
   subtitle_sr: '',
   description_sr: '',
   story_sr: '',
-  category: '',
+  category: 'Haljine',
   category_label_sr: '',
   price_rsd: 0,
   original_price_rsd: null,
