@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { LogIn, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { AdminThemeToggle } from './components/AdminThemeToggle';
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -38,7 +39,10 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
+    <div className="admin-panel relative min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
+      <div className="absolute top-4 right-4">
+        <AdminThemeToggle />
+      </div>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="font-serif-luxury text-2xl text-[#c9a96e] tracking-[0.3em] uppercase mb-2">

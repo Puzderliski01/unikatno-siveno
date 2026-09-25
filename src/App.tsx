@@ -26,6 +26,7 @@ import { PersonalizedRecommendations } from './components/PersonalizedRecommenda
 import { usePersonalization } from './hooks/usePersonalization';
 import { useRealtimeStock } from './hooks/useRealtimeStock';
 import { useScrollSwing } from './hooks/useScrollSwing';
+import { useTheme } from './hooks/useTheme';
 
 const CartDrawer = lazy(() =>
   import('./components/CartDrawer').then((m) => ({ default: m.CartDrawer }))
@@ -130,20 +131,8 @@ function AppContent() {
   // Loading screen
   const [isLoading, setIsLoading] = useState(true);
 
-  // Theme
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    try {
-      return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
-    } catch { return 'dark'; }
-  });
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    // Update meta theme-color for mobile browser chrome
-    const meta = document.getElementById('theme-color-meta') as HTMLMetaElement | null;
-    if (meta) meta.content = theme === 'light' ? '#f5f0e8' : '#0a0a0a';
-  }, [theme]);
+  // Theme (shared store — also used by the admin panel)
+  const { theme, toggleTheme } = useTheme();
 
   // Loading screen timer
   useEffect(() => {
@@ -450,7 +439,7 @@ function AppContent() {
         onCall={() => window.open('tel:+38163616071', '_blank')}
         onBooking={() => addToast('Zakazivanje', 'Kontaktirajte nas putem WhatsApp-a za zakazivanje termina.', 'info')}
         theme={theme}
-        onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
+        onToggleTheme={toggleTheme}
       />
 
       {/* Outfit Builder */}

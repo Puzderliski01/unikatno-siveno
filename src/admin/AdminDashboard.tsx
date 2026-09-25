@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase, DbProduct } from '../lib/supabase';
 import { BlogPost, Notification } from '../types';
 import { Plus, Pencil, Trash2, Eye, EyeOff, Star, LogOut, Upload, X, Save, Image as ImageIcon, ChevronDown, BookOpen, Bell, Package } from 'lucide-react';
+import { AdminThemeToggle } from './components/AdminThemeToggle';
 
 const CATEGORIES = [
   { id: 'haljine', label: 'Haljine' },
@@ -294,7 +295,7 @@ export const AdminDashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4]">
+    <div className="admin-panel min-h-screen bg-[#0a0a0a] text-[#e8e0d4]">
       {/* Header */}
       <header className="bg-[#111111] border-b border-[#c9a96e]/20 px-4 sm:px-6 py-4 flex items-center justify-between">
         <div>
@@ -336,6 +337,7 @@ export const AdminDashboard: React.FC = () => {
               <span className="sm:hidden">+</span>
             </button>
           )}
+          <AdminThemeToggle />
           <button
             onClick={handleLogout}
             className="p-2 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors"
@@ -536,13 +538,14 @@ const AdminProductForm: React.FC<AdminProductFormProps> = ({
   const labelClass = "block text-[10px] uppercase tracking-[0.2em] text-[#e8e0d4]/60 font-sans mb-1.5";
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4]">
+    <div className="admin-panel min-h-screen bg-[#0a0a0a] text-[#e8e0d4]">
       {/* Form Header */}
       <header className="bg-[#111111] border-b border-[#c9a96e]/20 px-6 py-4 flex items-center justify-between">
         <h2 className="font-serif-luxury text-lg text-[#c9a96e]">
           {isNew ? 'Novi proizvod' : 'Izmena proizvoda'}
         </h2>
         <div className="flex items-center gap-3">
+          <AdminThemeToggle />
           <button onClick={onCancel} className="px-4 py-2 text-xs text-[#e8e0d4]/60 hover:text-[#e8e0d4] transition-colors">
             Otkaži
           </button>

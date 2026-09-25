@@ -772,6 +772,24 @@
   background-color: #ef4444;
 }
 
+/* --- #25b Admin Panel Light Theme --- */
+/* Surface hierarchy: cream page → white cards → recessed thumbs/inputs */
+[data-theme="light"] .admin-panel .bg-\[\#111111\] {
+  background-color: #ffffff !important;
+}
+
+[data-theme="light"] .admin-panel .bg-\[\#1a1a1a\] {
+  background-color: #ddd6c8 !important;
+}
+
+[data-theme="light"] .admin-panel .focus\:border-\[\#c9a96e\]:focus {
+  border-color: #8b7346 !important;
+}
+
+[data-theme="light"] .admin-panel .hover\:bg-\[\#c9a96e\]\/10:hover {
+  background-color: rgba(139, 115, 60, 0.12) !important;
+}
+
 /* --- #9 Outfit Builder Panel --- */
 .outfit-builder-panel {
   position: fixed;
