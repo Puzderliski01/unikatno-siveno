@@ -23,7 +23,7 @@ export const BlogSection: React.FC<BlogSectionProps> = React.memo(({ onOpenDetai
 
   return (
     <>
-      <section className="py-16 bg-[#0a0a0a] text-[#e8e0d4] relative border-b border-[#c9a96e]/20">
+      <section id="blog" className="py-16 bg-[#0a0a0a] text-[#e8e0d4] relative border-b border-[#c9a96e]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -66,13 +66,23 @@ export const BlogSection: React.FC<BlogSectionProps> = React.memo(({ onOpenDetai
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent" />
-                  <span className="absolute top-3 left-3 px-2 py-0.5 text-[8px] uppercase tracking-wider bg-[#c9a96e] text-[#0a0a0a] font-sans font-semibold">
+                  <span className="absolute top-3 left-3 px-2 py-0.5 text-[10px] uppercase tracking-wider bg-[#c9a96e] text-[#0a0a0a] font-sans font-semibold">
                     {post.category}
                   </span>
                 </div>
                 <div className="p-4">
                   <h3 className="font-serif-luxury text-lg text-[#e8e0d4] group-hover:text-[#c9a96e] transition-colors mb-2 line-clamp-2">
-                    {post.title}
+                    {/* Pravi link — Google ga indeksira, korisnik bira modal ili stranicu */}
+                    <a
+                      href={`/blog/${post.slug}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedPost(post);
+                      }}
+                      className="hover:underline"
+                    >
+                      {post.title}
+                    </a>
                   </h3>
                   <p className="text-xs text-[#e8e0d4]/60 line-clamp-2 mb-3 font-sans">
                     {post.excerpt}
@@ -111,7 +121,7 @@ export const BlogSection: React.FC<BlogSectionProps> = React.memo(({ onOpenDetai
                 >
                   <X className="w-4 h-4" />
                 </button>
-                <span className="absolute bottom-3 left-3 px-2 py-0.5 text-[8px] uppercase tracking-wider bg-[#c9a96e] text-[#0a0a0a] font-sans font-semibold">
+                <span className="absolute bottom-3 left-3 px-2 py-0.5 text-[10px] uppercase tracking-wider bg-[#c9a96e] text-[#0a0a0a] font-sans font-semibold">
                   {selectedPost.category}
                 </span>
               </div>
@@ -125,6 +135,13 @@ export const BlogSection: React.FC<BlogSectionProps> = React.memo(({ onOpenDetai
                 <div className="prose prose-sm prose-invert max-w-none text-sm text-[#e8e0d4]/80 font-sans leading-relaxed whitespace-pre-wrap">
                   {selectedPost.content}
                 </div>
+                <a
+                  href={`/blog/${selectedPost.slug}`}
+                  className="inline-flex items-center gap-2 mt-6 px-5 py-2.5 border border-[#c9a96e]/50 text-[#c9a96e] text-xs uppercase tracking-[0.2em] hover:bg-[#c9a96e]/10 transition-colors"
+                >
+                  Otvori kao stranicu
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
               </div>
             </motion.div>
           </div>

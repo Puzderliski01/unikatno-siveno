@@ -5,6 +5,7 @@ import { ProductCard } from './ProductCard';
 import { motion, AnimatePresence } from 'motion/react';
 import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
 import { usePredictivePreload } from '../hooks/usePredictivePreload';
+import { Img } from './Img';
 
 interface ProductGridProps {
   products: Product[];
@@ -216,7 +217,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                         className="w-full flex items-center gap-3 p-3 hover:bg-[#1a1a1a] transition-colors text-left border-b border-[#c9a96e]/10 last:border-0"
                       >
                         {suggestion.image && (
-                          <img src={suggestion.image} alt="" className="w-10 h-12 object-cover border border-[#c9a96e]/20" />
+                          <Img src={suggestion.image} alt="" className="w-10 h-12 object-cover border border-[#c9a96e]/20" />
                         )}
                         <div className="flex-1 min-w-0">
                           <p className="text-xs text-[#e8e0d4] truncate">{suggestion.name}</p>
@@ -253,7 +254,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1 text-[10px] uppercase tracking-wider font-sans whitespace-nowrap transition-all border ${
+                className={`px-3 py-2.5 sm:py-1 min-h-[44px] sm:min-h-0 flex items-center text-[10px] uppercase tracking-wider font-sans whitespace-nowrap transition-all border ${
                   selectedCategory === cat
                     ? 'bg-[#c9a96e] text-[#0a0a0a] border-[#c9a96e] font-semibold'
                     : 'bg-transparent text-[#e8e0d4]/60 border-[#c9a96e]/20 hover:border-[#c9a96e]/50 hover:text-[#e8e0d4]'
@@ -301,7 +302,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                   type="button"
                   onClick={() => setGridCols(cols)}
                   title={label}
-                  className={`p-1.5 sm:p-2 transition-colors ${
+                  className={`p-1.5 sm:p-2 min-h-[40px] min-w-[40px] sm:min-h-0 sm:min-w-0 flex items-center justify-center transition-colors ${
                     mobileOnly ? '' : 'hidden sm:block'
                   } ${
                     gridCols === cols

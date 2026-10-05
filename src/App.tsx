@@ -14,6 +14,7 @@ import { fetchProducts } from './lib/supabase';
 import { UserProfile } from './components/UserProfile';
 import { VIPBenefitsModal } from './components/VIPBenefitsModal';
 import { BlogSection } from './components/BlogSection';
+import { BehindTheScenes } from './components/BehindTheScenes';
 import { NotificationBell } from './components/NotificationBell';
 import { AuthModal } from './components/AuthModal';
 import { AuthProvider, useAuth } from './lib/auth';
@@ -43,6 +44,9 @@ const AdminPage = lazy(() =>
 const PrivacyPolicy = lazy(() =>
   import('./components/PrivacyPolicy').then((m) => ({ default: m.PrivacyPolicy }))
 );
+const BlogPostPage = lazy(() =>
+  import('./components/BlogPostPage').then((m) => ({ default: m.BlogPostPage }))
+);
 
 function isAdminRoute() {
   return window.location.pathname.startsWith('/admin');
@@ -50,6 +54,12 @@ function isAdminRoute() {
 
 function isPrivacyRoute() {
   return window.location.pathname.replace(/\/+$/, '') === '/politika-privatnosti';
+}
+
+/** Vraća slug blog posta za /blog/<slug>, inače null. */
+function getBlogSlug(): string | null {
+  const m = window.location.pathname.match(/^\/blog\/([^/]+)\/?$/);
+  return m ? decodeURIComponent(m[1]) : null;
 }
 
 function AppContent() {
@@ -386,6 +396,16 @@ function AppContent() {
     );
   }
 
+  // Blog post (zasebna stranica — ima svoj URL za SEO i deljenje)
+  const blogSlug = getBlogSlug();
+  if (blogSlug) {
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-[#e8e0d4]/50">Učitavanje...</div>}>
+        <BlogPostPage slug={blogSlug} />
+      </Suspense>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4] selection:bg-[#c9a96e]/30 selection:text-[#e8e0d4]">
       
@@ -479,6 +499,9 @@ function AppContent() {
 
       {/* About & Slow Fashion Craftsmanship Section */}
       <AboutSection />
+
+      {/* Iza scene — proces nastanka modela */}
+      <BehindTheScenes />
 
       {/* Gift Registry Banner */}
       <section className="py-16 bg-[#0a0a0a] relative">

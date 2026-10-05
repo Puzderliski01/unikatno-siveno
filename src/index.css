@@ -435,6 +435,11 @@
 }
 
 /* --- #1 Luxury Loading Screen --- */
+/* `<picture>` ne sme da utiče na layout — ponaša se kao da ga nema */
+picture {
+  display: contents;
+}
+
 .luxury-loading-screen {
   position: fixed;
   inset: 0;

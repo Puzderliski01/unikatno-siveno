@@ -3,6 +3,7 @@ import { X, Trash2, Plus, Minus, ListChecks, MessageCircle, Copy, ArrowRight } f
 import { motion } from 'motion/react';
 import { CartItem } from '../types';
 import { FORMAT_RSD } from '../data/products';
+import { Img } from './Img';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -97,7 +98,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     key={item.id}
                     className="p-3.5 bg-[#111111] border border-[#e8e0d4]/15 flex gap-3.5 items-start shadow-sm"
                   >
-                    <img
+                    <Img
                       src={item.product.images[0]}
                       alt={item.product.nameSr}
                       className="w-16 h-20 object-cover border border-[#e8e0d4]/10 flex-shrink-0"

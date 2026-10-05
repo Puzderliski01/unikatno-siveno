@@ -20,6 +20,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
+import { Img } from './Img';
 
 interface WishlistModalProps {
   isOpen: boolean;
@@ -79,7 +80,7 @@ function SortableItem({
         <GripVertical className="w-4 h-4" />
       </button>
 
-      <img
+      <Img
         src={product.images[0]}
         alt={product.nameSr}
         className="w-16 h-20 object-cover border border-[#e8e0d4]/10 flex-shrink-0 cursor-pointer"

@@ -2,6 +2,8 @@
   "rewrites": [
     { "source": "/admin", "destination": "/index.html" },
     { "source": "/admin/(.*)", "destination": "/index.html" },
-    { "source": "/politika-privatnosti", "destination": "/index.html" }
+    { "source": "/politika-privatnosti", "destination": "/index.html" },
+    { "source": "/blog", "destination": "/index.html" },
+    { "source": "/blog/(.*)", "destination": "/index.html" }
   ]
 }

@@ -67,6 +67,14 @@ Izlaz je u `dist/` folderu, spreman za Vercel.
 npm run lint
 ```
 
+### Optimizacija slika
+
+```bash
+npm run optimize-images
+```
+
+Za svaku sliku u `public/` pravi WebP verziju (2,16 MB umesto 4,89 MB) i kompresuje original kao fallback. Skripta je idempotentna — ponovno pokretanje ne degradira slike. Rezultat se beleži u `src/data/webpAssets.ts` (auto-generisano).
+
 ## Konfiguracija (Supabase)
 
 Ključevi su u `.env` (gitignored):
@@ -99,18 +107,43 @@ src/
 │   ├── CartDrawer.tsx        # "Izbor" — WhatsApp / Instagram poruka
 │   ├── WishlistModal.tsx     # Lista želja
 │   ├── OutfitBuilder.tsx     # Slaganje autfita
+│   ├── AboutSection.tsx      # O ateljeu i Jeleni
+│   ├── BehindTheScenes.tsx   # "Iza scene" — proces nastanka modela
+│   ├── BlogSection.tsx       # Blog na početnoj (pregled)
+│   ├── BlogPostPage.tsx      # /blog/<slug> — pojedinačni članak
 │   ├── ContactSection.tsx    # Kontakt (WhatsApp/Instagram), FAQ, mapa
 │   ├── Footer.tsx            # Footer + newsletter (Supabase)
 │   ├── PrivacyPolicy.tsx     # Politika privatnosti
 │   ├── FloatingActionBar.tsx # WhatsApp / Instagram / tema
+│   ├── Img.tsx               # <img> sa automatskim WebP-om
+│   ├── OptimizedImage.tsx    # Lazy <picture> sa WebP-om
 │   └── Toast.tsx             # Notifikacije
 ├── admin/                    # Admin panel (Supabase auth)
-├── data/                     # Ugrađeni podaci o modelima (fallback)
-├── lib/supabase.ts           # Klijent + subscribeToNewsletter
+├── data/                     # Ugrađeni podaci o modelima + webpAssets
+├── lib/supabase.ts           # Klijent, newsletter, blog, proizvodi
+├── lib/image.ts              # WebP helper
+├── scripts/optimize-images.mjs # npm run optimize-images
 ├── types.ts                  # TypeScript interfejsi
 ├── App.tsx                   # Glavna komponenta, rute
 └── index.css                 # Globalni stilovi + Tailwind
 ```
+
+## Rute
+
+| Ruta | Sadržaj |
+|------|---------|
+| `/` | Početna — kolekcija, blog pregled, o radionici, kontakt |
+| `/blog/<slug>` | Pojedinačni blog članak (Article JSON-LD) |
+| `/politika-privatnosti` | Politika privatnosti |
+| `/admin` | Admin panel (Supabase auth) |
+
+## SEO
+
+- **JSON-LD** — `ClothingStore` + `WebSite` u `index.html`, `BlogPosting` na stranicama članaka
+- **Sitemap** — `public/sitemap.xml` (ručno se ažurira)
+- **Open Graph / Twitter** kartice, canonical, robots meta
+- **Lighthouse** — Accessibility 100, Best Practices 100, SEO 100
+
 
 ## Deploy
 

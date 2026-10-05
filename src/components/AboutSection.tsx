@@ -2,6 +2,7 @@ import React from 'react';
 import { Scissors, Feather } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useScrollAnimation, staggerItemVariants, scaleInVariants } from '../hooks/useScrollAnimation';
+import { Img } from './Img';
 
 export const AboutSection: React.FC = React.memo(() => {
   const { getVariants, getInViewOptions, isMobile } = useScrollAnimation();
@@ -80,7 +81,7 @@ export const AboutSection: React.FC = React.memo(() => {
                 <div className="mx-6 mb-6 bg-[#111111]/95 border border-[#c9a96e]/40 p-4 flex gap-4 items-start backdrop-blur-sm">
                   {/* Jelena Portrait */}
                   <div className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 overflow-hidden border border-[#c9a96e]/40">
-                    <img
+                    <Img
                       src="/jelena.jpg"
                       alt="Jelena Erić"
                       className="w-full h-full object-cover"
@@ -95,7 +96,7 @@ export const AboutSection: React.FC = React.memo(() => {
                     <p className="font-serif-luxury text-xs sm:text-sm italic text-[#e8e0d4] leading-snug mb-1.5">
                       "Moda prolazi, ali kroj koji poštuje proporcije vašeg tela i prirodan materijal na koži ostaju večni."
                     </p>
-                    <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-semibold block">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-semibold block">
                       — Jelena Erić, osnivač i glavni kreator
                     </span>
                   </div>

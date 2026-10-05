@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, type FC } from 'react';
+import { hasWebp, webpSrc } from '../lib/image';
 
 interface OptimizedImageProps {
   src: string;
@@ -69,17 +70,20 @@ export const OptimizedImage: FC<OptimizedImageProps> = ({
       )}
 
       {isInView && (
-        <img
-          src={src}
-          alt={alt}
-          className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-          loading={priority ? 'eager' : 'lazy'}
-          width={width}
-          height={height}
-          decoding="async"
-          fetchPriority={priority ? 'high' : 'auto'}
-          onLoad={() => setIsLoaded(true)}
-        />
+        <picture>
+          {hasWebp(src) && <source srcSet={webpSrc(src)} type="image/webp" />}
+          <img
+            src={src}
+            alt={alt}
+            className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            loading={priority ? 'eager' : 'lazy'}
+            width={width}
+            height={height}
+            decoding="async"
+            fetchPriority={priority ? 'high' : 'auto'}
+            onLoad={() => setIsLoaded(true)}
+          />
+        </picture>
       )}
     </div>
   );

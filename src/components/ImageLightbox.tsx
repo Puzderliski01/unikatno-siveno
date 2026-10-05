@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useSwipe } from '../hooks/useSwipe';
+import { Img } from './Img';
+import { webpSrc } from '../lib/image';
 
 interface ImageLightboxProps {
   isOpen: boolean;
@@ -112,7 +114,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.25 }}
-            src={images[currentIndex]}
+            src={webpSrc(images[currentIndex])}
             alt={`${altText} - uvećana fotografija ${currentIndex + 1}`}
             className="max-h-[75vh] w-auto object-contain shadow-2xl border border-[#e8e0d4]/30 bg-[#111111]"
           />
@@ -135,7 +137,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
                     : 'border-[#e8e0d4]/20 opacity-50 hover:opacity-90'
                 }`}
               >
-                <img src={img} alt={`Sličica ${idx + 1}`} className="w-full h-full object-cover" />
+                <Img src={img} alt={`Sličica ${idx + 1}`} className="w-full h-full object-cover" />
               </button>
             ))}
           </div>

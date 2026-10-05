@@ -3,6 +3,7 @@ import { ArrowDown, Scissors, ShieldCheck, Ruler } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { HangingLetters } from './HangingLetters';
+import { Img } from './Img';
 
 interface HeroProps {
   onExploreClick: () => void;
@@ -60,7 +61,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
         </div>
         <div className="relative z-10 max-w-md mx-auto px-6 py-14 flex flex-col items-center justify-center text-center min-h-[65vh]">
           <div className="relative w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-3">
-            <img src="/logo.png" alt="Jelena Erić Logo" className="w-full h-full object-contain" loading="eager" decoding="async" fetchPriority="high" width="128" height="128" />
+            <Img src="/logo.png" alt="Jelena Erić Logo" className="w-full h-full object-contain" loading="eager" decoding="async" fetchPriority="high" width="128" height="128" />
           </div>
           <h1 className="font-serif-luxury text-xl font-light text-[#e8e0d4] tracking-tight leading-[1.1] mb-2">
             Kolekcija. Unikatno šivenje
@@ -160,7 +161,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
               transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="relative w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 mx-auto">
-                <img src="/logo.png" alt="Jelena Erić Logo" className="w-full h-full object-contain" loading="eager" decoding="async" fetchPriority="high" width="320" height="320" />
+                <Img src="/logo.png" alt="Jelena Erić Logo" className="w-full h-full object-contain" loading="eager" decoding="async" fetchPriority="high" width="320" height="320" />
               </div>
             </motion.div>
 
@@ -241,7 +242,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
           transition={{ duration: 1, delay: 1.5 }}
           whileHover={{ scale: 1.1 }}
         >
-          <span className="text-[9px] uppercase tracking-[0.2em] text-[#e8e0d4]/70 font-sans">Skrolujte</span>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#e8e0d4]/70 font-sans">Skrolujte</span>
           <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>
             <ArrowDown className="w-4 h-4 text-[#c9a96e]" />
           </motion.div>

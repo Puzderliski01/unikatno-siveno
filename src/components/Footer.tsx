@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
 import { Tooltip } from './Tooltip';
 import { subscribeToNewsletter } from '../lib/supabase';
+import { Img } from './Img';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/jelena.ericc/';
 const FACEBOOK_URL = 'https://www.facebook.com/people/Unikatno-%C5%A1iveno-Jelena-Eri%C4%87/100063482086585/';
@@ -126,7 +127,7 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
           {/* Col 1: Brand Info */}
           <motion.div variants={getVariants(staggerItemVariants)} className="space-y-4">
             <div className="flex items-center gap-3">
-              <img
+              <Img
                 src="/logo.png"
                 alt="Unikatno šiveno – Jelena Erić"
                 className="h-10 w-auto object-contain"

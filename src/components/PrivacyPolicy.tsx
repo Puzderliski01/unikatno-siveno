@@ -151,7 +151,7 @@ export const PrivacyPolicy: React.FC = () => {
             <span className="font-serif-luxury text-sm sm:text-base tracking-[0.3em] uppercase text-[#c9a96e] block leading-tight">
               Unikatno šiveno
             </span>
-            <span className="text-[9px] uppercase tracking-[0.4em] text-[#c9a96e]/70 font-sans">
+            <span className="text-[10px] uppercase tracking-[0.4em] text-[#c9a96e]/70 font-sans">
               Jelena Erić
             </span>
           </div>

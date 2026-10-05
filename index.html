@@ -28,6 +28,61 @@
     <link rel="canonical" href="https://unikatno-siveno.vercel.app/">
     <meta name="robots" content="index, follow, max-image-preview:large">
 
+    <!-- Structured Data (JSON-LD) — pomaže Googleu da razume o čemu sajt radi -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ClothingStore",
+          "@id": "https://unikatno-siveno.vercel.app/#store",
+          "name": "Unikatno šiveno – Jelena Erić",
+          "description": "Luksuzni modni atelje — unikatna ženska odeća po meri, prirodni plemeniti materijali i ručna izrada.",
+          "url": "https://unikatno-siveno.vercel.app/",
+          "logo": "https://unikatno-siveno.vercel.app/logo.png",
+          "image": "https://unikatno-siveno.vercel.app/logo.png",
+          "priceRange": "RSD",
+          "currenciesAccepted": "RSD",
+          "paymentAccepted": "Dogovor",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Topola",
+            "addressCountry": "RS"
+          },
+          "geo": { "@type": "GeoCoordinates", "latitude": 44.2578, "longitude": 20.6861 },
+          "areaServed": { "@type": "Country", "name": "Serbia" },
+          "founder": { "@type": "Person", "name": "Jelena Erić" },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+            "opens": "09:00",
+            "closes": "17:00",
+            "description": "Posete ateljeu isključivo po najavi i dogovoru"
+          },
+          "sameAs": [
+            "https://www.instagram.com/jelena.ericc/",
+            "https://www.facebook.com/people/Unikatno-%C5%A1iveno-Jelena-Eri%C4%87/100063482086585/"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+381-636-16071",
+            "contactType": "customer service",
+            "availableLanguage": ["Serbian"],
+            "areaServed": "RS"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://unikatno-siveno.vercel.app/#website",
+          "url": "https://unikatno-siveno.vercel.app/",
+          "name": "Unikatno šiveno – Jelena Erić",
+          "inLanguage": "sr",
+          "publisher": { "@id": "https://unikatno-siveno.vercel.app/#store" }
+        }
+      ]
+    }
+    </script>
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/logo.png">
 

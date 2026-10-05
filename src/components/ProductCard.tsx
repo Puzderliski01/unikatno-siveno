@@ -149,7 +149,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
         {/* Top Badges & Wishlist Button */}
         <div className="absolute top-3 inset-x-3 flex items-center justify-between z-30">
           {product.badge ? (
-            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[8px] uppercase font-sans tracking-wider font-medium bg-[#0a0a0a] text-[#c9a96e] border border-[#c9a96e]/40">
+            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] uppercase font-sans tracking-wider font-medium bg-[#0a0a0a] text-[#c9a96e] border border-[#c9a96e]/40">
               <Sparkles className="w-2 h-2 text-[#c9a96e]" />
               {product.badge}
             </span>
@@ -164,7 +164,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
               e.stopPropagation();
               onToggleWishlist(product);
             }}
-            className={`p-2 transition-all duration-300 z-40 ${isWishlisted ? 'bg-[#c9a96e] text-[#0a0a0a] shadow-md' : 'bg-[#0a0a0a]/90 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] border border-[#c9a96e]/20'}`}
+            className={`p-2.5 sm:p-2 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex items-center justify-center transition-all duration-300 z-40 ${isWishlisted ? 'bg-[#c9a96e] text-[#0a0a0a] shadow-md' : 'bg-[#0a0a0a]/90 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] border border-[#c9a96e]/20'}`}
           >
             <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
           </button>
@@ -175,7 +175,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
           <div className="absolute bottom-3 left-3 z-30">
             <div className="stock-pulse">
               <span className="stock-pulse-dot" />
-              <span className="text-[9px] uppercase tracking-wider text-red-400 font-sans font-medium bg-[#0a0a0a]/90 px-2 py-0.5">
+              <span className="text-[10px] uppercase tracking-wider text-red-400 font-sans font-medium bg-[#0a0a0a]/90 px-2 py-0.5">
                 Još {stockCount}
               </span>
             </div>

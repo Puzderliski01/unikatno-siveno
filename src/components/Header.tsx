@@ -74,7 +74,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             <h1 className="text-lg tracking-[0.3em] font-light uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury">
               Unikatno šiveno
             </h1>
-            <p className="text-[9px] uppercase tracking-[0.4em] text-[#c9a96e]/80 font-sans text-center w-full">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[#c9a96e]/80 font-sans text-center w-full">
               Jelena Erić
             </p>
           </a>
@@ -200,16 +200,16 @@ export const Header: React.FC<HeaderProps> = React.memo(({
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex flex-col items-center gap-0.5 p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+            className="flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
           >
             <Home className="w-4 h-4" />
-            <span className="text-[8px] uppercase tracking-wider font-sans">Početna</span>
+            <span className="text-[10px] uppercase tracking-wider font-sans">Početna</span>
           </button>
 
           <button
             type="button"
             onClick={onOpenWishlist}
-            className="relative flex flex-col items-center gap-0.5 p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+            className="relative flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
           >
             <Heart className={`w-4 h-4 ${wishlistCount > 0 ? 'fill-[#c9a96e] text-[#c9a96e]' : ''}`} />
             {wishlistCount > 0 && (
@@ -217,43 +217,43 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 {wishlistCount}
               </span>
             )}
-            <span className="text-[8px] uppercase tracking-wider font-sans">Želje</span>
+            <span className="text-[10px] uppercase tracking-wider font-sans">Želje</span>
           </button>
 
           {user ? (
             <button
               type="button"
               onClick={onOpenUserProfile}
-              className="flex flex-col items-center gap-0.5 p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+              className="flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
             >
               <Trophy className="w-4 h-4" />
-              <span className="text-[8px] uppercase tracking-wider font-sans">Profil</span>
+              <span className="text-[10px] uppercase tracking-wider font-sans">Profil</span>
             </button>
           ) : (
             <button
               type="button"
               onClick={onOpenLogin}
-              className="flex flex-col items-center gap-0.5 p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+              className="flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
             >
               <LogIn className="w-4 h-4" />
-              <span className="text-[8px] uppercase tracking-wider font-sans">Prijava</span>
+              <span className="text-[10px] uppercase tracking-wider font-sans">Prijava</span>
             </button>
           )}
 
           <button
             type="button"
             onClick={onOpenVIPBenefits}
-            className="flex flex-col items-center gap-0.5 p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+            className="flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
           >
             <Star className="w-4 h-4" />
-            <span className="text-[8px] uppercase tracking-wider font-sans">VIP</span>
+            <span className="text-[10px] uppercase tracking-wider font-sans">VIP</span>
           </button>
 
           <button
             type="button"
             onClick={onOpenCart}
             data-cart-icon
-            className="relative flex flex-col items-center gap-0.5 p-1.5 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+            className="relative flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
           >
             <ShoppingBag className="w-4 h-4" />
             {cartCount > 0 && (
@@ -261,7 +261,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 {cartCount}
               </span>
             )}
-            <span className="text-[8px] uppercase tracking-wider font-sans">Izbor</span>
+            <span className="text-[10px] uppercase tracking-wider font-sans">Izbor</span>
           </button>
         </div>
       </div>
