@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { Sparkles, Mail, MapPin, Phone, ArrowRight, Instagram, Facebook } from 'lucide-react';
+import { Sparkles, Mail, MapPin, Phone, ArrowRight, Instagram, Facebook, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
 import { Tooltip } from './Tooltip';
+import { subscribeToNewsletter } from '../lib/supabase';
+
+const INSTAGRAM_URL = 'https://www.instagram.com/jelena.ericc/';
+const FACEBOOK_URL = 'https://www.facebook.com/people/Unikatno-%C5%A1iveno-Jelena-Eri%C4%87/100063482086585/';
+const CONTACT_EMAIL = 'jelena.ericc@gmail.com';
 
 interface FooterProps {
   onShowToast: (title: string, desc: string, type: any) => void;
@@ -13,18 +18,28 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
   const inViewOptions = getInViewOptions();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newsletterEmail) return;
-    setSubscribed(true);
+    const email = newsletterEmail.trim();
+    if (!email || isSubmitting) return;
+
+    setIsSubmitting(true);
+    const result = await subscribeToNewsletter(email);
+    setIsSubmitting(false);
+
     onShowToast(
-      'Uspešna prijava na bilten',
-      'Obaveštavaćemo vas o novim ekskluzivnim kapsula kolekcijama i privatnim revijama.',
+      result.ok ? 'Prijava na bilten' : 'Prijava nije uspela',
+      result.message,
       'info'
     );
-    setNewsletterEmail('');
-    setTimeout(() => setSubscribed(false), 5000);
+
+    if (result.ok) {
+      setSubscribed(true);
+      setNewsletterEmail('');
+      setTimeout(() => setSubscribed(false), 5000);
+    }
   };
 
   const scrollTo = (id: string) => {
@@ -61,31 +76,39 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
               Prijavite se za obaveštenja o novim unikatnim komadima
             </h3>
             <p className="text-xs text-[#e8e0d4]/75 leading-relaxed font-light">
-              Budite prvi koji će saznati za dolazak limitiranih modela i termine privatnih probnih dana.
+              Budite prvi koji će saznati za dolazak limitiranih modela i nove komade u kolekciji.
             </p>
           </div>
 
-          <form onSubmit={handleSubscribe} className="relative z-10 w-full lg:w-auto flex flex-col sm:flex-row gap-2 max-w-md">
-            <input
-              type="email"
-              required
-              placeholder="Unesite vašu email adresu"
-              value={newsletterEmail}
-              onChange={(e) => setNewsletterEmail(e.target.value)}
-              className="px-4 py-3 bg-[#111111] border border-[#e8e0d4]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none w-full sm:w-72 transition-colors"
-            />
-            <Tooltip placement="top" label={subscribed ? 'Već ste prijavljeni' : 'Prijavite se na bilten'}>
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="shine-btn px-6 py-3 bg-[#c9a96e] hover:bg-[#A7823B] text-black font-semibold text-xs uppercase tracking-[0.15em] transition-colors whitespace-nowrap flex items-center justify-center gap-1.5"
-              >
-                <span>{subscribed ? 'Prijavljeni' : 'Prijavite se'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </motion.button>
-            </Tooltip>
-          </form>
+          <div className="relative z-10 w-full lg:w-auto max-w-md">
+            <form onSubmit={handleSubscribe} className="w-full flex flex-col sm:flex-row gap-2">
+              <input
+                type="email"
+                required
+                placeholder="Unesite vašu email adresu"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                disabled={isSubmitting}
+                className="px-4 py-3 bg-[#111111] border border-[#e8e0d4]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none w-full sm:w-72 transition-colors disabled:opacity-60"
+              />
+              <Tooltip placement="top" label={subscribed ? 'Već ste prijavljeni' : 'Prijavite se na bilten'}>
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="shine-btn px-6 py-3 bg-[#c9a96e] hover:bg-[#A7823B] text-black font-semibold text-xs uppercase tracking-[0.15em] transition-colors whitespace-nowrap flex items-center justify-center gap-1.5 disabled:opacity-60"
+                >
+                  <span>{isSubmitting ? 'Šaljemo...' : subscribed ? 'Prijavljeni' : 'Prijavite se'}</span>
+                  {isSubmitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ArrowRight className="w-3.5 h-3.5" />}
+                </motion.button>
+              </Tooltip>
+            </form>
+            <p className="text-[10px] text-[#e8e0d4]/70 mt-2 leading-relaxed">
+              Email adresu koristimo isključivo za slanje obaveštenja o novim modelima. Više o
+              tome u <a href="/politika-privatnosti" className="underline hover:text-[#c9a96e]">politici privatnosti</a>.
+            </p>
+          </div>
         </motion.div>
 
         {/* 4 Columns Footer Grid */}
@@ -127,11 +150,12 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
             <div className="pt-2 flex items-center gap-3">
               <Tooltip placement="top" label="Instagram profil ateljea">
               <motion.a
-                href="https://www.instagram.com/jelena.ericc/"
+                href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noreferrer"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                aria-label="Instagram"
                 className="p-2 bg-white/5 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-colors"
               >
                 <Instagram className="w-4 h-4" />
@@ -139,11 +163,12 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
             </Tooltip>
             <Tooltip placement="top" label="Facebook stranica ateljea">
               <motion.a
-                href="https://www.instagram.com/jelena.ericc/"
+                href={FACEBOOK_URL}
                 target="_blank"
                 rel="noreferrer"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                aria-label="Facebook"
                 className="p-2 bg-white/5 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-colors"
               >
                 <Facebook className="w-4 h-4" />
@@ -210,20 +235,29 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
           {/* Col 4: Atelier Locations */}
           <motion.div variants={getVariants(staggerItemVariants)}>
             <h4 className="font-serif-luxury text-base text-[#e8e0d4] uppercase tracking-wider mb-4">
-              Salon Topola
+              Atelje Topola
             </h4>
             <div className="space-y-2 text-[#e8e0d4]/75 font-sans">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
-                <span>Topola</span>
+                <span>Topola, Srbija — posete po dogovoru</span>
               </div>
               <div className="flex items-start gap-2">
                 <Phone className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
-                <span>+381 636 160 71</span>
+                <a
+                  href="https://wa.me/38163616071"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-[#c9a96e] transition-colors"
+                >
+                  +381 636 160 71 (WhatsApp)
+                </a>
               </div>
               <div className="flex items-start gap-2">
                 <Mail className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
-                <span>kontakt@unikatnosiveno.rs</span>
+                <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-[#c9a96e] transition-colors break-all">
+                  {CONTACT_EMAIL}
+                </a>
               </div>
             </div>
           </motion.div>
@@ -236,22 +270,24 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
           whileInView="visible"
           viewport={inViewOptions}
           variants={getVariants(fadeInUpVariants)}
-          className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#e8e0d4]/50"
+          className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#e8e0d4]/70"
         >
           <Tooltip placement="top" label="Sva prava zadržana © 2026 Unikatno šiveno – Jelena Erić">
             <div>
               © {new Date().getFullYear()} UNIKATNO ŠIVENO – JELENA ERIĆ. Sva prava zadržana.
             </div>
           </Tooltip>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap justify-center">
+            <a href="/politika-privatnosti" className="hover:text-[#c9a96e] transition-colors">
+              Politika privatnosti
+            </a>
+            <span className="text-[#e8e0d4]/60">•</span>
             <Tooltip placement="top" label="Izrađeno sa pažnjom u Topoli">
               <span>Izrađeno sa pažnjom u Topoli</span>
             </Tooltip>
-            <Tooltip placement="top" label="Odvojnik">
-              <span>•</span>
-            </Tooltip>
-            <Tooltip placement="top" label="Isporuka širom Srbije">
-              <span>Isporuka širom Srbije</span>
+            <span className="text-[#e8e0d4]/60">•</span>
+            <Tooltip placement="top" label="Posete ateljeu isključivo po dogovoru">
+              <span>Posete ateljeu po dogovoru</span>
             </Tooltip>
           </div>
         </motion.div>

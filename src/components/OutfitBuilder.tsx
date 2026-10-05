@@ -117,7 +117,7 @@ export const OutfitBuilder: React.FC<OutfitBuilderProps> = React.memo(({
                 className="w-full py-2.5 bg-[#c9a96e] text-[#0a0a0a] text-[10px] uppercase tracking-[0.15em] font-semibold font-sans flex items-center justify-center gap-2 hover:bg-[#b89a60] transition-colors"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
-                <span>Dodaj sve u korpu</span>
+                <span>Dodaj sve u izbor</span>
               </button>
             </div>
           </motion.div>

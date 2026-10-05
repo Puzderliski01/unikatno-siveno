@@ -1,8 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 import { Product, BlogPost, Notification } from '../types';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Ako env varijable nisu unete (npr. na hosting koji ih nema), sajt mora i dalje
+// da radi — koristimo bezopasan placeholder umesto da klijent baci grešku i
+// cela aplikacija padne.
+const rawUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const rawKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+export const isSupabaseConfigured = Boolean(rawUrl && rawKey);
+
+const supabaseUrl = rawUrl || 'https://placeholder.supabase.co';
+const supabaseAnonKey = rawKey || 'placeholder-anon-key';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -104,4 +112,28 @@ export async function fetchNotifications(): Promise<Notification[]> {
 
   if (error || !data) return [];
   return data.map(n => ({ ...n, read: false }));
+}
+
+/**
+ * Prijava na bilten (newsletter).
+ * Zahteva tabelu `subscribers` (vidi supabase-subscribers.sql).
+ */
+export async function subscribeToNewsletter(
+  email: string
+): Promise<{ ok: boolean; message: string }> {
+  if (!isSupabaseConfigured) {
+    return { ok: false, message: 'Prijava trenutno nije dostupna — pišite nam na email.' };
+  }
+
+  const { error } = await supabase.from('subscribers').insert({ email });
+
+  if (error) {
+    // 23505 = unique_violation → adresa je već prijavljena
+    if (error.code === '23505') {
+      return { ok: true, message: 'Već ste prijavljeni — javićemo vam nove modele.' };
+    }
+    return { ok: false, message: 'Prijava nije uspela. Pokušajte ponovo ili nam pišite na email.' };
+  }
+
+  return { ok: true, message: 'Hvala! Javićemo vam čim stignu novi unikatni komadi.' };
 }

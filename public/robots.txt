@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+Sitemap: https://unikatno-siveno.vercel.app/sitemap.xml

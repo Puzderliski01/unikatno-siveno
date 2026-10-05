@@ -94,7 +94,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 {[
                   { id: 'kolekcija', label: 'Kolekcija' },
                   { id: 'o-radionici', label: 'O radionici' },
-                  { id: 'kontakt', label: 'Kontakt & Salon' },
+                  { id: 'kontakt', label: 'Kontakt' },
                 ].map((link) => (
                   <button
                     key={link.id}
@@ -130,6 +130,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 <button
                   type="button"
                   onClick={onOpenWishlist}
+                  aria-label="Omiljeni modeli"
                   className="relative p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 >
                   <Heart className={`w-4 h-4 ${wishlistCount > 0 ? 'fill-[#c9a96e] text-[#c9a96e]' : ''}`} />
@@ -144,6 +145,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   <button
                     type="button"
                     onClick={onOpenUserProfile}
+                    aria-label="Moj profil"
                     className="p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                   >
                     <Trophy className="w-4 h-4" />
@@ -164,6 +166,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 <button
                   type="button"
                   onClick={onOpenVIPBenefits}
+                  aria-label="VIP pogodnosti"
                   className="p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 >
                   <Star className="w-4 h-4" />
@@ -177,7 +180,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 >
                   <ShoppingBag className="w-4 h-4 text-[#c9a96e] group-hover:scale-110 transition-transform" />
                   <span className="text-xs uppercase tracking-widest font-sans font-medium">
-                    Korpa ({cartCount})
+                    Izbor ({cartCount})
                   </span>
                   {cartCount > 0 && (
                     <span className="text-[11px] font-mono text-[#c9a96e] font-semibold ml-1">
@@ -258,7 +261,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 {cartCount}
               </span>
             )}
-            <span className="text-[8px] uppercase tracking-wider font-sans">Korpa</span>
+            <span className="text-[8px] uppercase tracking-wider font-sans">Izbor</span>
           </button>
         </div>
       </div>

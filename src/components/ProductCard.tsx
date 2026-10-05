@@ -159,6 +159,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
 
           <button
             type="button"
+            aria-label={isWishlisted ? `Ukloni ${product.nameSr} iz omiljenih` : `Dodaj ${product.nameSr} u omiljene`}
             onClick={(e) => {
               e.stopPropagation();
               onToggleWishlist(product);
@@ -293,7 +294,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
                   ) : (
                     <>
                       <ShoppingBag className="w-3.5 h-3.5" />
-                      <span className="hidden sm:inline">Kupi</span>
+                      <span className="hidden sm:inline">U izbor</span>
                     </>
                   )}
                 </button>
@@ -340,15 +341,6 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
               Detalji &rarr;
             </span>
           </div>
-
-          {/* Pay Later Badge */}
-          {product.priceRSD >= 5000 && (
-            <div className="mt-2">
-              <span className="pay-later-badge">
-                ili 3 rate po {FORMAT_RSD(Math.round(product.priceRSD / 3))}
-              </span>
-            </div>
-          )}
         </div>
       </div>
     </div>

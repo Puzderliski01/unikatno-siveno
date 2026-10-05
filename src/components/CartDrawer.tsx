@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, Trash2, Plus, Minus, ShoppingBag, Gift, Truck, ArrowRight } from 'lucide-react';
+import React from 'react';
+import { X, Trash2, Plus, Minus, ListChecks, MessageCircle, Copy, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { CartItem } from '../types';
 import { FORMAT_RSD } from '../data/products';
@@ -10,7 +10,8 @@ interface CartDrawerProps {
   onClose: () => void;
   onUpdateQuantity: (id: string, newQty: number) => void;
   onRemoveItem: (id: string) => void;
-  onProceedToCheckout: () => void;
+  onShareWhatsApp: () => void;
+  onCopyForInstagram: () => void;
   onExploreCollection: () => void;
 }
 
@@ -20,17 +21,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onClose,
   onUpdateQuantity,
   onRemoveItem,
-  onProceedToCheckout,
+  onShareWhatsApp,
+  onCopyForInstagram,
   onExploreCollection,
 }) => {
-  const [isGiftWrap, setIsGiftWrap] = useState(true);
-
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.priceRSD * item.quantity, 0);
-  const freeShippingThreshold = 10000;
-  const isFreeShipping = subtotal >= freeShippingThreshold;
-  const remainingForFreeShipping = Math.max(0, freeShippingThreshold - subtotal);
-  const shippingCost = isFreeShipping || subtotal === 0 ? 0 : 450;
-  const total = subtotal + shippingCost;
 
   if (!isOpen) return null;
 
@@ -50,9 +45,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           {/* Drawer Header */}
           <div className="p-5 border-b border-[#e8e0d4]/10 flex items-center justify-between bg-[#111111]">
             <div className="flex items-center gap-2.5">
-              <ShoppingBag className="w-5 h-5 text-[#c9a96e]" />
+              <ListChecks className="w-5 h-5 text-[#c9a96e]" />
               <h2 className="font-serif-luxury text-xl text-[#e8e0d4]">
-                Vaša korpa ({cartItems.reduce((sum, item) => sum + item.quantity, 0)})
+                Vaš izbor ({cartItems.reduce((sum, item) => sum + item.quantity, 0)})
               </h2>
             </div>
             <button
@@ -60,32 +55,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               type="button"
               onClick={onClose}
               className="p-1.5 hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
-              aria-label="Zatvori korpu"
+              aria-label="Zatvori izbor"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Free Shipping Progress Bar (Serbia) */}
-          <div className="bg-[#111111] p-3.5 border-b border-[#e8e0d4]/10 text-xs font-sans">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[#e8e0d4]/80 flex items-center gap-1.5">
-                <Truck className="w-3.5 h-3.5 text-[#c9a96e]" />
-                {isFreeShipping ? (
-                  <strong className="text-[#c9a96e]">Ostvarili ste besplatnu Post Express dostavu!</strong>
-                ) : (
-                  <span>
-                    Dodajte još <strong className="text-[#c9a96e] font-mono">{FORMAT_RSD(remainingForFreeShipping)}</strong> za besplatnu dostavu u Srbiji
-                  </span>
-                )}
-              </span>
-            </div>
-            <div className="w-full h-2 sm:h-1.5 bg-[#e8e0d4]/10 overflow-hidden">
-              <div
-                className="h-full bg-[#c9a96e] transition-all duration-500"
-                style={{ width: `${Math.min(100, (subtotal / freeShippingThreshold) * 100)}%` }}
-              />
-            </div>
+          {/* How it works */}
+          <div className="bg-[#111111] p-3.5 border-b border-[#e8e0d4]/10 text-xs font-sans text-[#e8e0d4]/75 leading-relaxed">
+            Sakupljene modele pošaljite nam porukom — oko porudžbine i dogovaramo se lično.
+            Na sajtu nema online plaćanja.
           </div>
 
           {/* Items List */}
@@ -93,11 +72,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             {cartItems.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6">
                 <div className="w-16 h-16 bg-[#111111] border border-[#e8e0d4]/10 flex items-center justify-center text-[#e8e0d4]/40 mb-4">
-                  <ShoppingBag className="w-8 h-8" />
+                  <ListChecks className="w-8 h-8" />
                 </div>
-                <h3 className="font-serif-luxury text-xl text-[#e8e0d4] mb-2">Vaša korpa je prazna</h3>
+                <h3 className="font-serif-luxury text-xl text-[#e8e0d4] mb-2">Vaš izbor je prazan</h3>
                 <p className="text-xs text-[#e8e0d4]/60 max-w-xs mb-6">
-                  Istražite našu kolekciju unikatnih toaleta, vunenih sakoa i svilenih bluza krojeni po meri.
+                  Istražite kolekciju unikatnih toaleta, sakoa i svilenih bluza i dodajte modele
+                  koji vam se dopadaju.
                 </p>
                 <button
                   type="button"
@@ -121,6 +101,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       src={item.product.images[0]}
                       alt={item.product.nameSr}
                       className="w-16 h-20 object-cover border border-[#e8e0d4]/10 flex-shrink-0"
+                      loading="lazy"
+                      decoding="async"
                     />
 
                     <div className="flex-1 min-w-0">
@@ -174,71 +156,48 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     </div>
                   </div>
                 ))}
-
-                {/* Gift Wrap Offer */}
-                <div className="p-3.5 bg-[#111111] border border-[#c9a96e]/40 flex items-start gap-3 text-xs">
-                  <Gift className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <label className="flex items-center gap-2 cursor-pointer font-medium text-[#e8e0d4]">
-                      <input
-                        type="checkbox"
-                        checked={isGiftWrap}
-                        onChange={(e) => setIsGiftWrap(e.target.checked)}
-                        className="accent-[#c9a96e]"
-                      />
-                      <span>Luksuzno satensko pakovanje ateljea (Besplatno)</span>
-                    </label>
-                    <p className="text-[10px] text-[#e8e0d4]/70 mt-1">
-                      Kutija sa zlatotiskom, mirišljavim svilastim papirom i personalizovanom porukom Jelene Erić.
-                    </p>
-                  </div>
-                </div>
               </div>
             )}
           </div>
 
-          {/* Drawer Footer / Checkout CTA */}
+          {/* Drawer Footer / Share CTA */}
           {cartItems.length > 0 && (
             <div className="p-5 border-t border-[#e8e0d4]/10 bg-[#111111] space-y-3 font-sans">
-              <div className="space-y-1.5 text-xs text-[#e8e0d4]/80">
-                <div className="flex justify-between">
-                  <span>Međuzbir:</span>
-                  <span className="font-mono text-[#e8e0d4]">{FORMAT_RSD(subtotal)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Dostava u Srbiji (Post Express):</span>
-                  <span className="font-mono text-[#e8e0d4]">
-                    {shippingCost === 0 ? (
-                      <span className="text-[#c9a96e] uppercase font-bold text-[10px]">Besplatna</span>
-                    ) : (
-                      FORMAT_RSD(shippingCost)
-                    )}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm font-semibold text-[#e8e0d4] pt-2 border-t border-[#e8e0d4]/10">
-                  <span className="font-serif-luxury text-base">Ukupno za plaćanje:</span>
-                  <span className="font-mono text-[#e8e0d4] font-bold">{FORMAT_RSD(total)}</span>
-                </div>
+              <div className="flex items-center justify-between text-xs text-[#e8e0d4]/80">
+                <span>Vrednost izbora:</span>
+                <span className="font-mono text-[#c9a96e] font-bold text-sm">{FORMAT_RSD(subtotal)}</span>
               </div>
 
               <button
-                id="cart-proceed-checkout-btn"
+                id="cart-share-whatsapp-btn"
                 type="button"
                 onClick={() => {
                   onClose();
-                  onProceedToCheckout();
+                  onShareWhatsApp();
                 }}
                 className="w-full py-5 sm:py-4 bg-[#e8e0d4] hover:bg-[#c9a96e] text-[#0a0a0a] font-semibold text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 shadow-md"
               >
-                <span>Poručite odmah (Srbija)</span>
-                <ArrowRight className="w-4 h-4 text-[#0a0a0a]" />
+                <MessageCircle className="w-4 h-4" />
+                <span>Pošalji izbor na WhatsApp</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
 
-              <div className="flex items-center justify-center gap-4 text-[10px] text-[#e8e0d4]/50 pt-1">
-                <span>• Sigurna kupovina</span>
-                <span>• Plaćanje pouzećem ili karticom</span>
-                <span>• Topola</span>
-              </div>
+              <button
+                id="cart-copy-instagram-btn"
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onCopyForInstagram();
+                }}
+                className="w-full py-3.5 border border-[#c9a96e]/40 bg-[#0a0a0a] hover:bg-[#c9a96e]/10 text-[#c9a96e] font-semibold text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2"
+              >
+                <Copy className="w-4 h-4" />
+                <span>Kopiraj za Instagram DM</span>
+              </button>
+
+              <p className="text-[10px] text-[#e8e0d4]/50 text-center leading-relaxed pt-1">
+                Sajt ne vrši prodaju niti naplatu — porudžbinu dogovaramo lično, porukom.
+              </p>
             </div>
           )}
         </motion.div>

@@ -87,7 +87,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
                   <item.icon className="w-3.5 h-3.5" />
                 </div>
                 <div className="text-left">
-                  <h4 className="text-[11px] uppercase tracking-[0.15em] text-[#e8e0d4] font-sans font-medium">{item.title}</h4>
+                  <h2 className="text-[11px] uppercase tracking-[0.15em] text-[#e8e0d4] font-sans font-medium">{item.title}</h2>
                   <p className="text-[10px] text-[#e8e0d4]/60">{item.desc}</p>
                 </div>
               </div>
@@ -222,7 +222,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
                     <item.icon className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs uppercase tracking-[0.15em] text-[#e8e0d4] font-sans font-medium group-hover:text-[#c9a96e] transition-colors duration-300">{item.title}</h4>
+                    <h2 className="text-xs uppercase tracking-[0.15em] text-[#e8e0d4] font-sans font-medium group-hover:text-[#c9a96e] transition-colors duration-300">{item.title}</h2>
                     <p className="text-[11px] text-[#e8e0d4]/60 mt-0.5">{item.desc}</p>
                   </div>
                 </motion.div>
@@ -241,7 +241,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
           transition={{ duration: 1, delay: 1.5 }}
           whileHover={{ scale: 1.1 }}
         >
-          <span className="text-[9px] uppercase tracking-[0.2em] text-[#e8e0d4]/50 font-sans">Skrolujte</span>
+          <span className="text-[9px] uppercase tracking-[0.2em] text-[#e8e0d4]/70 font-sans">Skrolujte</span>
           <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>
             <ArrowDown className="w-4 h-4 text-[#c9a96e]" />
           </motion.div>

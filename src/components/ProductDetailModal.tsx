@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Ruler, Info, ShieldCheck, Truck, Heart, Scissors } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Ruler, Info, ShieldCheck, MessageCircle, Heart, Scissors } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
@@ -321,15 +321,6 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     </span>
                   </div>
                 )}
-
-                {/* Pay Later Badge */}
-                {product.priceRSD >= 5000 && (
-                  <div className="flex items-center gap-2 pt-2 border-t border-[#e8e0d4]/10 mt-2">
-                    <span className="pay-later-badge">
-                      Plaćanje na rate: 3 × {FORMAT_RSD(Math.round(product.priceRSD / 3))} bez kamate
-                    </span>
-                  </div>
-                )}
               </div>
 
               {/* Size Selector */}
@@ -453,12 +444,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   {addedAnimation ? (
                     <>
                       <Check className="w-4 h-4" />
-                      <span>Dodato u vašu korpu!</span>
+                      <span>Dodato u vaš izbor!</span>
                     </>
                   ) : (
                     <>
                       <ShoppingBag className="w-4 h-4 text-[#c9a96e]" />
-                      <span>Dodaj u korpu ({FORMAT_RSD(product.priceRSD)})</span>
+                      <span>Dodaj u izbor ({FORMAT_RSD(product.priceRSD)})</span>
                     </>
                   )}
                 </button>
@@ -509,7 +500,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
                     }`}
                   >
-                    Isporuka
+                    Poručivanje
                   </button>
                 </div>
 
@@ -584,7 +575,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   {activeTab === 'velicine' && (
                     <div className="space-y-4">
                       <p className="text-xs text-[#e8e0d4]/70">
-                        Mere u tabeli predstavljaju preporučene telesne mere u centimetrima (cm). Za modele koji se šiju po meri, uzimanje mera se obavlja u našem salonu ili unosom ličnih parametara.
+                        Mere u tabeli predstavljaju preporučene telesne mere u centimetrima (cm). Za modele koji se šiju po meri, mere se uzimaju dogovorom — lično, u dogovoreno vreme, ili unosom vaših parametara.
                       </p>
                       
                       <div className="border border-[#e8e0d4]/15">
@@ -637,10 +628,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   {activeTab === 'isporuka' && (
                     <div className="space-y-3">
                       <div className="flex items-start gap-2.5">
-                        <Truck className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
+                        <MessageCircle className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
                         <div>
-                          <strong className="text-[#e8e0d4] block">Post Express dostava u Srbiji:</strong>
-                          <span>Isporuka u roku od 24h nakon završetka izrade na vašu kućnu adresu. Besplatna dostava za porudžbine iznad 10.000 RSD.</span>
+                          <strong className="text-[#e8e0d4] block">Poručivanje u dogovoru:</strong>
+                          <span>
+                            Model dodajte u izbor i pošaljite nam ga porukom preko WhatsApp-a ili
+                            Instagram DM-a. Oko porudžbine, rokova i načina primopredaje dogovaramo
+                            se lično — na sajtu nema online plaćanja.
+                          </span>
                         </div>
                       </div>
                       <div className="flex items-start gap-2.5">

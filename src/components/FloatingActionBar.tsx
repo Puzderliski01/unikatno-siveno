@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Phone, MessageSquare, Calendar, X, Plus, Sun, Moon } from 'lucide-react';
+import { MessageCircle, Instagram, X, Plus, Sun, Moon } from 'lucide-react';
 
 interface FloatingActionBarProps {
   onWhatsApp: () => void;
-  onCall: () => void;
-  onBooking: () => void;
+  onInstagram: () => void;
   theme: 'dark' | 'light';
   onToggleTheme: () => void;
 }
 
 export const FloatingActionBar: React.FC<FloatingActionBarProps> = React.memo(({
   onWhatsApp,
-  onCall,
-  onBooking,
+  onInstagram,
   theme,
   onToggleTheme,
 }) => {
@@ -28,7 +26,7 @@ export const FloatingActionBar: React.FC<FloatingActionBarProps> = React.memo(({
               initial={{ opacity: 0, scale: 0.5, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.5, y: 10 }}
-              transition={{ delay: 0.2, duration: 0.25 }}
+              transition={{ delay: 0.15, duration: 0.25 }}
               type="button"
               onClick={onToggleTheme}
               className="fab-action"
@@ -40,25 +38,13 @@ export const FloatingActionBar: React.FC<FloatingActionBarProps> = React.memo(({
               initial={{ opacity: 0, scale: 0.5, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.5, y: 10 }}
-              transition={{ delay: 0.15, duration: 0.25 }}
-              type="button"
-              onClick={() => { onBooking(); setIsOpen(false); }}
-              className="fab-action"
-              title="Zakazivanje termina"
-            >
-              <Calendar className="w-4 h-4" />
-            </motion.button>
-            <motion.button
-              initial={{ opacity: 0, scale: 0.5, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.5, y: 10 }}
               transition={{ delay: 0.1, duration: 0.25 }}
               type="button"
-              onClick={() => { onCall(); setIsOpen(false); }}
+              onClick={() => { onInstagram(); setIsOpen(false); }}
               className="fab-action"
-              title="Pozovite atelje"
+              title="Instagram DM"
             >
-              <Phone className="w-4 h-4" />
+              <Instagram className="w-4 h-4" />
             </motion.button>
             <motion.button
               initial={{ opacity: 0, scale: 0.5, y: 10 }}
@@ -70,7 +56,7 @@ export const FloatingActionBar: React.FC<FloatingActionBarProps> = React.memo(({
               className="fab-action"
               title="WhatsApp poruka"
             >
-              <MessageSquare className="w-4 h-4" />
+              <MessageCircle className="w-4 h-4" />
             </motion.button>
           </>
         )}

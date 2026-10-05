@@ -233,6 +233,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
             <div className="relative flex-shrink-0">
               <select
                 value={sortBy}
+                aria-label="Sortiranje modela"
                 onChange={(e) => setSortBy(e.target.value as any)}
                 className="pl-2 sm:pl-3 pr-6 sm:pr-8 py-2 sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-[11px] sm:text-xs text-[#e8e0d4] outline-none appearance-none cursor-pointer"
               >

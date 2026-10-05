@@ -31,24 +31,25 @@ import { useTheme } from './hooks/useTheme';
 const CartDrawer = lazy(() =>
   import('./components/CartDrawer').then((m) => ({ default: m.CartDrawer }))
 );
-const CheckoutModal = lazy(() =>
-  import('./components/CheckoutModal').then((m) => ({ default: m.CheckoutModal }))
-);
 const WishlistModal = lazy(() =>
   import('./components/WishlistModal').then((m) => ({ default: m.WishlistModal }))
 );
 const ImageLightbox = lazy(() =>
   import('./components/ImageLightbox').then((m) => ({ default: m.ImageLightbox }))
 );
-const FittingBookingModal = lazy(() =>
-  import('./components/FittingBookingModal').then((m) => ({ default: m.FittingBookingModal }))
-);
 const AdminPage = lazy(() =>
   import('./admin/AdminPage').then((m) => ({ default: m.AdminPage }))
+);
+const PrivacyPolicy = lazy(() =>
+  import('./components/PrivacyPolicy').then((m) => ({ default: m.PrivacyPolicy }))
 );
 
 function isAdminRoute() {
   return window.location.pathname.startsWith('/admin');
+}
+
+function isPrivacyRoute() {
+  return window.location.pathname.replace(/\/+$/, '') === '/politika-privatnosti';
 }
 
 function AppContent() {
@@ -116,7 +117,6 @@ function AppContent() {
   const [isVipOpen, setIsVipOpen] = useState(false);
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
   // Image Lightbox zoom state
@@ -184,8 +184,8 @@ function AppContent() {
     }
 
     addToast(
-      'Dodato u korpu',
-      `${product.nameSr} (Veličina: ${size}) se nalazi u vašoj korpi.`,
+      'Dodato u izbor',
+      `${product.nameSr} (Veličina: ${size}) se nalazi u vašem izboru.`,
       'cart'
     );
     trackCartBehavior(product);
@@ -207,7 +207,7 @@ function AppContent() {
 
   const handleRemoveCartItem = (id: string) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
-    addToast('Uklonjeno iz korpe', 'Artikal je uspešno uklonjen.', 'info');
+    addToast('Uklonjeno iz izbora', 'Artikal je uspešno uklonjen.', 'info');
   };
 
   // Wishlist Handlers
@@ -282,24 +282,106 @@ function AppContent() {
     setOutfitItems((prev) => prev.filter((p) => p.id !== productId));
   };
 
-  // WhatsApp cart recovery message
-  const handleWhatsAppRecovery = () => {
-    if (cartItems.length === 0) return;
-    const items = cartItems.map((i) => `• ${i.product.nameSr} (${i.size})`).join('%0A');
-    const total = FORMAT_RSD(cartTotalAmount);
-    const msg = `Zdravo, zanima me kupovina:%0A%0A${items}%0A%0AUkupno: ${total}%0A%0AHvala!`;
-    window.open(`https://wa.me/38163616071?text=${msg}`, '_blank');
-  };
+  // Sharing the selection — WhatsApp (prefilled message) and Instagram (copied text)
+  const WHATSAPP_NUMBER = '38163616071';
+  const INSTAGRAM_HANDLE = 'jelena.ericc';
 
   const cartTotalAmount = cartItems.reduce((acc, i) => acc + i.product.priceRSD * i.quantity, 0);
   const cartTotalCount = cartItems.reduce((acc, i) => acc + i.quantity, 0);
   const wishlistProducts = products.filter((p) => wishlistIds.includes(p.id));
+
+  const buildSelectionMessage = () => {
+    const lines = cartItems.map(
+      (i) => `• ${i.product.nameSr} — ${FORMAT_RSD(i.product.priceRSD)} (vel. ${i.size})`
+    );
+    return [
+      'Zdravo Jelena, zanima me ovaj izbor sa tvog sajta:',
+      '',
+      ...lines,
+      '',
+      `Ukupno: ${FORMAT_RSD(cartTotalAmount)}`,
+      '',
+      'Javi mi se kada možeš da se dogovorimo oko porudžbine.',
+    ].join('\n');
+  };
+
+  const handleShareWhatsApp = () => {
+    const text =
+      cartItems.length > 0
+        ? buildSelectionMessage()
+        : 'Zdravo Jelena, zanima me tvoja kolekcija — voleo/la bih više informacija.';
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
+  /** Kopira tekst uz timeout i rezervni `execCommand` način rada. */
+  const copyText = async (text: string): Promise<boolean> => {
+    // 1) Moderni Clipboard API (traži dozvolu, ponekad visi → ograniči vremenom)
+    try {
+      const result = navigator.clipboard.writeText(text);
+      const winner = await Promise.race([
+        result.then(() => 'ok' as const).catch(() => 'fail' as const),
+        new Promise<'timeout'>((resolve) => setTimeout(() => resolve('timeout'), 2000)),
+      ]);
+      if (winner === 'ok') return true;
+      result.catch(() => undefined); // izbegni nepoznatu odbijenu promise
+    } catch {
+      // Clipboard API nedostupan → nastavi na rezervni način
+    }
+
+    // 2) Rezervni način: privremeni textarea + execCommand('copy')
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.top = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      return ok;
+    } catch {
+      return false;
+    }
+  };
+
+  const handleCopyForInstagram = async () => {
+    if (cartItems.length === 0) return;
+    const message = buildSelectionMessage();
+    const copied = await copyText(message);
+    if (copied) {
+      addToast(
+        'Poruka je kopirana',
+        `Otvori Instagram (@${INSTAGRAM_HANDLE}) i nalepi poruku u DM.`,
+        'info'
+      );
+    } else {
+      addToast(
+        'Kopiranje nije uspelo',
+        'Pošaljite izbor preko WhatsApp-a ili ukucajte poruku ručno.',
+        'info'
+      );
+    }
+  };
+
+  const handleOpenInstagram = () => {
+    window.open(`https://ig.me/m/${INSTAGRAM_HANDLE}`, '_blank');
+  };
 
   // Admin route
   if (isAdminRoute()) {
     return (
       <Suspense fallback={<div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-[#e8e0d4]/50">Učitavanje...</div>}>
         <AdminPage />
+      </Suspense>
+    );
+  }
+
+  // Politika privatnosti (zasebna stranica)
+  if (isPrivacyRoute()) {
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-[#e8e0d4]/50">Učitavanje...</div>}>
+        <PrivacyPolicy />
       </Suspense>
     );
   }
@@ -435,9 +517,8 @@ function AppContent() {
 
       {/* Floating Action Button */}
       <FloatingActionBar
-        onWhatsApp={handleWhatsAppRecovery}
-        onCall={() => window.open('tel:+38163616071', '_blank')}
-        onBooking={() => addToast('Zakazivanje', 'Kontaktirajte nas putem WhatsApp-a za zakazivanje termina.', 'info')}
+        onWhatsApp={handleShareWhatsApp}
+        onInstagram={handleOpenInstagram}
         theme={theme}
         onToggleTheme={toggleTheme}
       />
@@ -477,23 +558,9 @@ function AppContent() {
           onClose={() => setIsCartOpen(false)}
           onUpdateQuantity={handleUpdateCartQty}
           onRemoveItem={handleRemoveCartItem}
-          onProceedToCheckout={() => setIsCheckoutOpen(true)}
+          onShareWhatsApp={handleShareWhatsApp}
+          onCopyForInstagram={handleCopyForInstagram}
           onExploreCollection={scrollToGallery}
-        />
-
-        {/* Checkout Flow Modal (Serbia Exclusive) */}
-        <CheckoutModal
-          isOpen={isCheckoutOpen}
-          cartItems={cartItems}
-          onClose={() => setIsCheckoutOpen(false)}
-          onOrderCompleted={(orderId) => {
-            setCartItems([]);
-            addToast(
-              'Porudžbina uspešna',
-              `Vaša porudžbina #${orderId} je zabeležena. Hvala vam na poverenju!`,
-              'info'
-            );
-          }}
         />
 
         {/* Wishlist Modal */}

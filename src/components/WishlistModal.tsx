@@ -110,10 +110,10 @@ function SortableItem({
           type="button"
           onClick={onMoveToCart}
           className="p-2.5 bg-[#0a0a0a] hover:bg-[#1a1a1a] text-[#e8e0d4] font-semibold text-xs flex items-center gap-1.5 transition-colors"
-          title="Dodaj u korpu"
+          title="Dodaj u izbor"
         >
           <ShoppingBag className="w-3.5 h-3.5 text-[#c9a96e]" />
-          <span className="hidden sm:inline">U korpu</span>
+          <span className="hidden sm:inline">U izbor</span>
         </button>
         <button
           type="button"

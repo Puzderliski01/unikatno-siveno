@@ -527,7 +527,7 @@
 }
 
 @keyframes loadingTextPulse {
-  0%, 100% { opacity: 0.4; }
+  0%, 100% { opacity: 0.75; }
   50% { opacity: 1; }
 }
 
@@ -890,19 +890,6 @@
     transform: translate(80vw, -90vh) scale(0.1);
     opacity: 0;
   }
-}
-
-/* --- #17 Pay Later Badge --- */
-.pay-later-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  background: rgba(201, 169, 110, 0.08);
-  border: 1px solid rgba(201, 169, 110, 0.2);
-  font-size: 10px;
-  color: #c9a96e;
-  letter-spacing: 0.05em;
 }
 
 /* --- #5 Scroll-Triggered Text Reveal with Shimmer --- */
