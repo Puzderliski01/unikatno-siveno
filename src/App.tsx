@@ -15,6 +15,7 @@ import { UserProfile } from './components/UserProfile';
 import { VIPBenefitsModal } from './components/VIPBenefitsModal';
 import { BlogSection } from './components/BlogSection';
 import { BehindTheScenes } from './components/BehindTheScenes';
+import { Analytics } from '@vercel/analytics/react';
 import { NotificationBell } from './components/NotificationBell';
 import { AuthModal } from './components/AuthModal';
 import { AuthProvider, useAuth } from './lib/auth';
@@ -636,6 +637,8 @@ export default function App() {
   return (
     <AuthProvider>
       <AppContent />
+      {/* Vercel Analytics — broji posete (anonimno, bez kolačića) */}
+      <Analytics />
     </AuthProvider>
   );
 }
