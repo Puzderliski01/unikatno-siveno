@@ -2,6 +2,22 @@
 
 ## Completed Features
 
+### Recenzije i utisci (integrisani sistem ocena)
+- Nova `supabase-reviews.sql` — tabela `product_reviews` (model-specifične recenzije + utisci o ateljeu preko `product_id = NULL`), indeksi i RLS (javno čitanje samo `pending` nije dozvoljeno — čitaju se samo `odobreno`; gosti upisuju isključivo kao `pending`, admin ima pun pristup)
+- `src/lib/reviews.ts` — dohvatanje odobrenih recenzija, statistika (prosek, distribucija, broj), lokalni "pending" fallback za goste (localStorage), validacija + honeypot protiv spama, submit sa server→local fallbackom
+- `src/components/Stars.tsx` — prikaz zvezdica sa parcijalnim popunjavanjem i `StarInput` za unos
+- `src/components/ReviewForm.tsx` — zajednička forma (ocena, naslov, komentar, ime, grad, opciono polje modela), prefill za prijavljene korisnike, stanje uspeha i "Čeka odobrenje"
+- `src/components/ProductReviews.tsx` — tab "Recenzije" u `ProductDetailModal`: rezime, distribucija po zvezdicama, lista komentara, skrivena forma po kliku
+- `src/components/TestimonialsSection.tsx` — sekcija `#utisci` na početnoj: prosečna ocena, kartice utisaka, CTA za slanje komentara (lazy učitavanje)
+- `src/components/ProductCard.tsx` / `ProductGrid.tsx` — prosečna ocena i broj recenzija na kartici modela
+- `src/admin/AdminDashboard.tsx` — tab "Recenzije" sa filtrima statusa, odobravanjem/odbijanjem, uređivanjem, brisanjem i ručnim unosom; brojač čekajućih
+- `src/App.tsx` — centralno `reviews` stanje, učitanje sa servera + lokalni pending merge, proslicano ka karticama, modalu i sekciji Utisci
+
+### Zoom slika (profesionalni, ne dekorativni)
+- Uklonjen ambient auto-zoom (20s scale/rotate animacija) iz `ProductDetailModal.tsx` — delovao je jeftino
+- **Hover-lens na desktopu** u detaljima modela: precizno uvećanje 2,4× prati kursor, badge "2,4×", direktni DOM upisi transforma (bez re-rendera)
+- **Pun zoom u `ImageLightbox.tsx`**: točak miša (native listener), prevlačenje mišem, pinch + pan na dodiru, dvoklik za toggle, tastature `+`/`-`/`0`, kontrolna grupa sa % indikatorom, ograničenje offseta i max-scale po prirođenoj rezoluciji slike, zaključavanje skrola dok je zoom aktivan
+
 ### 3. Video Lookbooks
 - Implemented in `src/components/Hero.tsx`
 - Video backgrounds with WebM and MP4 fallbacks

@@ -17,6 +17,8 @@ interface ProductGridProps {
   onAddToOutfit?: (product: Product) => void;
   outfitIds?: string[];
   getStock?: (productId: string) => number | undefined;
+  /** { [productId]: { count, avg, distribution } } — odobrene recenzije */
+  reviewStats?: Record<string, { count: number; avg: number; distribution: [number, number, number, number, number] }>;
 }
 
 export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
@@ -29,6 +31,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   onAddToOutfit,
   outfitIds = [],
   getStock,
+  reviewStats = {},
 }) => {
   const { getVariants, getInViewOptions } = useScrollAnimation();
   const { handleProductHover } = usePredictivePreload(products, {
@@ -351,6 +354,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                   onAddToOutfit={onAddToOutfit}
                   isInOutfit={outfitIds.includes(product.id)}
                   stockQuantity={getStock ? getStock(product.id) : product.stockQuantity}
+                  reviewStat={reviewStats[product.id]}
                 />
               </motion.div>
             ))}

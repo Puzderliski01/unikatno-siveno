@@ -86,6 +86,27 @@ export interface BlogPost {
   updated_at: string;
 }
 
+/**
+ * Recenzija / komentar (tabela `product_reviews` u Supabase-u).
+ * `product_id = null` → opšti utisak o ateljeu, u suprotnom komentar modela.
+ * `status = 'pending'` komentari nikad ne idu na javni prikaz — vidi ih samo
+ * autor (lokalno) i admin u panelu.
+ */
+export interface Review {
+  id: string;
+  created_at: string;
+  product_id: string | null;
+  user_id?: string | null;
+  author_name: string;
+  city?: string;
+  rating: number;
+  title?: string;
+  comment: string;
+  status: 'pending' | 'approved' | 'rejected';
+  /** istinito samo za komentare sačuvane na uređaju (van Supabase-a) */
+  local?: boolean;
+}
+
 export interface Notification {
   id: string;
   title: string;

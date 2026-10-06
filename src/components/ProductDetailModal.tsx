@@ -1,41 +1,86 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Ruler, Info, ShieldCheck, MessageCircle, Heart, Scissors } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Ruler, Info, ShieldCheck, MessageCircle, Heart, Scissors, Star } from 'lucide-react';
 import { motion } from 'motion/react';
-import { Product } from '../types';
+import { Product, Review } from '../types';
 import { FORMAT_RSD } from '../data/products';
 import { OptimizedImage } from './OptimizedImage';
 import { usePredictivePreload } from '../hooks/usePredictivePreload';
 import { FabricInspection } from './FabricInspection';
 import { useSwipe } from '../hooks/useSwipe';
 import { Img } from './Img';
+import { Stars } from './Stars';
+import { ProductReviews } from './ProductReviews';
+import { computeStats, formatAvg, mergeLocalPending, recenzijeLabel, ReviewStats } from '../lib/reviews';
 
 interface ProductDetailModalProps {
   product: Product | null;
   isOpen: boolean;
   isWishlisted: boolean;
+  /** sve odobrene recenzije (modela filtrira sam modal) */
+  reviews: Review[];
   onClose: () => void;
   onAddToCart: (product: Product, size: string, customMeasurements?: any) => void;
   onOpenZoom: (product: Product, index: number) => void;
   onToggleWishlist: (product: Product) => void;
   onAddToOutfit?: (product: Product) => void;
   isInOutfit?: boolean;
+  onReviewSubmitted?: () => void;
 }
 
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   product,
   isOpen,
   isWishlisted,
+  reviews,
   onClose,
   onAddToCart,
   onOpenZoom,
   onToggleWishlist,
   onAddToOutfit,
   isInOutfit,
+  onReviewSubmitted,
 }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string>('S (36)');
-  const [activeTab, setActiveTab] = useState<'opis' | 'materijali' | 'velicine' | 'isporuka'>('opis');
+  const [activeTab, setActiveTab] = useState<'opis' | 'materijali' | 'velicine' | 'isporuka' | 'recenzije'>('opis');
   const [addedAnimation, setAddedAnimation] = useState(false);
+
+  // Profesionalna lupa — prati kursor preko slike (samo na uređajima sa mišem).
+  // Transform se piše direktno u DOM, bez re-rendera pri svakom potezu miša.
+  const zoomLayerRef = useRef<HTMLDivElement>(null);
+  const zoomBadgeRef = useRef<HTMLDivElement>(null);
+  const canHover = useMemo(
+    () => typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches,
+    []
+  );
+
+  const LENS_SCALE = 2.4;
+
+  const resetLens = useCallback(() => {
+    if (zoomLayerRef.current) zoomLayerRef.current.style.transform = '';
+    if (zoomBadgeRef.current) zoomBadgeRef.current.style.opacity = '0';
+  }, []);
+
+  const handleLensMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!canHover || !zoomLayerRef.current) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const fx = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+      const fy = Math.min(1, Math.max(0, (e.clientY - rect.top) / rect.height));
+      // Tačka pod kursorom ostaje na istom mestu, ostatak slike "ulazi" u kadar
+      const shiftX = (1 - LENS_SCALE) * (fx - 0.5) * 100;
+      const shiftY = (1 - LENS_SCALE) * (fy - 0.5) * 100;
+      zoomLayerRef.current.style.transform = `translate(${shiftX}%, ${shiftY}%) scale(${LENS_SCALE})`;
+      if (zoomBadgeRef.current) zoomBadgeRef.current.style.opacity = '1';
+    },
+    [canHover]
+  );
+
+  const handleLensLeave = useCallback(() => {
+    resetLens();
+  }, [resetLens]);
+
   const { handleProductView } = usePredictivePreload(product ? [product] : [], {
     preloadOnHover: false,
     preloadOnScroll: false,
@@ -82,6 +127,22 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     onSwipeRight: handlePrevImage,
     threshold: 40,
   });
+
+  // Lupu ugasimo kad se promeni slika ili zatvori modal
+  useEffect(() => {
+    resetLens();
+  }, [activeImageIndex, isOpen, resetLens]);
+
+  // Recenzije i statistika za trenutni model
+  const approvedForProduct = useMemo(
+    () => (product ? reviews.filter((r) => r.product_id === product.id) : []),
+    [reviews, product]
+  );
+  const reviewStats = useMemo(() => computeStats(approvedForProduct), [approvedForProduct]);
+  const visibleReviews = useMemo(
+    () => mergeLocalPending(approvedForProduct, product?.id ?? null),
+    [approvedForProduct, product]
+  );
 
   if (!isOpen || !product) return null;
 
@@ -190,20 +251,15 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             <div
               className="relative aspect-square sm:aspect-[3/4] w-full overflow-hidden bg-[#111111] border border-[#e8e0d4]/10 group studio-light-overlay touch-pan-y"
               {...swipeHandlers}
+              onMouseMove={handleLensMove}
+              onMouseLeave={handleLensLeave}
             >
-              <motion.div
+              {/* Profesionalna lupa: slika se uvećava oko tačke pod kursorom.
+                  Transform se piše direktno u DOM (bez re-rendera pokreta). */}
+              <div
+                ref={zoomLayerRef}
                 className="w-full h-full"
-                initial={{ scale: 1, rotate: 0 }}
-                animate={{
-                  scale: [1, 1.02],
-                  rotate: [-0.2, 0.2]
-                }}
-                transition={{
-                  duration: 20,
-                  ease: "linear",
-                  repeat: Infinity,
-                  repeatType: "loop"
-                }}
+                style={{ willChange: 'transform', transition: 'transform 0.25s cubic-bezier(0.22, 1, 0.36, 1)' }}
               >
                 <OptimizedImage
                   src={product.images[activeImageIndex]}
@@ -211,7 +267,18 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   className="w-full h-full object-cover object-center cursor-zoom-in"
                   onClick={() => onOpenZoom(product, activeImageIndex)}
                 />
-              </motion.div>
+              </div>
+
+              {/* Indikator uvećanja (vidljiv dok je lupa aktivna) */}
+              {canHover && (
+                <div
+                  ref={zoomBadgeRef}
+                  aria-hidden="true"
+                  className="absolute top-3 right-3 px-2 py-1 bg-[#111111]/90 text-[10px] font-mono text-[#c9a96e] border border-[#c9a96e]/40 opacity-0 transition-opacity duration-200 pointer-events-none"
+                >
+                  2,4×
+                </div>
+              )}
 
               {/* Carousel controls */}
               {product.images.length > 1 && (
@@ -287,6 +354,27 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <p className="text-xs sm:text-sm text-[#e8e0d4]/75 font-light mb-5 leading-relaxed font-sans">
                 {product.subtitleSr}
               </p>
+
+              {/* Ocena i broj recenzija — klik vodi na tab sa komentarima */}
+              <button
+                type="button"
+                onClick={() => setActiveTab('recenzije')}
+                className="group/rating -mt-2 mb-5 flex items-center gap-2 text-left"
+              >
+                {reviewStats.count > 0 ? (
+                  <>
+                    <Stars rating={reviewStats.avg} size={14} />
+                    <span className="text-xs text-[#e8e0d4] font-mono">{formatAvg(reviewStats.avg)}</span>
+                    <span className="text-xs text-[#e8e0d4]/45 underline decoration-[#c9a96e]/40 underline-offset-2 group-hover/rating:text-[#c9a96e] font-sans">
+                      {reviewStats.count} {recenzijeLabel(reviewStats.count)}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-xs text-[#e8e0d4]/45 underline decoration-[#c9a96e]/40 underline-offset-2 group-hover/rating:text-[#c9a96e] font-sans">
+                    Budite prvi da komentarišete ovaj model
+                  </span>
+                )}
+              </button>
 
               {/* Price & Lead Time */}
               <div className="p-4 bg-[#111111] border border-[#e8e0d4]/10 mb-6">
@@ -458,7 +546,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               {/* Information Tabs */}
               <div className="border-t border-[#e8e0d4]/10 pt-6">
-                <div className="flex items-center gap-3 sm:gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 font-sans">
+                <div className="flex items-center gap-3 sm:gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 font-sans overflow-x-auto scrollbar-none">
                   <button
                     type="button"
                     onClick={() => setActiveTab('opis')}
@@ -502,6 +590,23 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     }`}
                   >
                     Poručivanje
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('recenzije')}
+                    className={`whitespace-nowrap text-xs uppercase tracking-wider pb-2 relative transition-colors flex items-center gap-1.5 ${
+                      activeTab === 'recenzije'
+                        ? 'text-[#e8e0d4] font-bold after:content-[\'\'] after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:bg-[#c9a96e]'
+                        : 'text-[#e8e0d4]/60 hover:text-[#e8e0d4]'
+                    }`}
+                  >
+                    <Star className="w-3 h-3 text-[#c9a96e]" />
+                    <span>Recenzije</span>
+                    {reviewStats.count > 0 && (
+                      <span className="text-[9px] bg-[#c9a96e]/15 text-[#c9a96e] border border-[#c9a96e]/35 px-1.5 py-px font-mono">
+                        {reviewStats.count}
+                      </span>
+                    )}
                   </button>
                 </div>
 
@@ -647,6 +752,15 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         </div>
                       </div>
                     </div>
+                  )}
+
+                  {activeTab === 'recenzije' && (
+                    <ProductReviews
+                      reviews={visibleReviews}
+                      stats={reviewStats}
+                      productId={product.id}
+                      onSubmitted={() => onReviewSubmitted?.()}
+                    />
                   )}
                 </div>
               </div>

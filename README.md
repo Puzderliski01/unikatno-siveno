@@ -16,7 +16,8 @@ Ovo je sajt-atelier za "Unikatno šiveno – Jelena Erić" — galerija svega š
 - **Lista želja i Outfit Builder** — čuvanje omiljenih modela i slaganje kompletnih autfita
 - **Nalozi, newsletter, VIP klub i personalizacija** — preko Supabase-a
 - **Blog, gift-registry banner, zvono za obaveštenja**
-- **Image Lightbox** — zoom visokorezolucijskih slika
+- **Recenzije i utisci** — ocene i komentari gostiju i korisnika uz moderaciju (odobrava admin), tab "Recenzije" u detaljima modela, prosek na karticama i sekcija "Utisci" na početnoj
+- **Image Lightbox** — puni zoom visokorezolucijskih slika (točak miša, dvoklik, prevlačenje, +/-)
 - **Politika privatnosti** — zasebna stranica (`/politika-privatnosti`)
 - **Admin panel** — `/admin`, prijava preko Supabase auth, sadržaj se uređuje preko Supabase-a
 
@@ -90,6 +91,12 @@ VITE_SUPABASE_ANON_KEY=<anon ključ>
 
 U Supabase SQL Editor-u pokreni sadržaj fajla **`supabase-subscribers.sql`** — kreira tabelu `subscribers` i RLS pravila. Bez toga prijava na bilten neće upisivati podatke.
 
+### Obavezno: tabela za recenzije
+
+U Supabase SQL Editor-u pokreni sadržaj fajla **`supabase-reviews.sql`** — kreira tabelu `product_reviews` (recenzije modela i utisci o ateljeu), indekse i RLS pravila (javno čitanje samo odobrenih; svi upisi ulaze kao `pending` i čekaju odobrenje u admin panelu).
+
+Bez ove tabele recenzije i dalje rade — one koje ti sam/a upišeš vidljive su samo tebi (lokalno, sa oznakom "Čeka odobrenje"), ali neće biti sačuvane na serveru niti vidljive drugim posetiocima dok se tabela ne kreira.
+
 ### Vercel
 
 Na Vercelu moraju biti podešene iste env varijable (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Build command: `npm run build`, output: `dist`. Fajl `vercel.json` obezbeđuje da rute `/politika-privatnosti` i `/admin` rade direktnim otvaranjem.
@@ -107,6 +114,10 @@ src/
 │   ├── CartDrawer.tsx        # "Izbor" — WhatsApp / Instagram poruka
 │   ├── WishlistModal.tsx     # Lista želja
 │   ├── OutfitBuilder.tsx     # Slaganje autfita
+│   ├── TestimonialsSection.tsx# "Utisci" — ocene i komentari na početnoj
+│   ├── ProductReviews.tsx    # Rezultat recenzija jednog modela (u modalu)
+│   ├── ReviewForm.tsx        # Forma za novu recenziju (gost + korisnik)
+│   ├── Stars.tsx             # Zvezdice (prikaz + unos)
 │   ├── AboutSection.tsx      # O ateljeu i Jeleni
 │   ├── BehindTheScenes.tsx   # "Iza scene" — proces nastanka modela
 │   ├── BlogSection.tsx       # Blog na početnoj (pregled)
@@ -117,10 +128,12 @@ src/
 │   ├── FloatingActionBar.tsx # WhatsApp / Instagram / tema
 │   ├── Img.tsx               # <img> sa automatskim WebP-om
 │   ├── OptimizedImage.tsx    # Lazy <picture> sa WebP-om
+│   ├── ImageLightbox.tsx     # Pregled slika sa punim zoom-om
 │   └── Toast.tsx             # Notifikacije
-├── admin/                    # Admin panel (Supabase auth)
+├── admin/                    # Admin panel (Supabase auth) + moderacija recenzija
 ├── data/                     # Ugrađeni podaci o modelima + webpAssets
 ├── lib/supabase.ts           # Klijent, newsletter, blog, proizvodi
+├── lib/reviews.ts            # Logika recenzija (validacija, statusi, fusnot)
 ├── lib/image.ts              # WebP helper
 ├── scripts/optimize-images.mjs # npm run optimize-images
 ├── types.ts                  # TypeScript interfejsi
@@ -150,6 +163,7 @@ src/
 1. Push na GitHub (`main` grana) — Vercel ga automatski deploy-uje
 2. Na Vercelu podesi `VITE_SUPABASE_URL` i `VITE_SUPABASE_ANON_KEY`
 3. U Supabase-u pokreni `supabase-subscribers.sql`
+4. U Supabase-u pokreni `supabase-reviews.sql` (recenzije i utisci)
 
 Postojeći URL: `unikatno-siveno.vercel.app`
 

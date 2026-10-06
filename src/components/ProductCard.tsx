@@ -5,6 +5,8 @@ import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
 import { OptimizedImage } from './OptimizedImage';
 import { usePredictivePreload } from '../hooks/usePredictivePreload';
+import { Stars } from './Stars';
+import { formatAvg, ReviewStats } from '../lib/reviews';
 
 interface ProductCardProps {
   product: Product;
@@ -16,6 +18,8 @@ interface ProductCardProps {
   onAddToOutfit?: (product: Product) => void;
   isInOutfit?: boolean;
   stockQuantity?: number;
+  /** prosečna ocena i broj odobrenih recenzija (ako ih ima) */
+  reviewStat?: ReviewStats;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = React.memo(({
@@ -28,6 +32,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
   onAddToOutfit,
   isInOutfit,
   stockQuantity,
+  reviewStat,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [selectedQuickSize, setSelectedQuickSize] = useState<string>(product.sizes[1] || product.sizes[0]);
@@ -321,6 +326,17 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
           <p className="text-[11px] sm:text-xs text-[#e8e0d4]/70 line-clamp-2 leading-relaxed font-light font-sans">
             {product.subtitleSr}
           </p>
+
+          {/* Ocena iz recenzija (prikazuje se samo ako postoji barem jedna) */}
+          {reviewStat && reviewStat.count > 0 && (
+            <div className="flex items-center gap-1.5 pt-0.5">
+              <Stars rating={reviewStat.avg} size={12} />
+              <span className="text-[10px] text-[#e8e0d4]/70 font-mono">{formatAvg(reviewStat.avg)}</span>
+              <span className="text-[10px] text-[#e8e0d4]/40 font-sans">
+                ({reviewStat.count})
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Price and Action Footer */}

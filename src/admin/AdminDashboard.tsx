@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, DbProduct } from '../lib/supabase';
-import { BlogPost, Notification } from '../types';
-import { Plus, Pencil, Trash2, Eye, EyeOff, Star, LogOut, Upload, X, Save, Image as ImageIcon, ChevronDown, BookOpen, Bell, Package } from 'lucide-react';
+import { BlogPost, Notification, Review } from '../types';
+import { Plus, Pencil, Trash2, Eye, EyeOff, Star, LogOut, Upload, X, Save, Image as ImageIcon, ChevronDown, BookOpen, Bell, Package, MessageSquare, Check } from 'lucide-react';
 import { AdminThemeToggle } from './components/AdminThemeToggle';
 
 const CATEGORIES = [
@@ -49,7 +49,7 @@ export const AdminDashboard: React.FC = () => {
   const [newFeature, setNewFeature] = useState('');
   const [newSize, setNewSize] = useState('');
   const [newCare, setNewCare] = useState('');
-  const [activeTab, setActiveTab] = useState<'products' | 'blog' | 'notifications'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'blog' | 'notifications' | 'reviews'>('products');
 
   // Blog state
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -61,10 +61,16 @@ export const AdminDashboard: React.FC = () => {
   const [editingNotification, setEditingNotification] = useState<Partial<Notification> | null>(null);
   const [isCreatingNotification, setIsCreatingNotification] = useState(false);
 
+  // Reviews state
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [editingReview, setEditingReview] = useState<Partial<Review> | null>(null);
+  const [isCreatingReview, setIsCreatingReview] = useState(false);
+
   useEffect(() => {
     loadProducts();
     loadBlogPosts();
     loadNotifications();
+    loadReviews();
   }, []);
 
   const loadProducts = async () => {
@@ -91,6 +97,16 @@ export const AdminDashboard: React.FC = () => {
       .select('*')
       .order('created_at', { ascending: false });
     setNotifications(data || []);
+  };
+
+  const loadReviews = async () => {
+    const { data, error } = await supabase
+      .from('product_reviews')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(500);
+    if (error) console.warn('loadReviews:', error.message);
+    setReviews((data as Review[]) || []);
   };
 
   const handleLogout = async () => {
@@ -263,6 +279,47 @@ export const AdminDashboard: React.FC = () => {
     await loadNotifications();
   };
 
+  // Reviews CRUD (moderacija)
+  const handleSaveReview = async (review: Partial<Review>) => {
+    setSaving(true);
+    const data: Partial<Review> = {
+      product_id: review.product_id || null,
+      author_name: review.author_name || '',
+      city: review.city || '',
+      rating: Math.min(5, Math.max(1, Math.round(review.rating || 5))),
+      title: review.title || '',
+      comment: review.comment || '',
+      status: review.status || 'approved',
+    };
+    try {
+      if (review.id && !String(review.id).startsWith('local-')) {
+        const { error } = await supabase.from('product_reviews').update(data).eq('id', review.id);
+        if (error) alert(`Greška pri čuvanju: ${error.message}`);
+      } else {
+        const { error } = await supabase.from('product_reviews').insert([data]);
+        if (error) alert(`Greška pri čuvanju: ${error.message}`);
+      }
+    } catch (err) {
+      alert('Greška pri čuvanju recenzije. Proverite da li je tabela product_reviews kreirana (supabase-reviews.sql).');
+    }
+    setEditingReview(null);
+    setIsCreatingReview(false);
+    await loadReviews();
+    setSaving(false);
+  };
+
+  const handleReviewStatus = async (review: Review, status: Review['status']) => {
+    const { error } = await supabase.from('product_reviews').update({ status }).eq('id', review.id);
+    if (error) alert(`Greška: ${error.message}`);
+    await loadReviews();
+  };
+
+  const handleDeleteReview = async (id: string) => {
+    if (!confirm('Da li ste sigurni da želite da obrišete ovu recenziju?')) return;
+    await supabase.from('product_reviews').delete().eq('id', id);
+    await loadReviews();
+  };
+
   const removeImage = (index: number) => {
     setEditingProduct((prev) => {
       if (!prev) return prev;
@@ -337,6 +394,16 @@ export const AdminDashboard: React.FC = () => {
               <span className="sm:hidden">+</span>
             </button>
           )}
+          {activeTab === 'reviews' && (
+            <button
+              onClick={() => setIsCreatingReview(true)}
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="hidden sm:inline">Nova recenzija</span>
+              <span className="sm:hidden">+</span>
+            </button>
+          )}
           <AdminThemeToggle />
           <button
             onClick={handleLogout}
@@ -354,6 +421,7 @@ export const AdminDashboard: React.FC = () => {
           { id: 'products' as const, label: 'Proizvodi', icon: <Package className="w-4 h-4" />, count: products.length },
           { id: 'blog' as const, label: 'Blog', icon: <BookOpen className="w-4 h-4" />, count: blogPosts.length },
           { id: 'notifications' as const, label: 'Obaveštenja', icon: <Bell className="w-4 h-4" />, count: notifications.length },
+          { id: 'reviews' as const, label: 'Recenzije', icon: <MessageSquare className="w-4 h-4" />, count: reviews.filter(r => r.status === 'pending').length },
         ]).map(tab => (
           <button
             key={tab.id}
@@ -446,6 +514,23 @@ export const AdminDashboard: React.FC = () => {
             onCancel={() => { setEditingNotification(null); setIsCreatingNotification(false); }}
             onDelete={handleDeleteNotification}
             onChange={(n) => setEditingNotification(n)}
+          />
+        )}
+
+        {activeTab === 'reviews' && (
+          <ReviewsAdmin
+            reviews={reviews}
+            products={products}
+            editingReview={editingReview}
+            isCreating={isCreatingReview}
+            saving={saving}
+            onEdit={(r) => setEditingReview(r)}
+            onCreate={() => setIsCreatingReview(true)}
+            onSave={handleSaveReview}
+            onCancel={() => { setEditingReview(null); setIsCreatingReview(false); }}
+            onDelete={handleDeleteReview}
+            onSetStatus={handleReviewStatus}
+            onChange={(r) => setEditingReview(r)}
           />
         )}
       </div>
@@ -961,6 +1046,220 @@ const NotificationAdmin: React.FC<NotificationAdminProps> = ({
             </div>
             <button onClick={() => onEdit(n)} className="p-2 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors"><Pencil className="w-4 h-4" /></button>
             <button onClick={() => onDelete(n.id)} className="p-2 text-[#e8e0d4]/50 hover:text-red-400 transition-colors"><Trash2 className="w-4 h-4" /></button>
+          </div>
+        ))
+      )}
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Reviews Admin (moderacija recenzija i utisaka)
+// ---------------------------------------------------------------------------
+interface ReviewsAdminProps {
+  reviews: Review[];
+  products: DbProduct[];
+  editingReview: Partial<Review> | null;
+  isCreating: boolean;
+  saving: boolean;
+  onEdit: (r: Review) => void;
+  onCreate: () => void;
+  onSave: (r: Partial<Review>) => void;
+  onCancel: () => void;
+  onDelete: (id: string) => void;
+  onSetStatus: (r: Review, status: Review['status']) => void;
+  onChange: (r: Partial<Review> | null) => void;
+}
+
+const STATUS_LABELS: Record<Review['status'], string> = {
+  pending: 'Čeka odobrenje',
+  approved: 'Odobrena',
+  rejected: 'Odbijena',
+};
+
+const ReviewsAdmin: React.FC<ReviewsAdminProps> = ({
+  reviews, products, editingReview, isCreating, saving,
+  onEdit, onCreate, onSave, onCancel, onDelete, onSetStatus, onChange,
+}) => {
+  const inputClass = "w-full px-4 py-2.5 bg-[#0a0a0a] border border-[#e8e0d4]/15 text-sm text-[#e8e0d4] outline-none focus:border-[#c9a96e] transition-colors";
+  const labelClass = "block text-[10px] uppercase tracking-[0.2em] text-[#e8e0d4]/60 font-sans mb-1.5";
+  const [filter, setFilter] = useState<'all' | Review['status']>('pending');
+
+  const filtered = reviews.filter((r) => filter === 'all' || r.status === filter);
+  const pendingCount = reviews.filter((r) => r.status === 'pending').length;
+  const productName = (id: string | null) =>
+    id ? products.find((p) => p.id === id)?.name_sr || 'Nepoznat model' : 'Opšti utisak o ateljeu';
+
+  if (editingReview || isCreating) {
+    const r = editingReview || {
+      product_id: null,
+      author_name: '',
+      city: '',
+      rating: 5,
+      title: '',
+      comment: '',
+      status: 'approved' as const,
+    };
+    return (
+      <div className="bg-[#111111] border border-[#e8e0d4]/10 p-4 sm:p-6 space-y-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-serif-luxury text-lg text-[#c9a96e]">
+            {isCreating ? 'Nova recenzija' : 'Izmena recenzije'}
+          </h3>
+          <div className="flex gap-2">
+            <button onClick={onCancel} className="px-4 py-2 text-xs text-[#e8e0d4]/60 hover:text-[#e8e0d4] transition-colors">Otkaži</button>
+            <button
+              onClick={() => onSave(r)}
+              disabled={saving || !r.author_name || !r.comment}
+              className="flex items-center gap-2 px-6 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors disabled:opacity-50"
+            >
+              <Save className="w-4 h-4" />{saving ? 'Čuvanje...' : 'Sačuvaj'}
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="sm:col-span-2">
+            <label className={labelClass}>Model (prazno = opšti utisak o ateljeu)</label>
+            <select
+              value={r.product_id || ''}
+              onChange={(e) => onChange({ ...r, product_id: e.target.value || null })}
+              className={`${inputClass} appearance-none cursor-pointer`}
+            >
+              <option value="">Opšti utisak o ateljeu</option>
+              {products.map((p) => (
+                <option key={p.id} value={p.id}>{p.name_sr}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className={labelClass}>Ime *</label>
+            <input type="text" value={r.author_name || ''} onChange={(e) => onChange({ ...r, author_name: e.target.value })} className={inputClass} placeholder="Ime klijentkinje" />
+          </div>
+          <div>
+            <label className={labelClass}>Grad</label>
+            <input type="text" value={r.city || ''} onChange={(e) => onChange({ ...r, city: e.target.value })} className={inputClass} placeholder="npr. Beograd" />
+          </div>
+          <div>
+            <label className={labelClass}>Ocena (1–5)</label>
+            <select
+              value={r.rating || 5}
+              onChange={(e) => onChange({ ...r, rating: parseInt(e.target.value, 10) })}
+              className={`${inputClass} appearance-none cursor-pointer`}
+            >
+              {[5, 4, 3, 2, 1].map((n) => (
+                <option key={n} value={n}>{n} ★</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className={labelClass}>Status</label>
+            <select
+              value={r.status || 'approved'}
+              onChange={(e) => onChange({ ...r, status: e.target.value as Review['status'] })}
+              className={`${inputClass} appearance-none cursor-pointer`}
+            >
+              <option value="approved">Odobrena (vidljiva)</option>
+              <option value="pending">Čeka odobrenje</option>
+              <option value="rejected">Odbijena</option>
+            </select>
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelClass}>Naslov</label>
+            <input type="text" value={r.title || ''} onChange={(e) => onChange({ ...r, title: e.target.value })} className={inputClass} placeholder="npr. Savršen kroj" />
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelClass}>Komentar *</label>
+            <textarea value={r.comment || ''} onChange={(e) => onChange({ ...r, comment: e.target.value })} rows={5} className={`${inputClass} resize-none`} placeholder="Tekst recenzije..." />
+          </div>
+        </div>
+        <p className="text-[10px] text-[#e8e0d4]/45 font-sans">
+          Koristite ovo i za ručni unos stvarnih utisaka koje dobijete porukom (WhatsApp / Instagram),
+          kako bi se videli na sajtu.
+        </p>
+      </div>
+    );
+  }
+
+  const filters: Array<{ id: 'all' | Review['status']; label: string }> = [
+    { id: 'pending', label: `Čekaju (${pendingCount})` },
+    { id: 'approved', label: 'Odobrene' },
+    { id: 'rejected', label: 'Odbijene' },
+    { id: 'all', label: 'Sve' },
+  ];
+
+  return (
+    <div className="space-y-3">
+      {/* Filteri */}
+      <div className="flex flex-wrap items-center gap-2">
+        {filters.map((f) => (
+          <button
+            key={f.id}
+            onClick={() => setFilter(f.id)}
+            className={`px-3 py-1.5 text-[10px] uppercase tracking-wider border transition-colors ${
+              filter === f.id
+                ? 'bg-[#c9a96e] text-[#0a0a0a] border-[#c9a96e] font-semibold'
+                : 'border-[#e8e0d4]/15 text-[#e8e0d4]/60 hover:text-[#e8e0d4] hover:border-[#c9a96e]/40'
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className="text-center py-20 border border-[#c9a96e]/20">
+          <MessageSquare className="w-6 h-6 text-[#c9a96e]/50 mx-auto mb-3" />
+          <p className="text-[#e8e0d4]/60 mb-4">
+            {filter === 'pending' ? 'Nema recenzija koje čekaju odobrenje. Sve je pregledano!' : 'Nema recenzija u ovoj grupi.'}
+          </p>
+          <button onClick={onCreate} className="px-6 py-2 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider">Dodaj recenziju</button>
+        </div>
+      ) : (
+        filtered.map((r) => (
+          <div key={r.id} className="bg-[#111111] border border-[#e8e0d4]/10 p-3 sm:p-4 hover:border-[#c9a96e]/30 transition-colors">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="flex-shrink-0 pt-0.5 text-[#c9a96e]">
+                <span className="text-sm tracking-tight">{'★'.repeat(r.rating)}<span className="text-[#e8e0d4]/20">{'★'.repeat(5 - r.rating)}</span></span>
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <span className="text-sm text-[#e8e0d4] font-medium">{r.author_name}</span>
+                  {r.city && <span className="text-[10px] text-[#e8e0d4]/45">· {r.city}</span>}
+                  <span className="text-[10px] text-[#e8e0d4]/35">{new Date(r.created_at).toLocaleDateString('sr-Latn-RS')}</span>
+                  <span className={`text-[9px] uppercase tracking-wider px-1.5 py-0.5 border ${
+                    r.status === 'approved'
+                      ? 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10'
+                      : r.status === 'pending'
+                        ? 'text-[#c9a96e] border-[#c9a96e]/40 bg-[#c9a96e]/10'
+                        : 'text-red-400 border-red-500/40 bg-red-500/10'
+                  }`}>
+                    {STATUS_LABELS[r.status]}
+                  </span>
+                  <span className="text-[9px] uppercase tracking-wider text-[#a08540] border border-[#a08540]/30 px-1.5 py-0.5">
+                    {productName(r.product_id)}
+                  </span>
+                </div>
+                {r.title && <p className="text-xs text-[#c9a96e] mb-1">{r.title}</p>}
+                <p className="text-xs text-[#e8e0d4]/70 leading-relaxed line-clamp-3">{r.comment}</p>
+              </div>
+
+              <div className="flex items-center gap-1 flex-shrink-0">
+                {r.status !== 'approved' && (
+                  <button onClick={() => onSetStatus(r, 'approved')} className="p-2 text-[#e8e0d4]/40 hover:text-emerald-400 transition-colors" title="Odobri">
+                    <Check className="w-4 h-4" />
+                  </button>
+                )}
+                {r.status !== 'rejected' && (
+                  <button onClick={() => onSetStatus(r, 'rejected')} className="p-2 text-[#e8e0d4]/40 hover:text-[#c9a96e] transition-colors" title="Odbij">
+                    <EyeOff className="w-4 h-4" />
+                  </button>
+                )}
+                <button onClick={() => onEdit(r)} className="p-2 text-[#e8e0d4]/50 hover:text-[#c9a96e] transition-colors" title="Izmeni"><Pencil className="w-4 h-4" /></button>
+                <button onClick={() => onDelete(r.id)} className="p-2 text-[#e8e0d4]/50 hover:text-red-400 transition-colors" title="Obriši"><Trash2 className="w-4 h-4" /></button>
+              </div>
+            </div>
           </div>
         ))
       )}

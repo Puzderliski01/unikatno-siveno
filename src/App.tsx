@@ -1,5 +1,5 @@
-import React, { useState, Suspense, lazy, useEffect, useCallback, useRef } from 'react';
-import { Product, CartItem } from './types';
+import React, { useState, Suspense, lazy, useEffect, useCallback, useMemo, useRef } from 'react';
+import { Product, CartItem, Review } from './types';
 import { PRODUCTS, FORMAT_RSD } from './data/products';
 import { Sparkles } from 'lucide-react';
 import { Header } from './components/Header';
@@ -11,6 +11,7 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { ToastContainer, ToastMessage } from './components/Toast';
 import { fetchProducts } from './lib/supabase';
+import { buildStatsMap, fetchApprovedReviews } from './lib/reviews';
 import { UserProfile } from './components/UserProfile';
 import { VIPBenefitsModal } from './components/VIPBenefitsModal';
 import { BlogSection } from './components/BlogSection';
@@ -47,6 +48,9 @@ const PrivacyPolicy = lazy(() =>
 );
 const BlogPostPage = lazy(() =>
   import('./components/BlogPostPage').then((m) => ({ default: m.BlogPostPage }))
+);
+const TestimonialsSection = lazy(() =>
+  import('./components/TestimonialsSection').then((m) => ({ default: m.TestimonialsSection }))
 );
 
 function isAdminRoute() {
@@ -87,6 +91,19 @@ function AppContent() {
       if (validProducts.length > 0) setProducts(validProducts);
     });
   }, []);
+
+  // Odobrene recenzije (modeli + opšti utisci) — učitavamo jednom i delimo
+  // svim prikazima: kartice, modal detalja i sekcija "Utisci"
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const loadReviews = useCallback(() => {
+    fetchApprovedReviews().then(setReviews);
+  }, []);
+
+  useEffect(() => {
+    loadReviews();
+  }, [loadReviews]);
+
+  const reviewStats = useMemo(() => buildStatsMap(reviews), [reviews]);
 
   // Personalization
   const {
@@ -486,6 +503,7 @@ function AppContent() {
         onAddToOutfit={handleAddToOutfit}
         outfitIds={outfitItems.map(p => p.id)}
         getStock={getStock}
+        reviewStats={reviewStats}
       />
 
       {/* Recently Viewed Products */}
@@ -503,6 +521,16 @@ function AppContent() {
 
       {/* Iza scene — proces nastanka modela */}
       <BehindTheScenes />
+
+      {/* Utisci klijentki — odobrene recenzije modela i opšti utisci o ateljeu */}
+      <Suspense fallback={<div className="py-20 text-center text-[#e8e0d4]/40 text-xs uppercase tracking-[0.25em]">Učitavanje...</div>}>
+        <TestimonialsSection
+          products={products}
+          reviews={reviews}
+          onReviewSubmitted={loadReviews}
+          onOpenDetails={handleOpenDetails}
+        />
+      </Suspense>
 
       {/* Gift Registry Banner */}
       <section className="py-16 bg-[#0a0a0a] relative">
@@ -562,6 +590,7 @@ function AppContent() {
         product={selectedProductForDetail}
         isOpen={isDetailOpen}
         isWishlisted={selectedProductForDetail ? wishlistIds.includes(selectedProductForDetail.id) : false}
+        reviews={reviews}
         onClose={() => {
           setIsDetailOpen(false);
           setSelectedProductForDetail(null);
@@ -571,6 +600,7 @@ function AppContent() {
         onToggleWishlist={handleToggleWishlist}
         onAddToOutfit={handleAddToOutfit}
         isInOutfit={selectedProductForDetail ? outfitItems.some(p => p.id === selectedProductForDetail.id) : false}
+        onReviewSubmitted={loadReviews}
       />
 
       {/* Lazy-loaded Modals */}
