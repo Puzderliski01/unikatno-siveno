@@ -104,7 +104,45 @@ veličine, poručivanje, recenzije sa formom) ide u **jednom** skrolu ispod toga
 
 ---
 
-## 4. Napomene za vlasnika
+## 4. Naknadni nalaz (H8) — stakleni efekat nije radio na telefonu
+
+**Simptom:** na `localhost` traka na dnu ekrana izgleda zamućeno, na telefonu nije.
+
+**Uzrok:** minifikator CSS-a u buildu spaja `backdrop-filter` i `-webkit-backdrop-filter` sa
+identičnom vrednošću u jednu deklaraciju i uvek zadrži **prefiksiranu**. Dokaz iz `dist`:
+
+```
+pre:  .mobile-bottom-nav{...;-webkit-backdrop-filter:blur(12px)saturate(150%);...}   ← samo prefiks
+posle:@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+        .mobile-bottom-nav{-webkit-backdrop-filter:blur(16px)saturate(150%);
+                           backdrop-filter:blur(16px)saturate(150%)}
+      }
+```
+
+Zašto se to primeti samo na telefonu:
+
+- Chrome/Edge/Samsung Internet **ne poznaju** `-webkit-backdrop-filter`
+  (izmereno: `CSS.supports('-webkit-backdrop-filter','blur(2px)')` → `false`),
+  Firefox ne poznaje ni taj prefiks — svi oni čitaju isključivo neprefiksiranu deklaraciju.
+- Na `localhost` se servira ne-minifikovan CSS iz `src/` (obe deklaracije postoje) → efekat radi.
+- Na telefonu se dobija **build** (`dist`) u kome je neprefiksirana deklaracija bačena →
+  `computed backdrop-filter: none` → traka samo providna, bez zamućenja.
+
+**Popravka (`src/index.css`):**
+- Svojstva premestena u **zasebne `@supports` blokove** (minifikator ih ne spaja),
+  pa do browsera stignu obe varijante — `@supports` za neprefiksiranu i `@supports` za `-webkit-`.
+- Isto rešenje primenjeno na `.liquid-glass`, `.liquid-glass.scrolled`, `.mobile-bottom-nav`
+  i `.outfit-builder-panel` — gornja traka je imala isti kvar.
+- Dodat `@supports not (...)` fallback: browser bez ikakve podrške dobija
+  `background: rgba(10,10,10,0.92)` — i dalje čitljiva traka, a sadržaj ne probija kroz natpise.
+- Zamućivanje donje trake pojačano sa 12 → **16 px** (uz `saturate(150%)`), da efekat bude očigledan.
+
+**Provera na build verziji (`vite preview`):**
+`.mobile-bottom-nav` → `backdrop-filter: blur(16px) saturate(1.5)` u Chrome-u
+(pre popravke bi bio `none`, jer Chrome ignoriše prefiks).
+`npm run lint` i `npm run build` prolaze.
+
+## 5. Napomene za vlasnika
 
 1. `product_reviews` tablicu treba napraviti u Supabase-u (SQL iz `supabase-reviews.sql`);
    do tada se komentari čuvaju lokalno i čekaju odobrenje.

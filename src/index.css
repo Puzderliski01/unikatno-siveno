@@ -250,12 +250,14 @@
   display: none;
 }
 
-/* Liquid Glass iOS 26 Effect */
+/* Liquid Glass iOS 26 Effect
+   NOTE: backdrop-filter se NE piše ovde — vidi „Glass efekat" blok ispod.
+   Minifikator u buildu spaja neprefiksiranu i -webkit- varijantu sa istom
+   vrednošću u jednu i uvek zadrži prefiksiranu, pa Firefox/Edge na telefonu
+   (koji poznaju samo neprefiksiranu) ostanu bez zamućenja. */
 .liquid-glass {
   position: relative;
   background: rgba(10, 10, 10, 0.5);
-  backdrop-filter: blur(12px) saturate(150%);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
   border-bottom: 1px solid rgba(201, 169, 110, 0.25);
   padding: 8px 12px;
   transition: all 0.3s cubic-bezier(0.25, 0.09, 0.4, 0.93);
@@ -284,8 +286,6 @@
 /* Scrolled state - more opaque, tighter */
 .liquid-glass.scrolled {
   background: rgba(10, 10, 10, 0.7);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom-color: rgba(201, 169, 110, 0.3);
   padding: 6px 12px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
@@ -299,9 +299,64 @@
   right: 0;
   z-index: 50;
   background: rgba(10, 10, 10, 0.5);
-  backdrop-filter: blur(12px) saturate(150%);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
   border-top: 1px solid rgba(201, 169, 110, 0.25);
+}
+
+/* --- Glass efekat (zamagljivanje pozadine) ---------------------------------
+   Svaka varijanta SVOJSTVA mora stajati u zasebnom @supports bloku.
+
+   Razlog: minifikator CSS-a u buildu vidi `backdrop-filter` i
+   `-webkit-backdrop-filter` sa identičnom vrednošću kao duplikat i baci
+   neprefiksiranu verziju. Bez nje stakleni efekat NE radi u browserima koji
+   poznaju isključivo neprefiksirani oblik (Firefox, Edge — npr. na telefonu),
+   dok Safari/Chrome prežive preko prefiksa. Tako se dešava da na jednom
+   uređaju traka bude zamućena, a na drugom samo tamna.
+
+   @supports minifikator ne spaja, pa obe varijante stižu do browsera. */
+@supports (backdrop-filter: blur(1px)) {
+  .liquid-glass {
+    backdrop-filter: blur(12px) saturate(150%);
+  }
+
+  .liquid-glass.scrolled {
+    backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  .mobile-bottom-nav {
+    backdrop-filter: blur(16px) saturate(150%);
+  }
+
+  .outfit-builder-panel {
+    backdrop-filter: blur(20px);
+  }
+}
+
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  .liquid-glass {
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+  }
+
+  .liquid-glass.scrolled {
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  .mobile-bottom-nav {
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+  }
+
+  .outfit-builder-panel {
+    -webkit-backdrop-filter: blur(20px);
+  }
+}
+
+/* Browser bez ikakve podrške za backdrop-filter (veoma stari Android)
+   dobija čvrstu, dovoljno tamnu pozadinu — i dalje se čita kao traka,
+   a sadržaj ispod ne probija kroz natpise. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .liquid-glass,
+  .mobile-bottom-nav {
+    background: rgba(10, 10, 10, 0.92);
+  }
 }
 
 /* Naznaka da sadržaj nastaje u desno — na telefonu overlay scrollbar ne postoji,
