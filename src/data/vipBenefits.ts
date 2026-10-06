@@ -4,9 +4,8 @@ export const VIP_TIERS = [
     name: 'Standard',
     color: '#e8e0d4',
     benefits: [
-      'Standardi pristup kolekciji',
-      'Regularne cijene',
-      'Osobna poziva na eventi',
+      'Potpun pristup kolekciji',
+      'Regularne cene',
       'Standardna podrška'
     ],
     requiresPoints: 0
@@ -18,9 +17,9 @@ export const VIP_TIERS = [
     benefits: [
       '5% popust na sve porudžbine',
       'Prioritetna podrška',
-      'Prístup do limited edition komadova 24h pre ostalih',
-      'Besplatna portant za porudžbine preko 15.000 RSD',
-      'Eksklusivni mesezni newsletter'
+      'Prístup do limited edition primeraka 24h pre ostalih',
+      'Besplatne porudžbine preko 15.000 RSD',
+      'Eksklusivni mesečni newsletter'
     ],
     requiresPoints: 1000
   },
@@ -32,10 +31,9 @@ export const VIP_TIERS = [
       '10% popust na sve porudžbine',
       'Prioritetna podrška 24/7',
       'Prístop do limited edition komadova 48h pre ostalih',
-      'Besplatna portant za sve porudžbine',
+      'Besplatne porudžbine',
       'Eksklusivni pristup VIP kolekciji',
       'Personalni stilistički savetnik',
-      'Poziv na godišnji VIP veče',
       'Prvi pristup novim kolekcijama'
     ],
     requiresPoints: 2500
@@ -46,15 +44,10 @@ export const VIP_TIERS = [
     color: '#e5e4e2',
     benefits: [
       '15% popust na sve porudžbine',
-      'VIP koncierž podrška',
-      'Eksklusivni pristop sve limited edition i 1 of 1 komadova',
+      'VIP podrška iste sekunde, 24/7',
+      'Eksklusivni pristop sve limited edition i 1 of 1 komada',
       'Besplatna portant i brza dostava',
-      'Personalni stilistički savetnik dostupan 24/7',
-      'Poziv na sve eksklusivne eventi',
-      'Godišnji gratuit komad po izboru',
-      'Prvi pristop novim kolekcijama + dodatni komad kao poklon',
-      'Prilagođen šivački termin u atelieru',
-      'Pristop do arhivske kolekcije'
+      'Personalni stilistički savetnik dostupan 24/7'
     ],
     requiresPoints: 5000
   }
