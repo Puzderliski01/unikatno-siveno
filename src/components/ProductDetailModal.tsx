@@ -505,7 +505,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[10px] text-[#e8e0d4]/70 mb-1">Posebna napomena (dužina šlepa, rukava):</label>
+                      <label className="block text-[10px] text-[#e8e0d4]/70 mb-1">Posebna napomena (dužina suknje, pantalona, rukava):</label>
                       <input
                         type="text"
                         value={customNotes}
@@ -724,6 +724,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                               <td className="p-2">99–104</td>
                               <td className="p-2">79–84</td>
                               <td className="p-2">105–110</td>
+                            </tr>
+                            <tr className="hover:bg-[#111111]">
+                              <td className="p-2 font-bold">2XL (44)</td>
+                              <td className="p-2">105–109</td>
+                              <td className="p-2">85-88</td>
+                              <td className="p-2">111-115</td>
                             </tr>
                           </tbody>
                         </table>
