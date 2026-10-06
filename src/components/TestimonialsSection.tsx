@@ -100,7 +100,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                 {formatAvg(stats.avg)}
               </span>
               <Stars rating={stats.avg} size={15} />
-              <span className="text-[10px] uppercase tracking-wider text-[#e8e0d4]/55 font-sans border-l border-[#e8e0d4]/15 pl-3">
+              <span className="text-[11px] uppercase tracking-wider text-[#e8e0d4]/55 font-sans border-l border-[#e8e0d4]/15 pl-3">
                 {stats.count} {recenzijeLabel(stats.count)}
               </span>
             </motion.div>
@@ -123,7 +123,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                 >
                   <div className="flex items-center justify-between gap-3 mb-3">
                     <Stars rating={review.rating} size={14} />
-                    <span className="text-[10px] text-[#e8e0d4]/35 font-sans">
+                    <span className="text-[11px] text-[#e8e0d4]/35 font-sans">
                       {formatReviewDate(review.created_at)}
                     </span>
                   </div>
@@ -150,7 +150,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                         <button
                           type="button"
                           onClick={() => onOpenDetails(product)}
-                          className="mt-1 text-[10px] uppercase tracking-wider text-[#a08540] hover:text-[#c9a96e] transition-colors font-sans truncate max-w-full text-left"
+                          className="mt-1 min-h-[44px] py-2 text-[11px] uppercase tracking-wider text-[#a08540] hover:text-[#c9a96e] transition-colors font-sans truncate max-w-full text-left"
                         >
                           {product.nameSr} →
                         </button>
@@ -216,7 +216,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsComposerOpen(false)}
-                  className="p-2 hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
+                  className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
                   aria-label="Zatvori"
                 >
                   <X className="w-4 h-4" />

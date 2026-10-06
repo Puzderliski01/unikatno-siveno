@@ -154,7 +154,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
         {/* Top Badges & Wishlist Button */}
         <div className="absolute top-3 inset-x-3 flex items-center justify-between z-30">
           {product.badge ? (
-            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] uppercase font-sans tracking-wider font-medium bg-[#0a0a0a] text-[#c9a96e] border border-[#c9a96e]/40">
+            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[11px] uppercase font-sans tracking-wider font-medium bg-[#0a0a0a] text-[#c9a96e] border border-[#c9a96e]/40">
               <Sparkles className="w-2 h-2 text-[#c9a96e]" />
               {product.badge}
             </span>
@@ -180,7 +180,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
           <div className="absolute bottom-3 left-3 z-30">
             <div className="stock-pulse">
               <span className="stock-pulse-dot" />
-              <span className="text-[10px] uppercase tracking-wider text-red-400 font-sans font-medium bg-[#0a0a0a]/90 px-2 py-0.5">
+              <span className="text-[11px] uppercase tracking-wider text-red-400 font-sans font-medium bg-[#0a0a0a]/90 px-2 py-0.5">
                 Još {stockCount}
               </span>
             </div>
@@ -249,7 +249,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
                     e.stopPropagation();
                     onOpenZoom(product, 0);
                   }}
-                  className="py-2 px-1.5 bg-[#0a0a0a] hover:bg-[#111111] text-[#e8e0d4] hover:text-[#c9a96e] text-[10px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-colors border border-[#c9a96e]/20"
+                  className="py-2 px-1.5 bg-[#0a0a0a] hover:bg-[#111111] text-[#e8e0d4] hover:text-[#c9a96e] text-[11px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-colors border border-[#c9a96e]/20"
                 >
                   <ZoomIn className="w-3.5 h-3.5 text-[#c9a96e]" />
                   <span className="hidden sm:inline">Uvećaj</span>
@@ -261,7 +261,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
                     e.stopPropagation();
                     onOpenDetails(product);
                   }}
-                  className="py-2 px-1.5 bg-[#0a0a0a] hover:bg-[#111111] text-[#e8e0d4] hover:text-[#c9a96e] text-[10px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-colors border border-[#c9a96e]/20"
+                  className="py-2 px-1.5 bg-[#0a0a0a] hover:bg-[#111111] text-[#e8e0d4] hover:text-[#c9a96e] text-[11px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-colors border border-[#c9a96e]/20"
                 >
                   <Eye className="w-3.5 h-3.5 text-[#c9a96e]" />
                   <span className="hidden sm:inline">Detalji</span>
@@ -274,7 +274,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
                       e.stopPropagation();
                       onAddToOutfit(product);
                     }}
-                    className={`py-2 px-1.5 text-[10px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-all border ${
+                    className={`py-2 px-1.5 text-[11px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-all border ${
                       isInOutfit
                         ? 'bg-[#c9a96e]/20 border-[#c9a96e]/60 text-[#c9a96e]'
                         : 'bg-[#0a0a0a] hover:bg-[#111111] text-[#e8e0d4] hover:text-[#c9a96e] border-[#c9a96e]/20'
@@ -289,7 +289,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
                   type="button"
                   onClick={handleQuickAdd}
                   disabled={isQuickAdding}
-                  className={`py-2 px-1.5 font-medium text-[10px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-all ${addedJustNow ? 'bg-[#0a0a0a] text-[#c9a96e]' : 'bg-[#c9a96e] hover:bg-[#a7823b] text-[#0a0a0a]'}`}
+                  className={`py-2 px-1.5 font-medium text-[11px] font-sans tracking-widest uppercase flex items-center justify-center gap-1 transition-all ${addedJustNow ? 'bg-[#0a0a0a] text-[#c9a96e]' : 'bg-[#c9a96e] hover:bg-[#a7823b] text-[#0a0a0a]'}`}
                 >
                   {addedJustNow ? (
                     <>
@@ -313,7 +313,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
       <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between bg-[#111111]">
         <div className="space-y-2 sm:space-y-4">
           {/* Category */}
-          <div className="text-[10px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-medium">
+          <div className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-medium">
             {product.categoryLabelSr}
           </div>
 
@@ -323,7 +323,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
           </h3>
 
           {/* Subtitle */}
-          <p className="text-[11px] sm:text-xs text-[#e8e0d4]/70 line-clamp-2 leading-relaxed font-light font-sans">
+          <p className="text-xs sm:text-xs text-[#e8e0d4]/70 line-clamp-2 leading-relaxed font-light font-sans">
             {product.subtitleSr}
           </p>
 
@@ -331,8 +331,8 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
           {reviewStat && reviewStat.count > 0 && (
             <div className="flex items-center gap-1.5 pt-0.5">
               <Stars rating={reviewStat.avg} size={12} />
-              <span className="text-[10px] text-[#e8e0d4]/70 font-mono">{formatAvg(reviewStat.avg)}</span>
-              <span className="text-[10px] text-[#e8e0d4]/40 font-sans">
+              <span className="text-[11px] text-[#e8e0d4]/70 font-mono">{formatAvg(reviewStat.avg)}</span>
+              <span className="text-[11px] text-[#e8e0d4]/40 font-sans">
                 ({reviewStat.count})
               </span>
             </div>
@@ -347,13 +347,13 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
                 {FORMAT_RSD(product.priceRSD)}
               </span>
               {product.originalPriceRSD && (
-                <span className="text-[10px] sm:text-xs text-[#e8e0d4]/40 line-through font-mono">
+                <span className="text-[11px] sm:text-xs text-[#e8e0d4]/40 line-through font-mono">
                   {FORMAT_RSD(product.originalPriceRSD)}
                 </span>
               )}
             </div>
 
-            <span className="text-[10px] sm:text-[11px] text-[#c9a96e] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 uppercase tracking-wider font-sans">
+            <span className="text-[11px] sm:text-[11px] text-[#c9a96e] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 uppercase tracking-wider font-sans">
               Detalji &rarr;
             </span>
           </div>

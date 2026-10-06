@@ -66,7 +66,7 @@ export const BlogSection: React.FC<BlogSectionProps> = React.memo(({ onOpenDetai
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent" />
-                  <span className="absolute top-3 left-3 px-2 py-0.5 text-[10px] uppercase tracking-wider bg-[#c9a96e] text-[#0a0a0a] font-sans font-semibold">
+                  <span className="absolute top-3 left-3 px-2 py-0.5 text-[11px] uppercase tracking-wider bg-[#c9a96e] text-[#0a0a0a] font-sans font-semibold">
                     {post.category}
                   </span>
                 </div>
@@ -121,13 +121,13 @@ export const BlogSection: React.FC<BlogSectionProps> = React.memo(({ onOpenDetai
                 >
                   <X className="w-4 h-4" />
                 </button>
-                <span className="absolute bottom-3 left-3 px-2 py-0.5 text-[10px] uppercase tracking-wider bg-[#c9a96e] text-[#0a0a0a] font-sans font-semibold">
+                <span className="absolute bottom-3 left-3 px-2 py-0.5 text-[11px] uppercase tracking-wider bg-[#c9a96e] text-[#0a0a0a] font-sans font-semibold">
                   {selectedPost.category}
                 </span>
               </div>
               <div className="p-6 overflow-y-auto">
                 <h2 className="font-serif-luxury text-2xl text-[#e8e0d4] mb-2">{selectedPost.title}</h2>
-                <div className="flex items-center gap-3 text-[10px] text-[#e8e0d4]/50 font-sans mb-4">
+                <div className="flex items-center gap-3 text-[11px] text-[#e8e0d4]/50 font-sans mb-4">
                   <span>{selectedPost.author}</span>
                   <span>•</span>
                   <span>{new Date(selectedPost.created_at).toLocaleDateString('sr-Latn-RS', { year: 'numeric', month: 'long', day: 'numeric' })}</span>

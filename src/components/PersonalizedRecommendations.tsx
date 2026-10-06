@@ -88,7 +88,7 @@ export const PersonalizedRecommendations: React.FC<PersonalizedRecommendationsPr
                 <h4 className="text-xs font-serif-luxury text-[#e8e0d4] group-hover:text-[#c9a96e] transition-colors leading-snug line-clamp-2">
                   {product.nameSr}
                 </h4>
-                <p className="text-[10px] font-mono text-[#e8e0d4]/70">{FORMAT_RSD(product.priceRSD)}</p>
+                <p className="text-[11px] font-mono text-[#e8e0d4]/70">{FORMAT_RSD(product.priceRSD)}</p>
               </div>
             </motion.div>
           ))}

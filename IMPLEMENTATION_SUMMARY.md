@@ -185,3 +185,31 @@
 8. **Delight**: Micro-interactions and animations create premium feel throughout
 
 All requested features have been fully implemented and tested. The site now operates at a significantly higher luxury level with improved performance, enhanced user experience, and sophisticated technical foundations.
+---
+
+## Mobile Redesign (390 px / 360 px) — Talasi: analiza ? ispravka ? provera
+
+Pun prolazak javne stranice za telefon. Detaljno: **`MOBILE_AUDIT.md`**.
+
+### Merenja (pocetna strana)
+| | Pre | Posle |
+|---|---|---|
+| Tekst ispod 11 px | 72 | **0** |
+| Ciljevi ispod 40 px | 22 | **3** (sva tri dozvoljeni inline izuzeci) |
+| Gornja traka | 107 px | **94 px** |
+| Skrol kontejnera u modalu detalja | 2 (ugnježden) | **1** |
+
+### Kljucne izmene
+- **`ProductDetailModal`** izmišljen za telefon: panel preko celog ekrana (390×844), jedan skrol
+  kontejner, sakriven breadcrumb, lepljiva traka tabova sa `.scroll-fade-x`, trajna donja traka
+  (cena + „Dodaj u izbor"), tackice galerije, prazan podatak ne pravi rupu (velicine/opis).
+- **Typografija**: podrazumevani minimum 11 px (54 zamene), duži opisi 12 px.
+- **Dodirni ciljevi = 44 px** u celom javnom sloju (header, donja navigacija, footer, katalog,
+  korpa, želje, prijava, profil, VIP, outfit, lightbox, recenzije, sekcija kontakta, privatnost).
+- **`.scroll-fade-x`** utilija — gradijentna ivica umesto nevidljivog skrolbara na horizontalnim listama.
+- **`useBodyScrollLock`** — pozadina ne skroluje iza otvorenog panela (scroll chaining).
+- **`src/lib/scroll.ts`** — skok do sekcije meri stvarnu visinu lepljive trake (nije fiksni 80/100 px).
+- **`ImageLightbox`** — uputstvo se menja preko `matchMedia('(hover: none), (pointer: coarse)')`.
+
+Verifikovano preko DOM merenja na 390 i 360 px, plus provera da desktop verzija modala
+(1024×720, dve kolone, jedan skrol) nije narušena. `npm run lint` i `npm run build` prolaze.

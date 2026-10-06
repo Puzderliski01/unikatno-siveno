@@ -4,6 +4,7 @@ import { FORMAT_RSD } from '../data/products';
 import { Trophy, Users, ShieldCheck, Gift, Star, Check, X, ShoppingBag } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useAuth } from '../lib/auth';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
 interface VIPBenefitsModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface VIPBenefitsModalProps {
 }
 
 export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onClose }) => {
+  useBodyScrollLock(isOpen);
   const { user, profile } = useAuth();
 
   const loyaltyPoints = profile?.loyalty_points || 0;
@@ -51,7 +53,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
               id="vip-benefits-close-btn"
               type="button"
               onClick={onClose}
-              className="p-2 hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
+              className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
               aria-label="Zatvori VIP sistem"
             >
               <X className="w-5 h-5" />

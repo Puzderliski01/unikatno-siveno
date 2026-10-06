@@ -81,7 +81,7 @@ export const BehindTheScenes: React.FC = React.memo(() => {
                 decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/60 to-transparent pointer-events-none" />
-              <span className="absolute bottom-3 left-3 text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans bg-[#0a0a0a]/80 px-2 py-1 border border-[#c9a96e]/30">
+              <span className="absolute bottom-3 left-3 text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans bg-[#0a0a0a]/80 px-2 py-1 border border-[#c9a96e]/30">
                 Krojenje
               </span>
             </div>
@@ -95,7 +95,7 @@ export const BehindTheScenes: React.FC = React.memo(() => {
                 decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/60 to-transparent pointer-events-none" />
-              <span className="absolute bottom-3 left-3 text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans bg-[#0a0a0a]/80 px-2 py-1 border border-[#c9a96e]/30">
+              <span className="absolute bottom-3 left-3 text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans bg-[#0a0a0a]/80 px-2 py-1 border border-[#c9a96e]/30">
                 Jelena Erić
               </span>
             </div>
@@ -105,7 +105,7 @@ export const BehindTheScenes: React.FC = React.memo(() => {
                 „Ne šijem komade. Šijem trenutke u kojima se žena oseća kao sebe —
                 tek toliko drugačije da se okrene za njom.“
               </p>
-              <p className="mt-3 text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans">
+              <p className="mt-3 text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans">
                 Jelena Erić, osnivačica
               </p>
             </div>
@@ -126,7 +126,7 @@ export const BehindTheScenes: React.FC = React.memo(() => {
                   <span className="w-10 h-10 border border-[#c9a96e]/40 flex items-center justify-center text-[#c9a96e] bg-[#111111]">
                     <step.icon className="w-4 h-4" />
                   </span>
-                  <span className="mt-2 text-[10px] font-mono text-[#e8e0d4]/40">0{i + 1}</span>
+                  <span className="mt-2 text-[11px] font-mono text-[#e8e0d4]/40">0{i + 1}</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-serif-luxury text-lg sm:text-xl text-[#e8e0d4] mb-1.5">{step.title}</h3>

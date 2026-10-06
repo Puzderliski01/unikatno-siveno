@@ -63,17 +63,17 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
           <div className="relative w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-3">
             <Img src="/logo.png" alt="Jelena Erić Logo" className="w-full h-full object-contain" loading="eager" decoding="async" fetchPriority="high" width="128" height="128" />
           </div>
-          <h1 className="font-serif-luxury text-xl font-light text-[#e8e0d4] tracking-tight leading-[1.1] mb-2">
+          <h1 className="font-serif-luxury text-2xl sm:text-3xl font-light text-[#e8e0d4] tracking-tight leading-[1.1] mb-2.5">
             Kolekcija. Unikatno šivenje
           </h1>
-          <p className="font-sans text-xs text-[#e8e0d4]/80 font-light leading-relaxed mb-4">
+          <p className="font-sans text-[13px] text-[#e8e0d4]/80 font-light leading-relaxed mb-5">
             Umetnost vanvremenske siluete i besprekornog kroja.
           </p>
           <button
             id="hero-explore-collection-btn"
             type="button"
             onClick={onExploreClick}
-            className="shine-btn px-6 py-2.5 bg-transparent border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10 mb-6"
+            className="shine-btn px-8 py-3.5 min-h-[48px] bg-transparent border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10 mb-6"
           >
             Istražite kolekciju
           </button>
@@ -83,13 +83,13 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
               { icon: ShieldCheck, title: 'Prirodni materijali', desc: 'Pažljivo birani da prijaju telu' },
               { icon: Ruler, title: 'Šivenje po meri', desc: 'Individualna konstrukcija za vašu figuru' },
             ].map((item) => (
-              <div key={item.title} className="flex items-center gap-2.5 p-2 border border-[#c9a96e]/25 bg-[#0a0a0a]/50 backdrop-blur-sm">
-                <div className="p-1 text-[#c9a96e] border border-[#c9a96e]/30 bg-[#0a0a0a] flex-shrink-0">
-                  <item.icon className="w-3.5 h-3.5" />
+              <div key={item.title} className="flex items-center gap-3 p-2.5 border border-[#c9a96e]/25 bg-[#0a0a0a]/50 backdrop-blur-sm">
+                <div className="p-1.5 text-[#c9a96e] border border-[#c9a96e]/30 bg-[#0a0a0a] flex-shrink-0">
+                  <item.icon className="w-4 h-4" />
                 </div>
-                <div className="text-left">
+                <div className="text-left min-w-0">
                   <h2 className="text-[11px] uppercase tracking-[0.15em] text-[#e8e0d4] font-sans font-medium">{item.title}</h2>
-                  <p className="text-[10px] text-[#e8e0d4]/60">{item.desc}</p>
+                  <p className="text-xs text-[#e8e0d4]/60 leading-snug">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -242,7 +242,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
           transition={{ duration: 1, delay: 1.5 }}
           whileHover={{ scale: 1.1 }}
         >
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#e8e0d4]/70 font-sans">Skrolujte</span>
+          <span className="text-[11px] uppercase tracking-[0.2em] text-[#e8e0d4]/70 font-sans">Skrolujte</span>
           <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>
             <ArrowDown className="w-4 h-4 text-[#c9a96e]" />
           </motion.div>

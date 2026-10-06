@@ -20,9 +20,9 @@ interface ReviewFormProps {
 }
 
 const inputClass =
-  'w-full px-3 py-2.5 bg-[#1a1a1a] border border-[#e8e0d4]/20 text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/35 outline-none focus:border-[#c9a96e] transition-colors font-sans';
+  'w-full px-3.5 py-3 min-h-[44px] bg-[#1a1a1a] border border-[#e8e0d4]/20 text-[13px] text-[#e8e0d4] placeholder-[#e8e0d4]/35 outline-none focus:border-[#c9a96e] transition-colors font-sans';
 const labelClass =
-  'block text-[10px] uppercase tracking-[0.2em] text-[#a08540] font-sans font-semibold mb-1.5';
+  'block text-[11px] uppercase tracking-[0.2em] text-[#a08540] font-sans font-semibold mb-1.5';
 
 /**
  * Forma za slanje recenzije / utiska. Radi i za goste i za prijavljene
@@ -163,7 +163,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
             placeholder="Kako vam pristaje, kakav je kvalitet, kako je protekla izrada po meri..."
             className={`${inputClass} resize-none`}
           />
-          <div className="mt-1 text-right text-[10px] text-[#e8e0d4]/35 font-mono">
+          <div className="mt-1 text-right text-[11px] text-[#e8e0d4]/35 font-mono">
             {comment.length}/2000
           </div>
         </div>
@@ -212,7 +212,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
         <button
           type="submit"
           disabled={sending}
-          className="px-6 py-3 bg-[#c9a96e] text-[#0a0a0a] text-[11px] font-semibold uppercase tracking-[0.2em] hover:bg-[#e8d098] transition-colors disabled:opacity-50 font-sans"
+          className="px-6 py-3.5 min-h-[48px] bg-[#c9a96e] text-[#0a0a0a] text-[11px] font-semibold uppercase tracking-[0.2em] hover:bg-[#e8d098] transition-colors disabled:opacity-50 font-sans"
         >
           {sending ? 'Šaljem...' : 'Pošalji komentar'}
         </button>
@@ -220,12 +220,12 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-3 text-[11px] uppercase tracking-[0.2em] text-[#e8e0d4]/50 hover:text-[#e8e0d4] transition-colors font-sans"
+            className="px-4 py-3 min-h-[44px] text-[11px] uppercase tracking-[0.2em] text-[#e8e0d4]/50 hover:text-[#e8e0d4] transition-colors font-sans"
           >
             Otkaži
           </button>
         )}
-        <span className="flex items-start gap-1.5 text-[10px] text-[#e8e0d4]/45 font-sans leading-relaxed">
+        <span className="flex items-start gap-1.5 text-[11px] text-[#e8e0d4]/45 font-sans leading-relaxed">
           <ShieldCheck className="w-3.5 h-3.5 text-[#c9a96e] flex-shrink-0 mt-px" />
           Komentar pregleda atelje pre objave — objavljujemo samo iskrena iskustva.
         </span>

@@ -96,7 +96,7 @@ export const AboutSection: React.FC = React.memo(() => {
                     <p className="font-serif-luxury text-xs sm:text-sm italic text-[#e8e0d4] leading-snug mb-1.5">
                       "Moda prolazi, ali kroj koji poštuje proporcije vašeg tela i prirodan materijal na koži ostaju večni."
                     </p>
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-semibold block">
+                    <span className="text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-semibold block">
                       — Jelena Erić, osnivač i glavni kreator
                     </span>
                   </div>
@@ -152,15 +152,15 @@ export const AboutSection: React.FC = React.memo(() => {
             })} className="grid grid-cols-3 gap-4 pt-6 border-t border-[#c9a96e]/30">
               <div>
                 <div className="font-serif-luxury text-2xl sm:text-3xl text-[#c9a96e] font-normal">25+</div>
-                <div className="text-[10px] uppercase tracking-[0.15em] text-[#e8e0d4]/70 mt-0.5 font-sans">Godina iskustva</div>
+                <div className="text-[11px] uppercase tracking-[0.15em] text-[#e8e0d4]/70 mt-0.5 font-sans">Godina iskustva</div>
               </div>
               <div>
                 <div className="font-serif-luxury text-2xl sm:text-3xl text-[#c9a96e] font-normal">100%</div>
-                <div className="text-[10px] uppercase tracking-[0.15em] text-[#e8e0d4]/70 mt-0.5 font-sans">Unikatno</div>
+                <div className="text-[11px] uppercase tracking-[0.15em] text-[#e8e0d4]/70 mt-0.5 font-sans">Unikatno</div>
               </div>
               <div>
                 <div className="font-serif-luxury text-2xl sm:text-3xl text-[#c9a96e] font-normal">2.400+</div>
-                <div className="text-[10px] uppercase tracking-[0.15em] text-[#e8e0d4]/70 mt-0.5 font-sans">Unikatnih kreacija</div>
+                <div className="text-[11px] uppercase tracking-[0.15em] text-[#e8e0d4]/70 mt-0.5 font-sans">Unikatnih kreacija</div>
               </div>
             </motion.div>
           </motion.div>

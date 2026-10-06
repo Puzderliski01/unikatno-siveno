@@ -4,6 +4,7 @@ import { Scissors, X, ShoppingBag, Eye } from 'lucide-react';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
 import { OptimizedImage } from './OptimizedImage';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
 interface OutfitBuilderProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ export const OutfitBuilder: React.FC<OutfitBuilderProps> = React.memo(({
   onOpenDetails,
   onAddToCart,
 }) => {
+  useBodyScrollLock(isOpen);
   const totalPrice = outfitItems.reduce((sum, p) => sum + p.priceRSD, 0);
 
   return (
@@ -33,7 +35,7 @@ export const OutfitBuilder: React.FC<OutfitBuilderProps> = React.memo(({
           animate={{ opacity: 1, scale: 1 }}
           type="button"
           onClick={onToggle}
-          className="fixed bottom-24 right-4 lg:bottom-8 lg:right-8 z-45 flex items-center gap-2 px-4 py-2.5 bg-[#111111] border border-[#c9a96e]/40 text-[#c9a96e] text-xs font-sans uppercase tracking-wider hover:bg-[#1a1a1a] transition-colors shadow-lg"
+          className="fixed bottom-24 right-4 lg:bottom-8 lg:right-8 z-45 flex items-center gap-2 px-4 py-3 min-h-[44px] bg-[#111111] border border-[#c9a96e]/40 text-[#c9a96e] text-xs font-sans uppercase tracking-wider hover:bg-[#1a1a1a] transition-colors shadow-lg"
         >
           <Scissors className="w-4 h-4" />
           <span>Outfit ({outfitItems.length})</span>
@@ -80,8 +82,8 @@ export const OutfitBuilder: React.FC<OutfitBuilderProps> = React.memo(({
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[10px] text-[#e8e0d4] font-sans truncate">{product.nameSr}</p>
-                    <p className="text-[10px] text-[#c9a96e] font-mono">{FORMAT_RSD(product.priceRSD)}</p>
+                    <p className="text-[11px] text-[#e8e0d4] font-sans truncate">{product.nameSr}</p>
+                    <p className="text-[11px] text-[#c9a96e] font-mono">{FORMAT_RSD(product.priceRSD)}</p>
                   </div>
                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
@@ -106,7 +108,7 @@ export const OutfitBuilder: React.FC<OutfitBuilderProps> = React.memo(({
             {/* Total + Action */}
             <div className="pt-3 border-t border-[#c9a96e]/20">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] uppercase tracking-wider text-[#e8e0d4]/60 font-sans">Ukupno outfit</span>
+                <span className="text-[11px] uppercase tracking-wider text-[#e8e0d4]/60 font-sans">Ukupno outfit</span>
                 <span className="text-sm font-semibold text-[#c9a96e] font-mono">{FORMAT_RSD(totalPrice)}</span>
               </div>
               <button
@@ -114,7 +116,7 @@ export const OutfitBuilder: React.FC<OutfitBuilderProps> = React.memo(({
                 onClick={() => {
                   outfitItems.forEach((p) => onAddToCart(p, p.sizes[1] || p.sizes[0]));
                 }}
-                className="w-full py-2.5 bg-[#c9a96e] text-[#0a0a0a] text-[10px] uppercase tracking-[0.15em] font-semibold font-sans flex items-center justify-center gap-2 hover:bg-[#b89a60] transition-colors"
+                className="w-full py-3.5 min-h-[48px] bg-[#c9a96e] text-[#0a0a0a] text-[12px] uppercase tracking-[0.15em] font-semibold font-sans flex items-center justify-center gap-2 hover:bg-[#b89a60] transition-colors"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
                 <span>Dodaj sve u izbor</span>

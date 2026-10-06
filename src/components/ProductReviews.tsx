@@ -29,7 +29,7 @@ const ReviewItem: React.FC<{ review: Review }> = ({ review }) => (
         <Stars rating={review.rating} size={13} />
         <span className="text-[11px] text-[#e8e0d4]/50 font-mono">{review.rating}/5</span>
       </div>
-      <span className="text-[10px] text-[#e8e0d4]/35 font-sans whitespace-nowrap">
+      <span className="text-[11px] text-[#e8e0d4]/35 font-sans whitespace-nowrap">
         {formatReviewDate(review.created_at)}
       </span>
     </div>
@@ -84,7 +84,7 @@ export const ProductReviews: React.FC<ProductReviewsProps> = ({
                 <div className="mt-2 flex items-center justify-center sm:justify-start gap-2">
                   <Stars rating={stats.avg} size={14} />
                 </div>
-                <div className="mt-1 text-[10px] uppercase tracking-wider text-[#e8e0d4]/50 font-sans">
+                <div className="mt-1 text-[11px] uppercase tracking-wider text-[#e8e0d4]/50 font-sans">
                   {stats.count} {recenzijeLabel(stats.count)}
                 </div>
               </>
@@ -102,7 +102,7 @@ export const ProductReviews: React.FC<ProductReviewsProps> = ({
                 const count = stats.distribution[idx];
                 const pct = Math.round((count / stats.count) * 100);
                 return (
-                  <div key={star} className="flex items-center gap-2 text-[10px] font-sans">
+                  <div key={star} className="flex items-center gap-2 text-[11px] font-sans">
                     <span className="w-3 text-[#e8e0d4]/60 font-mono">{star}</span>
                     <span className="text-[#c9a96e]">★</span>
                     <div className="flex-1 h-1.5 bg-[#0a0a0a] border border-[#e8e0d4]/10 overflow-hidden">
@@ -124,7 +124,7 @@ export const ProductReviews: React.FC<ProductReviewsProps> = ({
           <button
             type="button"
             onClick={() => setIsFormOpen(true)}
-            className="mt-4 w-full sm:w-auto px-5 py-3 border border-[#c9a96e]/40 bg-[#0a0a0a] hover:bg-[#c9a96e]/10 text-[#c9a96e] text-[11px] uppercase tracking-[0.2em] font-sans font-semibold transition-colors flex items-center justify-center gap-2"
+            className="mt-4 w-full sm:w-auto px-5 py-3.5 min-h-[44px] border border-[#c9a96e]/40 bg-[#0a0a0a] hover:bg-[#c9a96e]/10 text-[#c9a96e] text-[11px] uppercase tracking-[0.2em] font-sans font-semibold transition-colors flex items-center justify-center gap-2"
           >
             <PenLine className="w-3.5 h-3.5" />
             Ostavi komentar i ocenu
@@ -158,7 +158,7 @@ export const ProductReviews: React.FC<ProductReviewsProps> = ({
       {/* Lista komentara */}
       {hasReviews ? (
         <div className="space-y-3">
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-[#a08540] font-sans font-semibold">
+          <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-[#a08540] font-sans font-semibold">
             <MessageSquareQuote className="w-3.5 h-3.5 text-[#c9a96e]" />
             <span>Iskustva kupaca</span>
           </div>

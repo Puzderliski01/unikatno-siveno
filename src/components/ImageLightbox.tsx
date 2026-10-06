@@ -39,6 +39,8 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
   onSelectIndex
 }) => {
   const [scale, setScale] = useState(1);
+  // Da li uređaj ima dodir (nema miša) — menja tekst uputa i očekivanja za zoom
+  const isTouchDevice = typeof window !== 'undefined' && window.matchMedia('(hover: none), (pointer: coarse)').matches;
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
 
@@ -344,7 +346,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
             id="lightbox-close-btn"
             type="button"
             onClick={onClose}
-            className="p-2.5 bg-[#111111]/10 hover:bg-[#c9a96e] text-[#e8e0d4] hover:text-[#e8e0d4] transition-colors duration-200"
+            className="p-3 min-h-[44px] min-w-[44px] flex items-center justify-center bg-[#111111]/10 hover:bg-[#c9a96e] text-[#e8e0d4] hover:text-[#e8e0d4] transition-colors duration-200"
             aria-label="Zatvori uvećani prikaz"
           >
             <X className="w-5 h-5" />
@@ -421,7 +423,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
           {/* Indicator uvećanja */}
           {isZoomed && (
-            <div className="absolute top-3 left-3 px-2 py-1 bg-[#111111]/90 text-[10px] font-mono text-[#c9a96e] border border-[#c9a96e]/40 pointer-events-none">
+            <div className="absolute top-3 left-3 px-2 py-1 bg-[#111111]/90 text-[11px] font-mono text-[#c9a96e] border border-[#c9a96e]/40 pointer-events-none">
               {Math.round(scale * 100)}%
             </div>
           )}
@@ -436,7 +438,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
             type="button"
             onClick={() => zoomFromCenter(1 / 1.4)}
             disabled={scale <= 1.01}
-            className="p-2.5 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-colors disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-[#e8e0d4]"
+            className="p-3 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-colors disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-[#e8e0d4]"
             aria-label="Umanji"
           >
             <ZoomOut className="w-4 h-4" />
@@ -448,7 +450,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
             type="button"
             onClick={() => zoomFromCenter(1.4)}
             disabled={scale >= maxScaleRef.current - 0.01}
-            className="p-2.5 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-colors disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-[#e8e0d4]"
+            className="p-3 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-colors disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-[#e8e0d4]"
             aria-label="Uvećaj"
           >
             <ZoomIn className="w-4 h-4" />
@@ -458,7 +460,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
             type="button"
             onClick={resetZoom}
             disabled={scale <= 1.01}
-            className="p-2.5 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-colors disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-[#e8e0d4]"
+            className="p-3 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] transition-colors disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-[#e8e0d4]"
             aria-label="Vrati na 100%"
           >
             <RotateCcw className="w-4 h-4" />
@@ -488,9 +490,11 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
           </div>
         )}
 
-        {/* Hint */}
-        <div className="mt-3 text-center text-[9px] uppercase tracking-[0.2em] text-[#e8e0d4]/45">
-          Točak miša ili +/− za zoom · prevucite za pomeranje · dvoklik za 100%
+        {/* Hint — prilagođen dodiru ili mišu */}
+        <div className="mt-3 text-center text-[11px] uppercase tracking-[0.15em] text-[#e8e0d4]/55 px-4">
+          {isTouchDevice
+            ? 'Širite prstima za uvećanje · pomerajte prstom po slici'
+            : 'Točak miša ili +/− za zoom · prevucite za pomeranje · dvoklik za 100%'}
         </div>
       </motion.div>
     </AnimatePresence>

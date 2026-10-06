@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { CartItem } from '../types';
 import { FORMAT_RSD } from '../data/products';
 import { Img } from './Img';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -27,6 +28,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onExploreCollection,
 }) => {
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.priceRSD * item.quantity, 0);
+
+  useBodyScrollLock(isOpen);
 
   if (!isOpen) return null;
 
@@ -55,7 +58,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               id="cart-drawer-close-btn"
               type="button"
               onClick={onClose}
-              className="p-1.5 hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
+              className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
               aria-label="Zatvori izbor"
             >
               <X className="w-5 h-5" />
@@ -86,7 +89,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     onClose();
                     onExploreCollection();
                   }}
-                  className="px-6 py-3 bg-[#e8e0d4] text-[#0a0a0a] hover:bg-[#c9a96e] font-semibold text-xs uppercase tracking-wider transition-colors"
+                  className="px-6 py-3.5 min-h-[44px] bg-[#e8e0d4] text-[#0a0a0a] hover:bg-[#c9a96e] font-semibold text-xs uppercase tracking-wider transition-colors"
                 >
                   Istražite kolekciju
                 </button>
@@ -115,7 +118,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       </div>
 
                       {item.customMeasurements && (
-                        <div className="text-[10px] text-[#e8e0d4]/70 mt-0.5 italic">
+                        <div className="text-[11px] text-[#e8e0d4]/70 mt-0.5 italic">
                           Šiveno po meri (V:{item.customMeasurements.height || '-'}cm, G:{item.customMeasurements.bust || '-'}cm)
                         </div>
                       )}
@@ -196,7 +199,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 <span>Kopiraj za Instagram DM</span>
               </button>
 
-              <p className="text-[10px] text-[#e8e0d4]/50 text-center leading-relaxed pt-1">
+              <p className="text-[11px] text-[#e8e0d4]/50 text-center leading-relaxed pt-1">
                 Sajt ne vrši prodaju niti naplatu — porudžbinu dogovaramo lično, porukom.
               </p>
             </div>

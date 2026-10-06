@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Mail, Lock, User, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../lib/auth';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface AuthModalProps {
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'login' }) => {
+  useBodyScrollLock(isOpen);
   const [mode, setMode] = useState<'login' | 'signup'>(initialMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -102,7 +104,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
               <button
                 type="button"
                 onClick={handleClose}
-                className="p-2 hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
+                className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -164,7 +166,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#e8e0d4]/40 hover:text-[#e8e0d4] transition-colors"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 p-3 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#e8e0d4]/40 hover:text-[#e8e0d4] transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -186,7 +188,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-[#c9a96e] hover:bg-[#a7823b] text-[#0a0a0a] font-semibold text-xs uppercase tracking-wider transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full py-3.5 min-h-[48px] bg-[#c9a96e] hover:bg-[#a7823b] text-[#0a0a0a] font-semibold text-xs uppercase tracking-wider transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
@@ -206,7 +208,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
                     setError('');
                     setSuccess('');
                   }}
-                  className="text-xs text-[#e8e0d4]/60 hover:text-[#c9a96e] transition-colors font-sans"
+                  className="min-h-[44px] py-2.5 px-3 -my-1 text-xs text-[#e8e0d4]/60 hover:text-[#c9a96e] transition-colors font-sans"
                 >
                   {mode === 'login'
                     ? 'Nemate nalog? Registrujte se'

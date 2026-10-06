@@ -304,6 +304,19 @@
   border-top: 1px solid rgba(201, 169, 110, 0.25);
 }
 
+/* Naznaka da sadržaj nastaje u desno — na telefonu overlay scrollbar ne postoji,
+   pa rub bledi kao signal za prevlačenje. Na desktopu se gasi (scrollbar je vidljiv). */
+.scroll-fade-x {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent 100%);
+}
+@media (min-width: 1024px) {
+  .scroll-fade-x {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
 /* Add bottom padding on mobile for fixed bottom nav */
 @media (max-width: 1023px) {
   body {
@@ -1023,6 +1036,14 @@ picture {
 .luxury-breadcrumb-current {
   color: #c9a96e;
   opacity: 1;
+}
+
+/* Na telefonu breadcrumb nema smisla — zauzima red i vodi na isto mesto (Početna/Kolekcija).
+   `.luxury-breadcrumb` je van Tailwind layera, pa `hidden` sam ne bi pobedio — gasimo eksplicitno. */
+@media (max-width: 639px) {
+  .luxury-breadcrumb {
+    display: none !important;
+  }
 }
 
 /* --- #27 Recently Viewed Bar --- */

@@ -182,7 +182,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                 }}
                 onFocus={() => searchQuery.length >= 2 && setShowAutocomplete(true)}
                 placeholder="Pretraži po imenu, kategoriji..."
-                className="w-full pl-9 pr-3 py-2 sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
+                className="w-full pl-9 pr-3 py-3 min-h-[44px] sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-[13px] sm:text-xs text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
               />
               {searchQuery && (
                 <button
@@ -224,7 +224,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                         )}
                         <div className="flex-1 min-w-0">
                           <p className="text-xs text-[#e8e0d4] truncate">{suggestion.name}</p>
-                          <p className="text-[10px] text-[#c9a96e] uppercase tracking-wider">
+                          <p className="text-[11px] text-[#c9a96e] uppercase tracking-wider">
                             {suggestion.type === 'product' ? `${suggestion.price?.toLocaleString('sr-RS')} RSD` : 'Kategorija'}
                           </p>
                         </div>
@@ -239,7 +239,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                 value={sortBy}
                 aria-label="Sortiranje modela"
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="pl-2 sm:pl-3 pr-6 sm:pr-8 py-2 sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-[11px] sm:text-xs text-[#e8e0d4] outline-none appearance-none cursor-pointer"
+                className="pl-2 sm:pl-3 pr-6 sm:pr-8 py-3 min-h-[44px] sm:py-1.5 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-[12px] sm:text-xs text-[#e8e0d4] outline-none appearance-none cursor-pointer"
               >
                 <option value="default">Istaknuto</option>
                 <option value="price-asc">Cena ↑</option>
@@ -251,13 +251,13 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
           </div>
 
           {/* Row 2: Category Pills */}
-          <div className="flex items-center gap-1.5 mb-3 overflow-x-auto scrollbar-none pb-1">
+          <div className="flex items-center gap-1.5 mb-3 overflow-x-auto scrollbar-none scroll-fade-x pb-1 -mx-1 px-1">
             {categories.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-2.5 sm:py-1 min-h-[44px] sm:min-h-0 flex items-center text-[10px] uppercase tracking-wider font-sans whitespace-nowrap transition-all border ${
+                className={`px-3 py-2.5 sm:py-1 min-h-[44px] sm:min-h-0 flex items-center text-[11px] uppercase tracking-wider font-sans whitespace-nowrap transition-all border ${
                   selectedCategory === cat
                     ? 'bg-[#c9a96e] text-[#0a0a0a] border-[#c9a96e] font-semibold'
                     : 'bg-transparent text-[#e8e0d4]/60 border-[#c9a96e]/20 hover:border-[#c9a96e]/50 hover:text-[#e8e0d4]'
@@ -271,12 +271,12 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
           {/* Row 3: Filters + Grid selector */}
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             {/* Customizable Filter */}
-            <label className="flex items-center gap-1.5 cursor-pointer text-[11px] sm:text-xs">
+            <label className="flex items-center gap-2 cursor-pointer text-[12px] sm:text-xs min-h-[44px] py-2 pr-1">
               <input
                 type="checkbox"
                 checked={isCustomizableOnly}
                 onChange={(e) => setIsCustomizableOnly(e.target.checked)}
-                className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#c9a96e] border border-[#c9a96e]/20 focus:ring-[#c9a96e]"
+                className="w-[20px] h-[20px] sm:w-4 sm:h-4 text-[#c9a96e] border border-[#c9a96e]/20 focus:ring-[#c9a96e]"
               />
               <span>Prilagođeno</span>
             </label>
@@ -287,7 +287,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
               value={minPrice || ''}
               onChange={(e) => setMinPrice(e.target.value === '' ? null : parseInt(e.target.value))}
               placeholder="Min cena"
-              className="w-20 sm:w-24 pl-2 sm:pl-3 pr-2 py-1.5 sm:py-1 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-[11px] sm:text-xs text-[#e8e0d4] outline-none transition-colors"
+              className="w-24 sm:w-24 pl-2 sm:pl-3 pr-2 py-3 min-h-[44px] sm:py-1 bg-[#1a1a1a] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-[12px] sm:text-xs text-[#e8e0d4] outline-none transition-colors"
             />
 
             <div className="flex-1" />
@@ -305,7 +305,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                   type="button"
                   onClick={() => setGridCols(cols)}
                   title={label}
-                  className={`p-1.5 sm:p-2 min-h-[40px] min-w-[40px] sm:min-h-0 sm:min-w-0 flex items-center justify-center transition-colors ${
+                  className={`p-1.5 sm:p-2 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex items-center justify-center transition-colors ${
                     mobileOnly ? '' : 'hidden sm:block'
                   } ${
                     gridCols === cols

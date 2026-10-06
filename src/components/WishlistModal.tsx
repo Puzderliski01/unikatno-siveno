@@ -21,6 +21,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
 import { Img } from './Img';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
 interface WishlistModalProps {
   isOpen: boolean;
@@ -138,6 +139,7 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
   onOpenDetails,
   onReorder,
 }) => {
+  useBodyScrollLock(isOpen);
   const [items, setItems] = useState<Product[]>(wishlistProducts);
 
   // Sync items when modal opens
@@ -193,14 +195,14 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
           </div>
           <div className="flex items-center gap-3">
             {items.length > 1 && (
-              <span className="text-[10px] text-[#e8e0d4]/40 uppercase tracking-wider font-sans hidden sm:inline">
+              <span className="text-[11px] text-[#e8e0d4]/40 uppercase tracking-wider font-sans hidden sm:inline">
                 Prevucite za redosled
               </span>
             )}
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 hover:bg-[#0a0a0a]/5 text-[#e8e0d4] transition-colors"
+              className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-[#0a0a0a]/5 text-[#e8e0d4] transition-colors"
               aria-label="Zatvori listu želja"
             >
               <X className="w-5 h-5" />
@@ -219,7 +221,7 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-2.5 bg-[#0a0a0a] hover:bg-[#1a1a1a] text-[#e8e0d4] font-semibold text-xs uppercase tracking-wider transition-colors"
+                className="px-6 py-3.5 min-h-[44px] bg-[#0a0a0a] hover:bg-[#1a1a1a] text-[#e8e0d4] font-semibold text-xs uppercase tracking-wider transition-colors"
               >
                 Pregledaj kolekciju
               </button>

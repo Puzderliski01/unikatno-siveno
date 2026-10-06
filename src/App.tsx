@@ -12,6 +12,7 @@ import { Footer } from './components/Footer';
 import { ToastContainer, ToastMessage } from './components/Toast';
 import { fetchProducts } from './lib/supabase';
 import { buildStatsMap, fetchApprovedReviews } from './lib/reviews';
+import { scrollToSection } from './lib/scroll';
 import { UserProfile } from './components/UserProfile';
 import { VIPBenefitsModal } from './components/VIPBenefitsModal';
 import { BlogSection } from './components/BlogSection';
@@ -283,16 +284,7 @@ function AppContent() {
   };
 
   const scrollToGallery = () => {
-    const el = document.getElementById('kolekcija');
-    if (el) {
-      const headerOffset = 80;
-      const elementPosition = el.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
+    scrollToSection('kolekcija');
   };
 
   // Outfit Builder handlers
@@ -472,13 +464,13 @@ function AppContent() {
             <div className="flex items-center justify-center gap-3">
               <button
                 onClick={() => { setAuthModalMode('login'); setAuthModalOpen(true); }}
-                className="px-6 py-2.5 bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors font-sans"
+                className="px-6 py-3.5 min-h-[44px] bg-[#c9a96e] text-[#0a0a0a] text-xs font-semibold uppercase tracking-wider hover:bg-[#e8d098] transition-colors font-sans"
               >
                 Prijavi se
               </button>
               <button
                 onClick={() => { setAuthModalMode('signup'); setAuthModalOpen(true); }}
-                className="px-6 py-2.5 border border-[#c9a96e]/40 text-[#c9a96e] text-xs font-semibold uppercase tracking-wider hover:bg-[#c9a96e]/10 transition-colors font-sans"
+                className="px-6 py-3.5 min-h-[44px] border border-[#c9a96e]/40 text-[#c9a96e] text-xs font-semibold uppercase tracking-wider hover:bg-[#c9a96e]/10 transition-colors font-sans"
               >
                 Registruj se
               </button>

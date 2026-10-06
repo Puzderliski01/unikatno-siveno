@@ -79,7 +79,7 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
           >
             <div className="bg-[#111111] border border-[#c9a96e]/40 p-6 sm:p-7 relative overflow-hidden shadow-sm">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-semibold">Atelje & radionica</span>
+                <span className="text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-semibold">Atelje & radionica</span>
                 <span className="text-xs text-[#e8e0d4] flex items-center gap-1.5 font-mono">
                   <span className="w-2 h-2 rounded-full bg-[#c9a96e] animate-pulse" />
                   Rad po dogovoru
@@ -100,20 +100,20 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
                   <Clock className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
                   <span>Termini isključivo po dogovoru</span>
                 </div>
-                <div className="flex items-start gap-3">
-                  <MessageCircle className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
+                <div className="flex items-center gap-3 min-h-[44px] py-1.5">
+                  <MessageCircle className="w-4 h-4 text-[#c9a96e] flex-shrink-0" />
                   <a
                     href={WHATSAPP_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="hover:text-[#c9a96e] transition-colors font-mono"
+                    className="hover:text-[#c9a96e] transition-colors font-mono flex items-center min-h-[44px] flex-1"
                   >
                     +381 636 160 71
                   </a>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Mail className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
-                  <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-[#c9a96e] transition-colors break-all">
+                <div className="flex items-center gap-3 min-h-[44px] py-1.5">
+                  <Mail className="w-4 h-4 text-[#c9a96e] flex-shrink-0" />
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-[#c9a96e] transition-colors break-all flex items-center min-h-[44px] flex-1">
                     {CONTACT_EMAIL}
                   </a>
                 </div>
@@ -124,7 +124,7 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-4 py-2.5 bg-[#c9a96e] hover:bg-[#e8d098] border border-[#c9a96e] text-[#0a0a0a] text-xs uppercase tracking-[0.15em] transition-all flex items-center gap-2 font-sans font-semibold"
+                  className="px-4 py-3 min-h-[44px] bg-[#c9a96e] hover:bg-[#e8d098] border border-[#c9a96e] text-[#0a0a0a] text-xs uppercase tracking-[0.15em] transition-all flex items-center gap-2 font-sans font-semibold"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
                   <span>WhatsApp</span>
@@ -133,7 +133,7 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-4 py-2.5 bg-transparent hover:bg-[#c9a96e]/10 border border-[#c9a96e]/30 text-[#e8e0d4] text-xs uppercase tracking-[0.15em] transition-all flex items-center gap-2 font-sans"
+                  className="px-4 py-3 min-h-[44px] bg-transparent hover:bg-[#c9a96e]/10 border border-[#c9a96e]/30 text-[#e8e0d4] text-xs uppercase tracking-[0.15em] transition-all flex items-center gap-2 font-sans"
                 >
                   <Instagram className="w-3.5 h-3.5 text-[#c9a96e]" />
                   <span>Instagram</span>
@@ -183,7 +183,7 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
 
             <p className="text-[11px] text-[#e8e0d4]/70 mt-5 leading-relaxed font-sans">
               Ili nam pišite na{' '}
-              <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#c9a96e] hover:underline">
+              <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#c9a96e] hover:underline py-1 inline-block">
                 {CONTACT_EMAIL}
               </a>
               . Odgovaramo u toku dana.

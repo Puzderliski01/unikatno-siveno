@@ -27,11 +27,11 @@ export const RecentlyViewed: React.FC<RecentlyViewedProps> = React.memo(({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 mb-3">
           <Clock className="w-3.5 h-3.5 text-[#c9a96e]" />
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-medium">
+          <span className="text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-medium">
             Viđeno ranije
           </span>
         </div>
-        <div className="recently-viewed-scroll">
+        <div className="recently-viewed-scroll scroll-fade-x">
           {viewedProducts.map((product) => (
             <motion.div
               key={product.id}
@@ -47,8 +47,8 @@ export const RecentlyViewed: React.FC<RecentlyViewedProps> = React.memo(({
                   loading="lazy"
                 />
               </div>
-              <p className="text-[10px] text-[#e8e0d4]/80 font-sans truncate">{product.nameSr}</p>
-              <p className="text-[10px] text-[#c9a96e] font-mono">{FORMAT_RSD(product.priceRSD)}</p>
+              <p className="text-xs text-[#e8e0d4]/80 font-sans truncate">{product.nameSr}</p>
+              <p className="text-xs text-[#c9a96e] font-mono">{FORMAT_RSD(product.priceRSD)}</p>
             </motion.div>
           ))}
         </div>

@@ -142,7 +142,7 @@ export const PrivacyPolicy: React.FC = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
           <a
             href="/"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#c9a96e] hover:text-[#e8d098] transition-colors font-sans"
+            className="inline-flex items-center gap-2 min-h-[44px] py-2 text-xs uppercase tracking-[0.2em] text-[#c9a96e] hover:text-[#e8d098] transition-colors font-sans"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Nazad na sajt</span>
@@ -151,7 +151,7 @@ export const PrivacyPolicy: React.FC = () => {
             <span className="font-serif-luxury text-sm sm:text-base tracking-[0.3em] uppercase text-[#c9a96e] block leading-tight">
               Unikatno šiveno
             </span>
-            <span className="text-[10px] uppercase tracking-[0.4em] text-[#c9a96e]/70 font-sans">
+            <span className="text-[11px] uppercase tracking-[0.4em] text-[#c9a96e]/70 font-sans">
               Jelena Erić
             </span>
           </div>
@@ -161,7 +161,7 @@ export const PrivacyPolicy: React.FC = () => {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
         <div className="flex items-center gap-3 mb-4">
           <ShieldCheck className="w-5 h-5 text-[#c9a96e]" />
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#c9a96e] font-sans font-medium">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-[#c9a96e] font-sans font-medium">
             Zaštita podataka
           </span>
         </div>

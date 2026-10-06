@@ -77,7 +77,7 @@ export const StarInput: React.FC<StarInputProps> = ({ value, onChange, size = 26
           onFocus={() => setHovered(n)}
           onBlur={() => setHovered(0)}
           onClick={() => onChange(n)}
-          className="p-0.5 transition-transform hover:scale-110 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#c9a96e]"
+          className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex items-center justify-center p-2 sm:p-0.5 transition-transform hover:scale-110 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#c9a96e]"
         >
           <Star
             style={starStyle}

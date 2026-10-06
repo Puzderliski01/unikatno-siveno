@@ -77,7 +77,7 @@ export const NotificationBell: React.FC = () => {
             className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-[#111111] border border-[#e8e0d4]/15 shadow-2xl z-50 max-h-80 flex flex-col"
           >
             <div className="flex items-center justify-between px-3 py-2 border-b border-[#e8e0d4]/10">
-              <span className="text-[10px] uppercase tracking-[0.15em] text-[#c9a96e] font-sans font-semibold">Obaveštenja</span>
+              <span className="text-[11px] uppercase tracking-[0.15em] text-[#c9a96e] font-sans font-semibold">Obaveštenja</span>
               {notifications.length > 0 && (
                 <button onClick={dismissAll} className="text-[9px] text-[#e8e0d4]/40 hover:text-[#c9a96e] transition-colors font-sans">
                   Obriši sve
@@ -100,7 +100,7 @@ export const NotificationBell: React.FC = () => {
                     <div className="mt-0.5 flex-shrink-0">{typeIcons[n.type]}</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs text-[#e8e0d4] font-sans font-medium truncate">{n.title}</p>
-                      <p className="text-[10px] text-[#e8e0d4]/50 font-sans line-clamp-2 mt-0.5">{n.message}</p>
+                      <p className="text-[11px] text-[#e8e0d4]/50 font-sans line-clamp-2 mt-0.5">{n.message}</p>
                       <p className="text-[9px] text-[#e8e0d4]/30 font-sans mt-1">
                         {new Date(n.created_at).toLocaleDateString('sr-Latn-RS')}
                       </p>

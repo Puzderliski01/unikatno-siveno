@@ -39,7 +39,7 @@ export const ToastContainer: React.FC<ToastProps> = React.memo(({ toasts, onDism
             </div>
             <button
               onClick={() => onDismiss(toast.id)}
-              className="text-[#e8e0d4]/40 hover:text-[#e8e0d4] p-1 transition-colors"
+              className="text-[#e8e0d4]/40 hover:text-[#e8e0d4] p-2 min-h-[40px] min-w-[40px] flex items-center justify-center transition-colors"
               aria-label="Zatvori obaveštenje"
             >
               <X className="w-4 h-4" />

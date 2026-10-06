@@ -5,6 +5,7 @@ import { ShoppingBag, Trophy, Calendar, Users, Check, Heart, X, Loader2, LogOut 
 import { motion } from 'motion/react';
 import { useAuth } from '../lib/auth';
 import { supabase } from '../lib/supabase';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
 interface UserProfileProps {
   isOpen: boolean;
@@ -31,6 +32,7 @@ interface WishlistItem {
 }
 
 export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => {
+  useBodyScrollLock(isOpen);
   const { user, profile, refreshProfile, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState('purchase-history');
   const [orders, setOrders] = useState<OrderItem[]>([]);
@@ -116,7 +118,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
             <button
               type="button"
               onClick={handleLogout}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] uppercase tracking-wider text-[#e8e0d4]/60 hover:text-[#e8e0d4] hover:bg-[#e8e0d4]/5 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] uppercase tracking-wider text-[#e8e0d4]/60 hover:text-[#e8e0d4] hover:bg-[#e8e0d4]/5 transition-colors"
               title="Odjavi se"
             >
               <LogOut className="w-3 h-3" />
@@ -126,7 +128,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
               id="user-profile-close-btn"
               type="button"
               onClick={onClose}
-              className="p-2 hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
+              className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-[#e8e0d4]/5 text-[#e8e0d4] transition-colors"
               aria-label="Zatvori profil"
             >
               <X className="w-5 h-5" />
@@ -195,7 +197,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
 
           {/* Tabs Section */}
           <div className="border-t border-[#e8e0d4]/10 pt-6">
-            <div className="flex items-center gap-2 sm:gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 font-sans overflow-x-auto scrollbar-none">
+            <div className="flex items-center gap-2 sm:gap-4 border-b border-[#e8e0d4]/10 pb-2 mb-4 font-sans overflow-x-auto scrollbar-none scroll-fade-x">
               <button
                 type="button"
                 className={`whitespace-nowrap text-[11px] sm:text-xs uppercase tracking-wider pb-2 relative transition-colors flex-shrink-0 ${

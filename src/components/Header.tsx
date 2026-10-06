@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ShoppingBag, Heart, Trophy, Star, LogIn, UserPlus, Home, Sparkles, Phone } from 'lucide-react';
 import { FORMAT_RSD } from '../data/products';
 import { useAuth } from '../lib/auth';
+import { scrollToSection as scrollToSectionTo } from '../lib/scroll';
 import { NotificationBell } from './NotificationBell';
 import { CursorGlow } from './CursorGlow';
 
@@ -49,32 +50,26 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   }, []);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const headerOffset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-    }
+    scrollToSectionTo(id);
   };
 
   return (
     <>
-      {/* Top Logo Bar - Mobile */}
+      {/* Top Logo Bar - Mobile (kompaktno: zauzima ~72px, ne 107px) */}
       <div className="lg:hidden sticky top-0 z-40 liquid-glass">
-        <div className="flex items-center justify-between py-3 px-4">
+        <div className="flex items-center justify-between gap-3 py-2.5 px-4">
           <a
             href="#"
             onClick={(e) => {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="inline-block group text-center"
+            className="inline-flex flex-col justify-center group text-left min-h-[44px]"
           >
-            <h1 className="text-lg tracking-[0.3em] font-light uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury">
+            <h1 className="text-[15px] sm:text-base tracking-[0.28em] font-light uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury leading-tight">
               Unikatno šiveno
             </h1>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#c9a96e]/80 font-sans text-center w-full">
+            <p className="text-[11px] uppercase tracking-[0.35em] text-[#c9a96e]/80 font-sans leading-tight mt-0.5">
               Jelena Erić
             </p>
           </a>
@@ -119,7 +114,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   <h1 className="text-xl tracking-[0.3em] font-light uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury">
                     Unikatno šiveno
                   </h1>
-                  <p className="text-[10px] uppercase tracking-[0.5em] text-[#c9a96e]/80 -mt-1 font-sans">
+                  <p className="text-[11px] uppercase tracking-[0.5em] text-[#c9a96e]/80 -mt-1 font-sans">
                     Jelena Erić
                   </p>
                 </a>
@@ -194,74 +189,74 @@ export const Header: React.FC<HeaderProps> = React.memo(({
         </nav>
       </header>
 
-      {/* Mobile Bottom Nav Bar */}
+      {/* Mobile Bottom Nav Bar — 48px visine stavki, 11px natpisi, 20px ikonice */}
       <div className="lg:hidden mobile-bottom-nav">
-        <div className="flex items-center justify-around py-2 px-2">
+        <div className="flex items-stretch justify-around px-1 pt-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))]">
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+            className="flex-1 flex flex-col items-center justify-center gap-1 min-h-[48px] py-1 text-[#e8e0d4] active:text-[#c9a96e] hover:text-[#c9a96e] transition-colors relative"
           >
-            <Home className="w-4 h-4" />
-            <span className="text-[10px] uppercase tracking-wider font-sans">Početna</span>
+            <Home className="w-5 h-5" />
+            <span className="text-[11px] leading-none uppercase tracking-[0.06em] font-sans">Početna</span>
           </button>
 
           <button
             type="button"
             onClick={onOpenWishlist}
-            className="relative flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+            className="relative flex-1 flex flex-col items-center justify-center gap-1 min-h-[48px] py-1 text-[#e8e0d4] active:text-[#c9a96e] hover:text-[#c9a96e] transition-colors"
           >
-            <Heart className={`w-4 h-4 ${wishlistCount > 0 ? 'fill-[#c9a96e] text-[#c9a96e]' : ''}`} />
+            <Heart className={`w-5 h-5 ${wishlistCount > 0 ? 'fill-[#c9a96e] text-[#c9a96e]' : ''}`} />
             {wishlistCount > 0 && (
-              <span className="absolute top-0 right-2 w-3 h-3 bg-[#c9a96e] text-[#0a0a0a] text-[7px] font-bold rounded-full flex items-center justify-center">
+              <span className="absolute top-0 right-[calc(50%-1.4rem)] min-w-[16px] h-4 px-1 bg-[#c9a96e] text-[#0a0a0a] text-[9px] leading-none font-bold rounded-full flex items-center justify-center">
                 {wishlistCount}
               </span>
             )}
-            <span className="text-[10px] uppercase tracking-wider font-sans">Želje</span>
+            <span className="text-[11px] leading-none uppercase tracking-[0.06em] font-sans">Želje</span>
           </button>
 
           {user ? (
             <button
               type="button"
               onClick={onOpenUserProfile}
-              className="flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+              className="flex-1 flex flex-col items-center justify-center gap-1 min-h-[48px] py-1 text-[#e8e0d4] active:text-[#c9a96e] hover:text-[#c9a96e] transition-colors"
             >
-              <Trophy className="w-4 h-4" />
-              <span className="text-[10px] uppercase tracking-wider font-sans">Profil</span>
+              <Trophy className="w-5 h-5" />
+              <span className="text-[11px] leading-none uppercase tracking-[0.06em] font-sans">Profil</span>
             </button>
           ) : (
             <button
               type="button"
               onClick={onOpenLogin}
-              className="flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+              className="flex-1 flex flex-col items-center justify-center gap-1 min-h-[48px] py-1 text-[#e8e0d4] active:text-[#c9a96e] hover:text-[#c9a96e] transition-colors"
             >
-              <LogIn className="w-4 h-4" />
-              <span className="text-[10px] uppercase tracking-wider font-sans">Prijava</span>
+              <LogIn className="w-5 h-5" />
+              <span className="text-[11px] leading-none uppercase tracking-[0.06em] font-sans">Prijava</span>
             </button>
           )}
 
           <button
             type="button"
             onClick={onOpenVIPBenefits}
-            className="flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+            className="flex-1 flex flex-col items-center justify-center gap-1 min-h-[48px] py-1 text-[#e8e0d4] active:text-[#c9a96e] hover:text-[#c9a96e] transition-colors"
           >
-            <Star className="w-4 h-4" />
-            <span className="text-[10px] uppercase tracking-wider font-sans">VIP</span>
+            <Star className="w-5 h-5" />
+            <span className="text-[11px] leading-none uppercase tracking-[0.06em] font-sans">VIP</span>
           </button>
 
           <button
             type="button"
             onClick={onOpenCart}
             data-cart-icon
-            className="relative flex flex-col items-center gap-0.5 p-1.5 min-h-[44px] text-[#e8e0d4] hover:text-[#c9a96e] transition-colors min-w-[48px]"
+            className="relative flex-1 flex flex-col items-center justify-center gap-1 min-h-[48px] py-1 text-[#e8e0d4] active:text-[#c9a96e] hover:text-[#c9a96e] transition-colors"
           >
-            <ShoppingBag className="w-4 h-4" />
+            <ShoppingBag className="w-5 h-5" />
             {cartCount > 0 && (
-              <span className="absolute top-0 right-2 w-3 h-3 bg-[#c9a96e] text-[#0a0a0a] text-[7px] font-bold rounded-full flex items-center justify-center">
+              <span className="absolute top-0 right-[calc(50%-1.4rem)] min-w-[16px] h-4 px-1 bg-[#c9a96e] text-[#0a0a0a] text-[9px] leading-none font-bold rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             )}
-            <span className="text-[10px] uppercase tracking-wider font-sans">Izbor</span>
+            <span className="text-[11px] leading-none uppercase tracking-[0.06em] font-sans">Izbor</span>
           </button>
         </div>
       </div>
