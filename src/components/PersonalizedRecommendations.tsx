@@ -40,11 +40,11 @@ export const PersonalizedRecommendations: React.FC<PersonalizedRecommendationsPr
             <span>Preporučujemo za vas</span>
           </motion.div>
           <motion.h2 variants={getVariants(staggerItemVariants)} className="font-serif-luxury text-2xl sm:text-3xl md:text-4xl font-light text-[#e8e0d4] tracking-tight mb-3">
-            Modeli koje bi vam se mogli svideti
+            Modeli koji bi vam se mogli svideti
           </motion.h2>
           <motion.div variants={getVariants(staggerItemVariants)} className="w-12 h-px bg-[#c9a96e] mx-auto mb-3" />
           <motion.p variants={getVariants(staggerItemVariants)} className="text-xs sm:text-sm text-[#e8e0d4]/65 font-light">
-            Na osnovu vaših prethodnih poseta i preferencija
+            Na osnovu vaših prethodnih poseta i sviđanja
           </motion.p>
         </motion.div>
 
