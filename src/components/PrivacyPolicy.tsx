@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowLeft, Instagram, Mail, ShieldCheck } from 'lucide-react';
+import { GlassLayer } from './GlassLayer';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/jelena.ericc/';
 const CONTACT_EMAIL = 'jelena.ericc@gmail.com';
@@ -139,6 +140,7 @@ export const PrivacyPolicy: React.FC = () => {
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4]">
       {/* Top bar */}
       <header className="sticky top-0 z-40 liquid-glass border-b border-[#c9a96e]/20">
+        <GlassLayer cornerRadius={0} displacementScale={40} />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
           <a
             href="/"

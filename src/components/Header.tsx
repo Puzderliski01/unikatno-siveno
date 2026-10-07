@@ -5,6 +5,7 @@ import { useAuth } from '../lib/auth';
 import { scrollToSection as scrollToSectionTo } from '../lib/scroll';
 import { NotificationBell } from './NotificationBell';
 import { CursorGlow } from './CursorGlow';
+import { GlassLayer } from './GlassLayer';
 
 interface HeaderProps {
   cartCount: number;
@@ -57,6 +58,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
     <>
       {/* Top Logo Bar - Mobile (kompaktno: zauzima ~72px, ne 107px) */}
       <div className="lg:hidden sticky top-0 z-40 liquid-glass">
+        <GlassLayer cornerRadius={0} displacementScale={40} />
         <div className="flex items-center justify-between gap-3 py-2.5 px-4">
           <a
             href="#"
@@ -80,6 +82,12 @@ export const Header: React.FC<HeaderProps> = React.memo(({
       {/* Desktop Header */}
       <header className="hidden lg:block sticky top-0 z-40">
         <nav ref={navRef} className={`transition-all duration-300 ${isScrolled ? 'liquid-glass scrolled' : 'liquid-glass'}`}>
+          <GlassLayer
+            cornerRadius={0}
+            displacementScale={40}
+            elasticity={0.1}
+            mouseContainer={navRef}
+          />
           <CursorGlow parentRef={navRef} />
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex items-center justify-between lg:grid lg:grid-cols-3">
@@ -191,6 +199,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
       {/* Mobile Bottom Nav Bar — 48px visine stavki, 11px natpisi, 20px ikonice */}
       <div className="lg:hidden mobile-bottom-nav">
+        <GlassLayer cornerRadius={0} displacementScale={40} />
         <div className="flex items-stretch justify-around px-1 pt-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))]">
           <button
             type="button"

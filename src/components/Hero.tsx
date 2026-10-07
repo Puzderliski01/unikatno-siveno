@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowDown, Scissors, ShieldCheck, Ruler } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { HangingLetters } from './HangingLetters';
 import { Img } from './Img';
+import { GlassLayer } from './GlassLayer';
 
 interface HeroProps {
   onExploreClick: () => void;
@@ -13,6 +14,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
   const { isMobile } = useScrollAnimation();
   const [videoEnded, setVideoEnded] = useState(false);
   const [videoFailed, setVideoFailed] = useState(false);
+  const ctaRef = useRef<HTMLButtonElement>(null);
 
   const { scrollYProgress } = useScroll({
     offset: ['start start', 'end start'],
@@ -77,9 +79,11 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
           <button
             id="hero-explore-collection-btn"
             type="button"
+            ref={ctaRef}
             onClick={onExploreClick}
-            className="shine-btn px-8 py-3.5 min-h-[48px] bg-transparent border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10 mb-6"
+            className="shine-btn isolate bg-[#0a0a0a]/40 backdrop-blur-sm px-8 py-3.5 min-h-[48px] border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10 mb-6"
           >
+            <GlassLayer cornerRadius={0} displacementScale={64} elasticity={0.15} mouseContainer={ctaRef} overLight={false} />
             Istražite kolekciju
           </button>
           <div className="flex flex-col gap-2 w-full">
@@ -88,7 +92,8 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
               { icon: ShieldCheck, title: 'Prirodni materijali', desc: 'Pažljivo birani da prijaju telu' },
               { icon: Ruler, title: 'Šivenje po meri', desc: 'Individualna konstrukcija za vašu figuru' },
             ].map((item) => (
-              <div key={item.title} className="glass-chip flex items-center gap-3 p-2.5 border border-[#c9a96e]/25">
+              <div key={item.title} className="glass-chip isolate flex items-center gap-3 p-2.5 border border-[#c9a96e]/25">
+                <GlassLayer cornerRadius={0} displacementScale={36} overLight={false} />
                 <div className="p-1.5 text-[#c9a96e] border border-[#c9a96e]/30 glass-inner flex-shrink-0">
                   <item.icon className="w-4 h-4" />
                 </div>
@@ -199,9 +204,11 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
               <button
                 id="hero-explore-collection-btn"
                 type="button"
+                ref={ctaRef}
                 onClick={onExploreClick}
-                className="shine-btn px-10 py-4 bg-transparent border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs sm:text-sm uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10"
+                className="shine-btn isolate bg-[#0a0a0a]/40 backdrop-blur-sm px-10 py-4 border-2 border-[#c9a96e] text-[#c9a96e] font-semibold text-xs sm:text-sm uppercase tracking-[0.25em] transition-all duration-300 hover:bg-[#c9a96e]/10"
               >
+                <GlassLayer cornerRadius={0} displacementScale={64} elasticity={0.15} mouseContainer={ctaRef} overLight={false} />
                 Istražite kolekciju
               </button>
             </motion.div>
@@ -216,7 +223,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
               {[
                 { icon: Scissors, title: '100% Ručni rad', desc: 'Tradicionalno kanvasiranje i fiksirani šavovi' },
                 { icon: ShieldCheck, title: 'Prirodni materijali', desc: 'Pažljivo birani da prijaju telu' },
-                { icon: Ruler, title: 'Šivenje po meri', desc: 'Individualna konstrukcija vašu figuru' },
+                { icon: Ruler, title: 'Šivenje po meri', desc: 'Individualna konstrukcija za vašu figuru' },
               ].map((item, index) => (
                 <motion.div
                   key={item.title}
@@ -224,8 +231,9 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 1.2 + index * 0.15, ease: [0.22, 1, 0.36, 1] }}
                   whileHover={{ y: -4, borderColor: 'rgba(201, 169, 110, 0.6)', transition: { duration: 0.25 } }}
-                  className="glass-chip flex items-center gap-4 p-3 sm:p-4 border border-[#c9a96e]/25 cursor-default group transition-colors duration-300"
+                  className="glass-chip isolate flex items-center gap-4 p-3 sm:p-4 border border-[#c9a96e]/25 cursor-default group transition-colors duration-300"
                 >
+                  <GlassLayer cornerRadius={0} displacementScale={36} overLight={false} />
                   <div className="p-2.5 text-[#c9a96e] border border-[#c9a96e]/30 glass-inner group-hover:bg-[#c9a96e]/10 transition-colors duration-300">
                     <item.icon className="w-4 h-4" />
                   </div>

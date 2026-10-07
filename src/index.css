@@ -1648,3 +1648,41 @@ section {
   transform: translateY(-6px);
   box-shadow: 0 12px 40px rgba(201, 169, 110, 0.15);
 }
+
+/* --- liquid-glass-react: refraction sloj (GlassLayer) -----------------------
+   Biblioteka unutar host elementa renderuje apsolutni `.glass` sloj sa SVG
+   filterom (feDisplacementMap) koji prelama pozadinu. Taj sloj mora da:
+     1) popuni host (libraryja ima inline `inline-flex`, zato !important),
+     2) NE nosi svoju podlogu/mutnoću — tintu, backdrop-filter i senku daje
+        host klasa (.liquid-glass, .glass, .glass-chip, .glass-strong,
+        .mobile-bottom-nav...), da bi izgled ostao isti kao pre ugradnje,
+     3) ne hvata klikove preko SVG-a sa <filter> defom.
+   Ivice i sjaj (specular ring) biblioteka crta preko sadržaja — to je željeni
+   liquid glass detalj. */
+.lg-layer > .glass {
+  display: flex !important;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.lg-layer > svg {
+  pointer-events: none;
+}
+
+/* Dekorativni overlay-i biblioteke (dve senke + dva „specular ring" prstena)
+   biblioteka dimenzioniše iz `glassSize` — a ona se meri preko
+   getBoundingClientRect(), koji uključuje transformacije predaka (npr. hero
+   scale pri skrolovanju, hover scale kartica). Rezultat: overlay bi bio
+   transformisan DVAPUT (jednom merenjem, jednom nasleđenom skalom) i ne bi
+   poklopio host. Zato ih prisiljavamo da popune host kutiju — centrirani su
+   (top/left 50% + translate(-50%,-50%)), pa je ishod uvek tačno preko hosta,
+   bez obzira na transformacije. Elastični transform (miš) ostaje netaknut. */
+.lg-host > div.bg-black,
+.lg-host > span {
+  width: 100% !important;
+  height: 100% !important;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, Trash2, Plus, Minus, ListChecks, MessageCircle, Copy, ArrowRight } from 'lucide-react';
+import { GlassLayer } from './GlassLayer';
 import { motion } from 'motion/react';
 import { CartItem } from '../types';
 import { FORMAT_RSD } from '../data/products';
@@ -43,9 +44,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="w-full sm:max-w-md glass-strong border-l border-[#e8e0d4]/20 text-[#e8e0d4] flex flex-col"
+          className="isolate w-full sm:max-w-md glass-strong border-l border-[#e8e0d4]/20 text-[#e8e0d4] flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
+          <GlassLayer cornerRadius={0} displacementScale={30} />
           {/* Drawer Header */}
           <div className="p-5 border-b border-[#e8e0d4]/10 flex items-center justify-between glass-inner">
             <div className="flex items-center gap-2.5">

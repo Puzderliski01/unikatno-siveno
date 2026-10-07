@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Heart, ShoppingBag, Trash2, GripVertical } from 'lucide-react';
+import { GlassLayer } from './GlassLayer';
 import { motion } from 'motion/react';
 import {
   DndContext,
@@ -183,9 +184,10 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="relative w-full max-w-2xl glass-strong border border-[#e8e0d4]/20 overflow-hidden text-[#e8e0d4] my-auto max-h-[90vh] flex flex-col"
+        className="relative isolate w-full max-w-2xl glass-strong border border-[#e8e0d4]/20 overflow-hidden text-[#e8e0d4] my-auto max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
+        <GlassLayer cornerRadius={0} displacementScale={30} />
         <div className="px-6 py-4 border-b border-[#e8e0d4]/10 glass-inner flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Heart className="w-4 h-4 text-[#c9a96e] fill-[#c9a96e]" />

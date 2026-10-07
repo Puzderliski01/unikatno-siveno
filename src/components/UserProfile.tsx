@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { GlassLayer } from './GlassLayer';
 import { Product } from '../types';
 import { PRODUCTS, FORMAT_RSD } from '../data/products';
 import { ShoppingBag, Trophy, Calendar, Users, Check, Heart, X, Loader2, LogOut } from 'lucide-react';
@@ -103,9 +104,10 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.3 }}
-        className="relative w-full max-w-4xl glass-strong border border-[#e8e0d4]/20 text-[#e8e0d4] max-h-[90vh] flex flex-col overflow-hidden"
+        className="relative isolate w-full max-w-4xl glass-strong border border-[#e8e0d4]/20 text-[#e8e0d4] max-h-[90vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
+        <GlassLayer cornerRadius={0} displacementScale={30} />
         {/* Top Header Controls */}
         <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 glass-inner">
           <div className="flex items-center gap-2">

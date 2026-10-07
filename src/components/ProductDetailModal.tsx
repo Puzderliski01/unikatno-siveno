@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Check, Ruler, Info, ShieldCheck, MessageCircle, Heart, Scissors, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Product, Review } from '../types';
+import { GlassLayer } from './GlassLayer';
 import { FORMAT_RSD } from '../data/products';
 import { OptimizedImage } from './OptimizedImage';
 import { usePredictivePreload } from '../hooks/usePredictivePreload';
@@ -189,9 +190,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         initial={{ scale: 0.96, y: 15 }}
         animate={{ scale: 1, y: 0 }}
         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full h-full max-h-[100dvh] sm:h-auto sm:max-h-[90vh] max-w-5xl glass-strong border border-[#e8e0d4]/20 text-[#e8e0d4] flex flex-col overflow-hidden"
+        className="relative isolate w-full h-full max-h-[100dvh] sm:h-auto sm:max-h-[90vh] max-w-5xl glass-strong border border-[#e8e0d4]/20 text-[#e8e0d4] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
+        <GlassLayer cornerRadius={0} displacementScale={30} />
         {/* Top Header Controls — breadcrumb samo na desktopu */}
         <div className="flex items-center justify-between gap-3 px-4 py-2.5 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 glass-inner flex-shrink-0">
           <div className="flex items-center gap-2 min-w-0">

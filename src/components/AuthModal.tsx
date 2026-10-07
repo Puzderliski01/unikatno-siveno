@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Mail, Lock, User, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { GlassLayer } from './GlassLayer';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../lib/auth';
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
@@ -86,9 +87,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3 }}
-            className="relative w-full max-w-md glass-strong border border-[#c9a96e]/30"
+            className="relative isolate w-full max-w-md glass-strong border border-[#c9a96e]/30"
             onClick={(e) => e.stopPropagation()}
           >
+            <GlassLayer cornerRadius={0} displacementScale={30} />
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-[#c9a96e]/20">
               <div>

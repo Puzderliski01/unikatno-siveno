@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Eye, ZoomIn, ShoppingBag, Heart, Check, Tag, Scissors } from 'lucide-react';
+import { GlassLayer } from './GlassLayer';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
@@ -226,7 +227,8 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
               onMouseLeave={handleOverlayMouseLeave}
             >
               {/* Quick size selection chips */}
-              <div className="glass-strong flex items-center justify-center gap-1 flex-wrap backdrop-blur-md p-1.5 border border-[#c9a96e]/30">
+              <div className="isolate glass-strong flex items-center justify-center gap-1 flex-wrap backdrop-blur-md p-1.5 border border-[#c9a96e]/30">
+                <GlassLayer cornerRadius={0} displacementScale={36} />
                 <span className="text-[9px] uppercase tracking-wider text-[#e8e0d4]/70 mr-1 font-sans">Veličina:</span>
                 {product.sizes.slice(0, 4).map((size) => (
                   <button

@@ -44,7 +44,11 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showAutocomplete, setShowAutocomplete] = useState(false);
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc' | 'name'>('default');
-  const [gridCols, setGridCols] = useState<1 | 2 | 3 | 4>(3);
+  // Podrazumevano: 1 kolona na telefonu (<640px), 3 kolone na većim ekranima.
+  // Dugme za 2 kolone i dalje postoji u selector-u, pa korisnik može da bira.
+  const [gridCols, setGridCols] = useState<1 | 2 | 3 | 4>(() =>
+    typeof window !== 'undefined' && window.innerWidth < 640 ? 1 : 3
+  );
   // Price range filters
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
@@ -61,6 +65,17 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Na telefonu su dostupne samo 1 i 2 kolone (3 i 4 su sakrivene) — ako se
+  // prozor sa desktopa suzi na mobilnu širinu, izbor veći od 2 vraćamo na
+  // podrazumevanu 1 kolonu da ne bi ostao „nevidljiv" izbor bez dugmeta.
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) setGridCols((cols) => (cols > 2 ? 1 : cols));
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Get unique categories

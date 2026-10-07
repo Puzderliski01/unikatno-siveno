@@ -1,4 +1,5 @@
 import React from 'react';
+import { GlassLayer } from './GlassLayer';
 import { VIP_TIERS, calculateVIPProgress } from '../data/vipBenefits';
 import { FORMAT_RSD } from '../data/products';
 import { Trophy, Users, ShieldCheck, Gift, Crown, Check, X, ShoppingBag } from 'lucide-react';
@@ -37,9 +38,10 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.3 }}
-        className="relative w-full max-w-5xl glass-strong border border-[#e8e0d4]/20 text-[#e8e0d4] max-h-[90vh] flex flex-col overflow-hidden"
+        className="relative isolate w-full max-w-5xl glass-strong border border-[#e8e0d4]/20 text-[#e8e0d4] max-h-[90vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
+        <GlassLayer cornerRadius={0} displacementScale={30} />
         {/* Top Header Controls */}
         <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 glass-inner">
           <div className="flex items-center gap-2">

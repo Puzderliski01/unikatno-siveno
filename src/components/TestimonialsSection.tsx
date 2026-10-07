@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { X, Quote, PenLine, Clock3 } from 'lucide-react';
+import { GlassLayer } from './GlassLayer';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product, Review } from '../types';
 import { computeStats, formatAvg, formatReviewDate, mergeLocalPending, recenzijeLabel } from '../lib/reviews';
@@ -205,9 +206,10 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.96, y: 15 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full max-w-xl my-8 glass-strong border border-[#e8e0d4]/20"
+              className="relative isolate w-full max-w-xl my-8 glass-strong border border-[#e8e0d4]/20"
               onClick={(e) => e.stopPropagation()}
             >
+              <GlassLayer cornerRadius={0} displacementScale={30} />
               <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e0d4]/10">
                 <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-semibold">
                   <Quote className="w-3.5 h-3.5" />
