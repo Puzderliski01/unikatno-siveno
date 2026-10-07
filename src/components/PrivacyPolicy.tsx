@@ -73,7 +73,7 @@ const sections: Section[] = [
       <>
         Ne koristimo kolačiće za oglašavanje niti za praćenje korisnika kroz druge sajtove.
         Koristimo samo neophodnu lokalnu memoriju browsera opisanu u tački 2, koja služi da sajt
-        zapamti vaše podešavanja. Saglasnost za kolačiće zbog toga nije potrebna.
+        zapamti vaša podešavanja. Saglasnost za kolačiće zbog toga nije potrebna.
       </>
     ),
   },
@@ -177,7 +177,7 @@ export const PrivacyPolicy: React.FC = () => {
 
         <div className="space-y-10">
           {sections.map((section) => (
-            <section key={section.title} className="bg-[#111111] border border-[#c9a96e]/20 p-6 sm:p-7">
+            <section key={section.title} className="glass border border-[#c9a96e]/20 p-6 sm:p-7">
               <h2 className="font-serif-luxury text-xl sm:text-2xl text-[#e8e0d4] font-normal mb-3">
                 {section.title}
               </h2>

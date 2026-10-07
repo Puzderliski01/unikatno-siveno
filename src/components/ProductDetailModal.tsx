@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Sparkles, Check, Ruler, Info, ShieldCheck, MessageCircle, Heart, Scissors, Star } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ZoomIn, ShoppingBag, Check, Ruler, Info, ShieldCheck, MessageCircle, Heart, Scissors, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Product, Review } from '../types';
 import { FORMAT_RSD } from '../data/products';
@@ -189,11 +189,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         initial={{ scale: 0.96, y: 15 }}
         animate={{ scale: 1, y: 0 }}
         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full h-full max-h-[100dvh] sm:h-auto sm:max-h-[90vh] max-w-5xl bg-[#0a0a0a] border border-[#e8e0d4]/20 shadow-2xl text-[#e8e0d4] flex flex-col overflow-hidden"
+        className="relative w-full h-full max-h-[100dvh] sm:h-auto sm:max-h-[90vh] max-w-5xl glass-strong border border-[#e8e0d4]/20 text-[#e8e0d4] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Controls — breadcrumb samo na desktopu */}
-        <div className="flex items-center justify-between gap-3 px-4 py-2.5 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 bg-[#111111] flex-shrink-0">
+        <div className="flex items-center justify-between gap-3 px-4 py-2.5 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 glass-inner flex-shrink-0">
           <div className="flex items-center gap-2 min-w-0">
             {/* Luxury Breadcrumb (desktop) */}
             <nav className="luxury-breadcrumb hidden sm:flex">
@@ -280,7 +280,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 <div
                   ref={zoomBadgeRef}
                   aria-hidden="true"
-                  className="absolute top-3 right-3 px-2 py-1 bg-[#111111]/90 text-[11px] font-mono text-[#c9a96e] border border-[#c9a96e]/40 opacity-0 transition-opacity duration-200 pointer-events-none"
+                  className="absolute top-3 right-3 px-2 py-1 glass-chip text-[11px] font-mono text-[#c9a96e] border border-[#c9a96e]/40 opacity-0 transition-opacity duration-200 pointer-events-none"
                 >
                   2,4×
                 </div>
@@ -292,7 +292,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={handlePrevImage}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 bg-[#111111]/90 hover:bg-[#c9a96e] text-[#e8e0d4] transition-colors shadow-md"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 glass-chip hover:bg-[#c9a96e] text-[#e8e0d4] transition-colors shadow-md"
                     aria-label="Prethodna slika"
                   >
                     <ChevronLeft className="w-5 h-5" />
@@ -300,7 +300,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={handleNextImage}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 bg-[#111111]/90 hover:bg-[#c9a96e] text-[#e8e0d4] transition-colors shadow-md"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 glass-chip hover:bg-[#c9a96e] text-[#e8e0d4] transition-colors shadow-md"
                     aria-label="Sledeća slika"
                   >
                     <ChevronRight className="w-5 h-5" />
@@ -312,13 +312,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenZoom(product, activeImageIndex)}
-                className="absolute bottom-3 right-3 min-h-[44px] px-3 py-1.5 bg-[#111111]/85 hover:bg-[#c9a96e] text-[#e8e0d4] hover:text-[#0a0a0a] backdrop-blur-md border border-[#e8e0d4]/10 text-xs flex items-center gap-1.5 transition-colors"
+                className="absolute bottom-3 right-3 min-h-[44px] px-3 py-1.5 glass-chip hover:bg-[#c9a96e] text-[#e8e0d4] hover:text-[#0a0a0a] border border-[#e8e0d4]/10 text-xs flex items-center gap-1.5 transition-colors"
               >
                 <ZoomIn className="w-3.5 h-3.5" />
                 <span>Uvećaj</span>
               </button>
 
-              <div className="absolute bottom-3 left-3 text-[11px] font-mono bg-[#111111]/90 text-[#e8e0d4] px-2 py-1 border border-[#e8e0d4]/10">
+              <div className="absolute bottom-3 left-3 text-[11px] font-mono glass-chip text-[#e8e0d4] px-2 py-1 border border-[#e8e0d4]/10">
                 {activeImageIndex + 1} / {product.images.length}
               </div>
             </div>
@@ -404,7 +404,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               </button>
 
               {/* Price & Lead Time */}
-              <div className="p-4 bg-[#111111] border border-[#e8e0d4]/10 mb-6">
+              <div className="p-4 glass-inner border border-[#e8e0d4]/10 mb-6">
                 <div className="flex items-center justify-between mb-2">
                   <div>
                     <div className="text-[11px] uppercase tracking-wider text-[#e8e0d4]/60 font-sans">Cena kreacije</div>
@@ -456,7 +456,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </div>
 
                 {product.sizes.length === 0 && (
-                  <p className="text-xs text-[#e8e0d4]/70 bg-[#111111] border border-[#e8e0d4]/10 px-3 py-2.5 font-sans">
+                  <p className="text-xs text-[#e8e0d4]/70 glass-inner border border-[#e8e0d4]/10 px-3 py-2.5 font-sans">
                     Veličinu i kroj dogovaramo lično — javite nam se porukom ili u ateljeu.
                   </p>
                 )}
@@ -489,10 +489,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
-                    className="mt-4 p-4 bg-[#111111] border border-[#c9a96e]/40 text-xs font-sans"
+                    className="mt-4 p-4 glass-inner border border-[#c9a96e]/40 text-xs font-sans"
                   >
                     <div className="flex items-center gap-1.5 text-[#a08540] font-semibold uppercase tracking-wider mb-2">
-                      <Sparkles className="w-3.5 h-3.5 text-[#c9a96e]" />
+                      <Ruler className="w-3.5 h-3.5 text-[#c9a96e]" />
                       <span>Unesite vaše mere (cm) za savršenu izradu:</span>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
@@ -579,7 +579,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               {/* Information Tabs */}
               <div className="border-t border-[#e8e0d4]/10 pt-6">
-                <div className="sticky top-0 z-10 -mx-4 px-4 sm:mx-0 sm:px-0 bg-[#0a0a0a] flex items-center gap-2 sm:gap-4 border-b border-[#e8e0d4]/10 pb-1 mb-4 font-sans overflow-x-auto scrollbar-none scroll-fade-x">
+                <div className="sticky top-0 z-10 -mx-4 px-4 sm:mx-0 sm:px-0 glass-inner flex items-center gap-2 sm:gap-4 border-b border-[#e8e0d4]/10 pb-1 mb-4 font-sans overflow-x-auto scrollbar-none scroll-fade-x">
                   <button
                     type="button"
                     onClick={() => setActiveTab('opis')}
@@ -649,7 +649,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     <div className="space-y-4">
                       {product.descriptionSr && <p className="font-light">{product.descriptionSr}</p>}
                       {product.storySr && (
-                        <p className="italic text-[#e8e0d4]/80 bg-[#111111] p-3 border border-[#e8e0d4]/10 font-serif">
+                        <p className="italic text-[#e8e0d4]/80 glass-inner p-3 border border-[#e8e0d4]/10 font-serif">
                           "{product.storySr}"
                         </p>
                       )}
@@ -666,7 +666,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         </div>
                       )}
                       {!product.descriptionSr && !product.storySr && product.features.length === 0 && (
-                        <p className="text-[#e8e0d4]/70 bg-[#111111] p-3 border border-[#e8e0d4]/10 font-sans">
+                        <p className="text-[#e8e0d4]/70 glass-inner p-3 border border-[#e8e0d4]/10 font-sans">
                           Detaljan opis ovog modela pripremamo — javite nam se i rado ćemo vam
                           poslati sve informacije o kroju, materijalu i roku izrade.
                         </p>
@@ -676,13 +676,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
                   {activeTab === 'materijali' && (
                     <div className="space-y-4">
-                      <div className="bg-[#111111] p-3 border border-[#e8e0d4]/10">
+                      <div className="glass-inner p-3 border border-[#e8e0d4]/10">
                         <span className="text-[#a08540] font-semibold uppercase tracking-wider block mb-1">
                           Sastav:
                         </span>
                         <p>{product.materialsAndCare.composition}</p>
                       </div>
-                      <div className="bg-[#111111] p-3 border border-[#e8e0d4]/10">
+                      <div className="glass-inner p-3 border border-[#e8e0d4]/10">
                         <span className="text-[#a08540] font-semibold uppercase tracking-wider block mb-1">
                           Poreklo materijala i proizvodnja:
                         </span>
@@ -730,7 +730,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       <div className="border border-[#e8e0d4]/15">
                         <table className="w-full text-left border-collapse text-xs">
                           <thead>
-                            <tr className="bg-[#111111] text-[#a08540] uppercase tracking-wider">
+                            <tr className="glass-inner text-[#a08540] uppercase tracking-wider">
                               <th className="p-2 border-b border-[#e8e0d4]/15">Veličina</th>
                               <th className="p-2 border-b border-[#e8e0d4]/15">Grudi</th>
                               <th className="p-2 border-b border-[#e8e0d4]/15">Struk</th>
@@ -820,7 +820,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         </div>
 
         {/* Mobilna akciona traka — cena i "Dodaj u izbor" uvek vidljivi */}
-        <div className="lg:hidden flex-shrink-0 border-t border-[#c9a96e]/25 bg-[#111111] px-4 py-3 flex items-center gap-3">
+        <div className="lg:hidden flex-shrink-0 border-t border-[#c9a96e]/25 glass-inner px-4 py-3 flex items-center gap-3">
           <div className="min-w-0">
             <div className="text-[11px] uppercase tracking-wider text-[#a08540] font-sans font-semibold leading-none mb-1">
               Cena kreacije

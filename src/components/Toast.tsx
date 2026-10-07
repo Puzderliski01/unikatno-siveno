@@ -25,7 +25,7 @@ export const ToastContainer: React.FC<ToastProps> = React.memo(({ toasts, onDism
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, x: 50, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="pointer-events-auto bg-[#111111] border border-[#c9a96e]/20 text-[#e8e0d4] p-4 shadow-2xl flex items-start gap-3"
+            className="pointer-events-auto glass-strong border border-[#c9a96e]/20 text-[#e8e0d4] p-4 flex items-start gap-3"
           >
             <div className="p-2 bg-[#0a0a0a] border border-[#c9a96e]/40 text-[#c9a96e] flex-shrink-0">
               {toast.type === 'cart' && <ShoppingBag className="w-5 h-5" />}

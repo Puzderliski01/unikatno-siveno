@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Scissors, Ruler, Sparkles, HeartHandshake } from 'lucide-react';
+import { Scissors, Ruler, Coffee, HeartHandshake } from 'lucide-react';
 import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
 import { Img } from './Img';
 
 const STEPS = [
   {
-    icon: Sparkles,
+    icon: Coffee,
     title: 'Razgovor i ideja',
     text: 'Sve počinje kafom i pričom. Slušamo šta vam treba, gde ćete nositi model i kakav osećaj želite da imate.',
   },
@@ -81,7 +81,7 @@ export const BehindTheScenes: React.FC = React.memo(() => {
                 decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/60 to-transparent pointer-events-none" />
-              <span className="absolute bottom-3 left-3 text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans bg-[#0a0a0a]/80 px-2 py-1 border border-[#c9a96e]/30">
+              <span className="absolute bottom-3 left-3 text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans glass-chip px-2 py-1 border border-[#c9a96e]/30">
                 Krojenje
               </span>
             </div>
@@ -95,18 +95,17 @@ export const BehindTheScenes: React.FC = React.memo(() => {
                 decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/60 to-transparent pointer-events-none" />
-              <span className="absolute bottom-3 left-3 text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans bg-[#0a0a0a]/80 px-2 py-1 border border-[#c9a96e]/30">
+              <span className="absolute bottom-3 left-3 text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans glass-chip px-2 py-1 border border-[#c9a96e]/30">
                 Jelena Erić
               </span>
             </div>
 
-            <div className="col-span-2 bg-[#111111] border border-[#c9a96e]/20 p-5 sm:p-6">
+            <div className="col-span-2 glass border border-[#c9a96e]/20 p-5 sm:p-6">
               <p className="font-serif-luxury text-base sm:text-lg italic text-[#e8e0d4]/90 leading-relaxed">
-                „Ne šijem komade. Šijem trenutke u kojima se žena oseća kao sebe —
-                tek toliko drugačije da se okrene za njom.“
+                „Ne krojim samo tkaninu, krojim i trenutke u kojima je žena primećena i jedinstvena.“
               </p>
               <p className="mt-3 text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans">
-                Jelena Erić, osnivačica
+                Jelena Erić, osnivač i glavni kreator
               </p>
             </div>
           </motion.div>
@@ -123,7 +122,7 @@ export const BehindTheScenes: React.FC = React.memo(() => {
                 className="flex gap-4 sm:gap-6 py-5 border-b border-[#e8e0d4]/10 last:border-0"
               >
                 <div className="flex-shrink-0 flex flex-col items-center">
-                  <span className="w-10 h-10 border border-[#c9a96e]/40 flex items-center justify-center text-[#c9a96e] bg-[#111111]">
+                  <span className="w-10 h-10 border border-[#c9a96e]/40 flex items-center justify-center text-[#c9a96e] glass-chip">
                     <step.icon className="w-4 h-4" />
                   </span>
                   <span className="mt-2 text-[11px] font-mono text-[#e8e0d4]/40">0{i + 1}</span>

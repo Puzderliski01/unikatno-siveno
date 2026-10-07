@@ -87,7 +87,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className={`p-5 bg-[#111111] border border-emerald-600/40 text-center ${className}`}
+        className={`p-5 glass-inner border border-emerald-600/40 text-center ${className}`}
       >
         <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-emerald-600/15 border border-emerald-500/40 flex items-center justify-center">
           <Check className="w-5 h-5 text-emerald-400" />
@@ -107,7 +107,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`p-4 sm:p-5 bg-[#111111] ${bare ? '' : 'border border-[#c9a96e]/25'} ${className}`}
+      className={`p-4 sm:p-5 glass-inner ${bare ? '' : 'border border-[#c9a96e]/25'} ${className}`}
       noValidate
     >
       <div className="flex items-center gap-2 mb-4">

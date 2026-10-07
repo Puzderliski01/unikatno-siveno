@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { Sparkles, SlidersHorizontal, Search, LayoutGrid, LayoutList, Columns2, Columns3, Columns4, Grid2x2, X } from 'lucide-react';
+import { Scissors, SlidersHorizontal, Search, LayoutGrid, LayoutList, Columns2, Columns3, Columns4, Grid2x2, X } from 'lucide-react';
 import { Product } from '../types';
 import { ProductCard } from './ProductCard';
 import { motion, AnimatePresence } from 'motion/react';
@@ -48,8 +48,6 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
   // Price range filters
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
-  // Customizable filter
-  const [isCustomizableOnly, setIsCustomizableOnly] = useState<boolean>(false);
   // Category filter
   const [selectedCategory, setSelectedCategory] = useState<string>('Sve');
   const searchRef = useRef<HTMLDivElement>(null);
@@ -111,13 +109,10 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
       // Price range filter
       const matchesPrice = (!minPrice || p.priceRSD >= minPrice) && (!maxPrice || p.priceRSD <= maxPrice);
 
-      // Customizable filter
-      const matchesCustomizable = !isCustomizableOnly || p.isCustomizable;
-
       // Category filter
       const matchesCategory = selectedCategory === 'Sve' || p.categoryLabelSr === selectedCategory;
 
-      return matchesSearch && matchesPrice && matchesCustomizable && matchesCategory;
+      return matchesSearch && matchesPrice && matchesCategory;
     });
 
     if (sortBy === 'price-asc') {
@@ -129,7 +124,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
     }
 
     return result;
-  }, [products, searchQuery, sortBy, minPrice, maxPrice, isCustomizableOnly, selectedCategory]);
+  }, [products, searchQuery, sortBy, minPrice, maxPrice, selectedCategory]);
 
   const inViewOptions = getInViewOptions();
 
@@ -149,7 +144,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
           className="perspective-1000 text-center max-w-3xl mx-auto mb-14"
         >
           <motion.div variants={getVariants(staggerItemVariants)} className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-medium mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
+            <Scissors className="w-3.5 h-3.5" />
             <span>Kolekcija Ateljea</span>
           </motion.div>
           <motion.h2 variants={getVariants(staggerItemVariants)} className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-light text-[#e8e0d4] tracking-tight mb-4">
@@ -167,7 +162,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
           whileInView="visible"
           viewport={inViewOptions}
           variants={getVariants(fadeInUpVariants)}
-          className="perspective-1000 bg-[#111111] border border-[#c9a96e]/20 rounded-none p-3 sm:p-4 mb-6 sm:mb-10"
+          className="perspective-1000 glass border border-[#c9a96e]/20 rounded-none p-3 sm:p-4 mb-6 sm:mb-10"
         >
           {/* Row 1: Search + Sort */}
           <div className="flex items-center gap-2 sm:gap-3 mb-3">
@@ -201,7 +196,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
-                    className="absolute top-full left-0 right-0 mt-1 bg-[#111111] border border-[#c9a96e]/30 z-50 max-h-[280px] overflow-y-auto scrollbar-none shadow-xl"
+                    className="absolute top-full left-0 right-0 mt-1 glass-strong border border-[#c9a96e]/30 z-50 max-h-[280px] overflow-y-auto scrollbar-none shadow-xl"
                   >
                     {autocompleteSuggestions.map((suggestion, idx) => (
                       <button
@@ -270,17 +265,6 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
 
           {/* Row 3: Filters + Grid selector */}
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-            {/* Customizable Filter */}
-            <label className="flex items-center gap-2 cursor-pointer text-[12px] sm:text-xs min-h-[44px] py-2 pr-1">
-              <input
-                type="checkbox"
-                checked={isCustomizableOnly}
-                onChange={(e) => setIsCustomizableOnly(e.target.checked)}
-                className="w-[20px] h-[20px] sm:w-4 sm:h-4 text-[#c9a96e] border border-[#c9a96e]/20 focus:ring-[#c9a96e]"
-              />
-              <span>Prilagođeno</span>
-            </label>
-
             {/* Price Range */}
             <input
               type="number"
@@ -360,7 +344,7 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
             ))}
           </motion.div>
         ) : (
-          <div className="text-center py-20 border border-[#c9a96e]/20 bg-[#111111] p-8">
+          <div className="text-center py-20 border border-[#c9a96e]/20 glass p-8">
             <p className="font-serif-luxury text-xl text-[#e8e0d4] mb-2">Nije pronađen nijedan model za odabrane kriterijume.</p>
             <p className="text-xs text-[#e8e0d4]/60 mb-6">Pokušajte sa resetovanjem pretrage.</p>
             <button
@@ -369,7 +353,6 @@ export const ProductGrid: React.FC<ProductGridProps> = React.memo(({
                 setSearchQuery('');
                 setMinPrice(null);
                 setMaxPrice(null);
-                setIsCustomizableOnly(false);
                 setSortBy('default');
                 setSelectedCategory('Sve');
               }}

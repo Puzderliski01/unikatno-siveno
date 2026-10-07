@@ -363,7 +363,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
                 e.stopPropagation();
                 onPrev();
               }}
-              className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 p-3 bg-[#0a0a0a]/60 hover:bg-[#c9a96e] text-[#e8e0d4] hover:text-[#e8e0d4] border border-[#e8e0d4]/20 transition-colors z-10"
+              className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 p-3 glass-chip hover:bg-[#c9a96e] text-[#e8e0d4] hover:text-[#e8e0d4] border border-[#e8e0d4]/20 transition-colors z-10"
               aria-label="Prethodna fotografija"
             >
               <ChevronLeft className="w-6 h-6" />
@@ -375,7 +375,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
                 e.stopPropagation();
                 onNext();
               }}
-              className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 p-3 bg-[#0a0a0a]/60 hover:bg-[#c9a96e] text-[#e8e0d4] hover:text-[#e8e0d4] border border-[#e8e0d4]/20 transition-colors z-10"
+              className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 p-3 glass-chip hover:bg-[#c9a96e] text-[#e8e0d4] hover:text-[#e8e0d4] border border-[#e8e0d4]/20 transition-colors z-10"
               aria-label="Sledeća fotografija"
             >
               <ChevronRight className="w-6 h-6" />
@@ -423,7 +423,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
           {/* Indicator uvećanja */}
           {isZoomed && (
-            <div className="absolute top-3 left-3 px-2 py-1 bg-[#111111]/90 text-[11px] font-mono text-[#c9a96e] border border-[#c9a96e]/40 pointer-events-none">
+            <div className="absolute top-3 left-3 px-2 py-1 glass-chip text-[11px] font-mono text-[#c9a96e] border border-[#c9a96e]/40 pointer-events-none">
               {Math.round(scale * 100)}%
             </div>
           )}
@@ -431,7 +431,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
         {/* Zoom controls */}
         <div
-          className="mt-4 flex items-center gap-1 bg-[#111111]/90 border border-[#c9a96e]/30 p-1"
+          className="mt-4 flex items-center gap-1 glass-strong border border-[#c9a96e]/30 p-1"
           onClick={(e) => e.stopPropagation()}
         >
           <button

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { X, Quote, PenLine, Sparkles, Clock3 } from 'lucide-react';
+import { X, Quote, PenLine, Clock3 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product, Review } from '../types';
 import { computeStats, formatAvg, formatReviewDate, mergeLocalPending, recenzijeLabel } from '../lib/reviews';
@@ -94,7 +94,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
           {stats.count > 0 && (
             <motion.div
               variants={getVariants(staggerItemVariants)}
-              className="inline-flex items-center gap-3 mt-6 px-5 py-3 bg-[#111111] border border-[#c9a96e]/30"
+              className="glass inline-flex items-center gap-3 mt-6 px-5 py-3 border border-[#c9a96e]/30"
             >
               <span className="text-2xl font-serif-luxury text-[#c9a96e] leading-none">
                 {formatAvg(stats.avg)}
@@ -119,7 +119,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={getInViewOptions()}
                   transition={{ duration: 0.5, delay: (index % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex flex-col p-5 sm:p-6 bg-[#111111] border border-[#c9a96e]/20 hover:border-[#c9a96e]/50 transition-colors"
+                  className="glass flex flex-col p-5 sm:p-6 border border-[#c9a96e]/20 hover:border-[#c9a96e]/50 transition-colors"
                 >
                   <div className="flex items-center justify-between gap-3 mb-3">
                     <Stars rating={review.rating} size={14} />
@@ -168,7 +168,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
             })}
           </div>
         ) : (
-          <div className="mb-10 p-10 text-center border border-dashed border-[#e8e0d4]/15 bg-[#111111]">
+          <div className="mb-10 p-10 text-center border border-dashed border-[#e8e0d4]/15 glass">
             <Quote className="w-6 h-6 text-[#c9a96e]/60 mx-auto mb-3" />
             <p className="text-sm text-[#e8e0d4]/65 font-sans leading-relaxed max-w-md mx-auto">
               Još nema objavljenih utisaka. Ako ste nosili neku od naših kreacija,
@@ -205,12 +205,12 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.96, y: 15 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full max-w-xl my-8 bg-[#0a0a0a] border border-[#e8e0d4]/20 shadow-2xl"
+              className="relative w-full max-w-xl my-8 glass-strong border border-[#e8e0d4]/20"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e0d4]/10 bg-[#111111]">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-[#e8e0d4]/10">
                 <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-semibold">
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Quote className="w-3.5 h-3.5" />
                   Vaš utisak o ateljeu
                 </div>
                 <button

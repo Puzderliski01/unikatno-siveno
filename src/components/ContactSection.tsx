@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Mail, Clock, MessageCircle, Instagram, ChevronDown, Sparkles } from 'lucide-react';
+import { MapPin, Mail, Clock, MessageCircle, Instagram, ChevronDown } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
 
@@ -51,7 +51,7 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
           className="text-center max-w-3xl mx-auto mb-16"
         >
           <motion.div variants={getVariants(staggerItemVariants)} className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-medium mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
+            <MessageCircle className="w-3.5 h-3.5" />
             <span>Atelje & Konsultacije</span>
           </motion.div>
           <motion.h2 variants={getVariants(staggerItemVariants)} className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-light text-[#e8e0d4] tracking-tight mb-4">
@@ -77,7 +77,7 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
             }}
             className="lg:col-span-6 space-y-6"
           >
-            <div className="bg-[#111111] border border-[#c9a96e]/40 p-6 sm:p-7 relative overflow-hidden shadow-sm">
+            <div className="glass border border-[#c9a96e]/40 p-6 sm:p-7 relative overflow-hidden shadow-sm">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-semibold">Atelje & radionica</span>
                 <span className="text-xs text-[#e8e0d4] flex items-center gap-1.5 font-mono">
@@ -91,16 +91,16 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
                 klijentkinji obezbedili punu privatnost i posvećenost.
               </p>
 
-              <div className="space-y-2.5 text-xs text-[#e8e0d4]/80 mt-4 font-sans">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
+              <div className="space-y-1 text-xs text-[#e8e0d4]/80 mt-4 font-sans">
+                <div className="flex items-center gap-3 min-h-[44px]">
+                  <MapPin className="w-4 h-4 text-[#c9a96e] flex-shrink-0" />
                   <span>Topola, Srbija</span>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Clock className="w-4 h-4 text-[#c9a96e] flex-shrink-0 mt-0.5" />
-                  <span>Termini isključivo po dogovoru</span>
+                <div className="flex items-center gap-3 min-h-[44px]">
+                  <Clock className="w-4 h-4 text-[#c9a96e] flex-shrink-0" />
+                  <span>Termini po dogovoru</span>
                 </div>
-                <div className="flex items-center gap-3 min-h-[44px] py-1.5">
+                <div className="flex items-center gap-3 min-h-[44px]">
                   <MessageCircle className="w-4 h-4 text-[#c9a96e] flex-shrink-0" />
                   <a
                     href={WHATSAPP_URL}
@@ -108,10 +108,10 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
                     rel="noreferrer"
                     className="hover:text-[#c9a96e] transition-colors font-mono flex items-center min-h-[44px] flex-1"
                   >
-                    +381 636 160 71
+                    +381 63 616071
                   </a>
                 </div>
-                <div className="flex items-center gap-3 min-h-[44px] py-1.5">
+                <div className="flex items-center gap-3 min-h-[44px]">
                   <Mail className="w-4 h-4 text-[#c9a96e] flex-shrink-0" />
                   <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-[#c9a96e] transition-colors break-all flex items-center min-h-[44px] flex-1">
                     {CONTACT_EMAIL}
@@ -151,7 +151,7 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
               hidden: { opacity: 0, x: 40 },
               visible: { opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] } },
             }}
-            className="lg:col-span-6 bg-[#111111] border border-[#c9a96e]/20 p-6 sm:p-8 shadow-sm flex flex-col justify-center"
+            className="lg:col-span-6 glass border border-[#c9a96e]/20 p-6 sm:p-8 shadow-sm flex flex-col justify-center"
           >
             <h3 className="font-serif-luxury text-2xl text-[#e8e0d4] mb-2 font-normal">Pišite nam direktno</h3>
             <p className="text-xs text-[#e8e0d4]/70 mb-6 leading-relaxed font-sans">
@@ -219,7 +219,7 @@ export const ContactSection: React.FC<ContactSectionProps> = React.memo(() => {
                     hidden: { opacity: 0, y: 20 },
                     visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] } },
                   }}
-                  className="bg-[#111111] border border-[#c9a96e]/20 overflow-hidden transition-colors shadow-sm"
+                  className="glass border border-[#c9a96e]/20 overflow-hidden transition-colors shadow-sm"
                 >
                   <button
                     type="button"

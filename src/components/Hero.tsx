@@ -27,7 +27,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
   // Mobile: simple static hero with video fallback
   if (isMobile) {
     return (
-      <div className="relative w-full bg-[#0a0a0a]">
+      <div className="relative w-full bg-[#0a0a0a] dark-context">
         {/* Video Background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <video
@@ -58,6 +58,11 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
 
         <div className="absolute inset-0 z-[1] pointer-events-none">
           <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/80 via-[#0a0a0a]/40 to-[#0a0a0a]/90" />
+          {/* Meki centralni scrim — tekst preko videa ostaje čitljiv u obe teme */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse 70% 55% at 50% 50%, rgba(10,10,10,0.55), rgba(10,10,10,0) 75%)' }}
+          />
         </div>
         <div className="relative z-10 max-w-md mx-auto px-6 py-14 flex flex-col items-center justify-center text-center min-h-[65vh]">
           <div className="relative w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-3">
@@ -83,8 +88,8 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
               { icon: ShieldCheck, title: 'Prirodni materijali', desc: 'Pažljivo birani da prijaju telu' },
               { icon: Ruler, title: 'Šivenje po meri', desc: 'Individualna konstrukcija za vašu figuru' },
             ].map((item) => (
-              <div key={item.title} className="flex items-center gap-3 p-2.5 border border-[#c9a96e]/25 bg-[#0a0a0a]/50 backdrop-blur-sm">
-                <div className="p-1.5 text-[#c9a96e] border border-[#c9a96e]/30 bg-[#0a0a0a] flex-shrink-0">
+              <div key={item.title} className="glass-chip flex items-center gap-3 p-2.5 border border-[#c9a96e]/25">
+                <div className="p-1.5 text-[#c9a96e] border border-[#c9a96e]/30 glass-inner flex-shrink-0">
                   <item.icon className="w-4 h-4" />
                 </div>
                 <div className="text-left min-w-0">
@@ -101,7 +106,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
 
   // Desktop: parallax hero with video background
   return (
-    <div className="relative" style={{ height: '120vh' }}>
+    <div className="relative dark-context" style={{ height: '120vh' }}>
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Video Background */}
         <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
@@ -141,6 +146,8 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
           <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/80 via-[#0a0a0a]/30 to-[#0a0a0a]/90" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/50 via-transparent to-[#0a0a0a]/50" />
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(10,10,10,0.6) 100%)' }} />
+          {/* Meki centralni scrim — sadržaj u sredini "seče" video i ostaje čitljiv */}
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 65% 55% at 50% 50%, rgba(10,10,10,0.5), rgba(10,10,10,0) 75%)' }} />
           <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
         </div>
 
@@ -175,7 +182,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
 
             {/* Text */}
             <motion.p
-              className="font-sans text-xs sm:text-sm md:text-lg text-[#e8e0d4]/80 max-w-2xl font-light leading-relaxed mb-6 sm:mb-10 text-center px-2"
+              className="font-sans text-xs sm:text-sm md:text-lg text-[#e8e0d4]/90 max-w-2xl font-light leading-relaxed mb-6 sm:mb-10 text-center px-2"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -217,9 +224,9 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onExploreClick }) => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 1.2 + index * 0.15, ease: [0.22, 1, 0.36, 1] }}
                   whileHover={{ y: -4, borderColor: 'rgba(201, 169, 110, 0.6)', transition: { duration: 0.25 } }}
-                  className="flex items-center gap-4 p-3 sm:p-4 border border-[#c9a96e]/25 bg-[#0a0a0a]/50 backdrop-blur-sm cursor-default group transition-colors duration-300"
+                  className="glass-chip flex items-center gap-4 p-3 sm:p-4 border border-[#c9a96e]/25 cursor-default group transition-colors duration-300"
                 >
-                  <div className="p-2.5 text-[#c9a96e] border border-[#c9a96e]/30 bg-[#0a0a0a] group-hover:bg-[#c9a96e]/10 transition-colors duration-300">
+                  <div className="p-2.5 text-[#c9a96e] border border-[#c9a96e]/30 glass-inner group-hover:bg-[#c9a96e]/10 transition-colors duration-300">
                     <item.icon className="w-4 h-4" />
                   </div>
                   <div>

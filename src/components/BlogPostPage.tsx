@@ -110,7 +110,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug }) => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4]">
-      <header className="border-b border-[#c9a96e]/20 bg-[#111111]/80 backdrop-blur sticky top-0 z-40">
+      <header className="border-b border-[#c9a96e]/20 glass sticky top-0 z-40">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
           <a
             href="/"

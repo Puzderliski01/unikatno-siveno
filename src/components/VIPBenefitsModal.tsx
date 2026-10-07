@@ -1,7 +1,7 @@
 import React from 'react';
 import { VIP_TIERS, calculateVIPProgress } from '../data/vipBenefits';
 import { FORMAT_RSD } from '../data/products';
-import { Trophy, Users, ShieldCheck, Gift, Star, Check, X, ShoppingBag } from 'lucide-react';
+import { Trophy, Users, ShieldCheck, Gift, Crown, Check, X, ShoppingBag } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useAuth } from '../lib/auth';
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
@@ -37,11 +37,11 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.3 }}
-        className="relative w-full max-w-5xl bg-[#0a0a0a] border border-[#e8e0d4]/20 shadow-2xl text-[#e8e0d4] max-h-[90vh] flex flex-col overflow-hidden"
+        className="relative w-full max-w-5xl glass-strong border border-[#e8e0d4]/20 text-[#e8e0d4] max-h-[90vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Controls */}
-        <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 bg-[#111111]">
+        <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 glass-inner">
           <div className="flex items-center gap-2">
             <span className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold">
               VIP Sistem & Benefiti
@@ -93,7 +93,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
 
             {/* VIP Stats */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
-              <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
+              <div className="glass-inner p-4 border border-[#c9a96e]/20">
                 <div className="text-[9px] uppercase tracking-wider text-[#c9a96e] mb-2">
                   Loyalty poeni
                 </div>
@@ -101,7 +101,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                   {loyaltyPoints.toLocaleString()}
                 </div>
               </div>
-              <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
+              <div className="glass-inner p-4 border border-[#c9a96e]/20">
                 <div className="text-[9px] uppercase tracking-wider text-[#c9a96e] mb-2">
                   Članica od
                 </div>
@@ -113,7 +113,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                   }) : '-'}
                 </div>
               </div>
-              <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
+              <div className="glass-inner p-4 border border-[#c9a96e]/20">
                 <div className="text-[9px] uppercase tracking-wider text-[#c9a96e] mb-2">
                   Kupovina
                 </div>
@@ -133,7 +133,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
               {currentTier.benefits.map((benefit, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <div className="flex-shrink-0 mt-1">
-                    {currentTier.id === 'platinum' && <Star className="w-3 h-3 text-[#c9a96e]" />}
+                    {currentTier.id === 'platinum' && <Crown className="w-3 h-3 text-[#c9a96e]" />}
                     {currentTier.id === 'gold' && <Users className="w-3 h-3 text-[#c9a96e]" />}
                     {currentTier.id === 'silver' && <ShieldCheck className="w-3 h-3 text-[#c9a96e]" />}
                     {currentTier.id === 'none' && <Check className="w-3 h-3 text-[#c9a96e]" />}
@@ -154,7 +154,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
               Kako da zaradite više loyalty poena?
             </h3>
             <div className="grid grid-cols-2 gap-4 text-center">
-              <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
+              <div className="glass-inner p-4 border border-[#c9a96e]/20">
                 <div className="flex items-center justify-center mb-3">
                   <ShoppingBag className="w-6 h-6 text-[#c9a96e]" />
                 </div>
@@ -162,7 +162,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                   Svaka potrošena 100 RSD = 1 poen
                 </p>
               </div>
-              <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
+              <div className="glass-inner p-4 border border-[#c9a96e]/20">
                 <div className="flex items-center justify-center mb-3">
                   <Users className="w-6 h-6 text-[#c9a96e]" />
                 </div>
@@ -170,7 +170,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                   Preporučite prijatelja: 500 poena
                 </p>
               </div>
-              <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
+              <div className="glass-inner p-4 border border-[#c9a96e]/20">
                 <div className="flex items-center justify-center mb-3">
                   <Gift className="w-6 h-6 text-[#c9a96e]" />
                 </div>
@@ -178,7 +178,7 @@ export const VIPBenefitsModal: React.FC<VIPBenefitsModalProps> = ({ isOpen, onCl
                   Rođendanski poklon: 1000 poena
                 </p>
               </div>
-              <div className="bg-[#111111] p-4 border border-[#c9a96e]/20">
+              <div className="glass-inner p-4 border border-[#c9a96e]/20">
                 <div className="flex items-center justify-center mb-3">
                   <Trophy className="w-6 h-6 text-[#c9a96e]" />
                 </div>

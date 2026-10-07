@@ -1,7 +1,7 @@
 import React, { useState, Suspense, lazy, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Product, CartItem, Review } from './types';
 import { PRODUCTS, FORMAT_RSD } from './data/products';
-import { Sparkles } from 'lucide-react';
+import { UserRound } from 'lucide-react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProductDetailModal } from './components/ProductDetailModal';
@@ -419,11 +419,8 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e0d4] selection:bg-[#c9a96e]/30 selection:text-[#e8e0d4]">
       
-      {/* Atmospheric vignette — always-on cinematic border darkening */}
-      <div
-        className="fixed inset-0 pointer-events-none z-[9998]"
-        style={{ background: 'radial-gradient(ellipse at center, transparent 50%, rgba(10,10,10,0.45) 100%)' }}
-      />
+      {/* Atmospheric vignette — dve elipse (gore + dole), sredina ekrana ostaje čista */}
+      <div className="site-vignette fixed inset-0 pointer-events-none z-[9998]" />
 
       {/* Luxury Loading Screen */}
       <LuxuryLoadingScreen isLoading={isLoading} />
@@ -458,7 +455,7 @@ function AppContent() {
       {!user ? (
         <section className="py-12 bg-[#0a0a0a] text-[#e8e0d4] relative border-b border-[#c9a96e]/20">
           <div className="max-w-xl mx-auto px-4 text-center">
-            <Sparkles className="w-5 h-5 text-[#c9a96e] mx-auto mb-3" />
+            <UserRound className="w-5 h-5 text-[#c9a96e] mx-auto mb-3" />
             <h3 className="font-serif-luxury text-xl sm:text-2xl text-[#e8e0d4] mb-2">Personalizovano iskustvo</h3>
             <p className="text-xs text-[#e8e0d4]/60 mb-5 font-sans">Prijavite se ili kreirajte nalog da biste dobili personalizovane preporuke na osnovu vaših preferencija.</p>
             <div className="flex items-center justify-center gap-3">

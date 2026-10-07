@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { Eye, ZoomIn, ShoppingBag, Heart, Check, Sparkles, Scissors } from 'lucide-react';
+import { Eye, ZoomIn, ShoppingBag, Heart, Check, Tag, Scissors } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
@@ -145,17 +145,19 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
           priority={false}
         />
 
-        {/* Subtle Gradient Overlay at Bottom */}
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-[#0a0a0a]/20 to-transparent pointer-events-none"
-          style={{ opacity: isHovered ? 0.7 : 0.5 }}
-        />
+        {/* Subtle Gradient Overlay at Bottom — na telefonu znatno tanji da smetnje ne prekrivaju modela */}
+        <div className="absolute inset-0 pointer-events-none opacity-40 sm:opacity-100">
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-[#0a0a0a]/20 to-transparent pointer-events-none"
+            style={{ opacity: isHovered ? 0.7 : 0.5 }}
+          />
+        </div>
 
-        {/* Top Badges & Wishlist Button */}
-        <div className="absolute top-3 inset-x-3 flex items-center justify-between z-30">
+        {/* Top Badges & Wishlist Button — desktop/srednji ekran; na telefonu premešteno u telo kartice */}
+        <div className="hidden sm:flex absolute top-3 inset-x-3 items-center justify-between z-30">
           {product.badge ? (
-            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[11px] uppercase font-sans tracking-wider font-medium bg-[#0a0a0a] text-[#c9a96e] border border-[#c9a96e]/40">
-              <Sparkles className="w-2 h-2 text-[#c9a96e]" />
+            <span className="glass-chip inline-flex items-center gap-1 px-1.5 py-0.5 text-[11px] uppercase font-sans tracking-wider font-medium text-[#c9a96e] border border-[#c9a96e]/40">
+              <Tag className="w-2 h-2 text-[#c9a96e]" />
               {product.badge}
             </span>
           ) : (
@@ -169,18 +171,18 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
               e.stopPropagation();
               onToggleWishlist(product);
             }}
-            className={`p-2.5 sm:p-2 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex items-center justify-center transition-all duration-300 z-40 ${isWishlisted ? 'bg-[#c9a96e] text-[#0a0a0a] shadow-md' : 'bg-[#0a0a0a]/90 text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a] border border-[#c9a96e]/20'}`}
+            className={`glass-chip p-2.5 sm:p-2 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex items-center justify-center transition-all duration-300 z-40 border border-[#c9a96e]/20 ${isWishlisted ? 'bg-[#c9a96e] text-[#0a0a0a] shadow-md' : 'text-[#e8e0d4] hover:bg-[#c9a96e] hover:text-[#0a0a0a]'}`}
           >
             <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
           </button>
         </div>
 
-        {/* Stock indicator - bottom left, below gradient */}
+        {/* Stock indicator - bottom left, below gradient (samo van telefona) */}
         {stockCount !== null && stockCount <= 3 && stockCount > 0 && (
-          <div className="absolute bottom-3 left-3 z-30">
+          <div className="hidden sm:block absolute bottom-3 left-3 z-30">
             <div className="stock-pulse">
               <span className="stock-pulse-dot" />
-              <span className="text-[11px] uppercase tracking-wider text-red-400 font-sans font-medium bg-[#0a0a0a]/90 px-2 py-0.5">
+              <span className="glass-chip text-[11px] uppercase tracking-wider text-red-400 font-sans font-medium border border-[#c9a96e]/20 px-2 py-0.5">
                 Još {stockCount}
               </span>
             </div>
@@ -190,7 +192,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
         {/* Out of stock overlay */}
         {stockCount !== null && stockCount <= 0 && (
           <div className="absolute inset-0 bg-[#0a0a0a]/70 flex items-center justify-center z-30">
-            <span className="text-xs uppercase tracking-[0.2em] text-[#e8e0d4]/80 font-sans font-semibold bg-[#111111]/90 px-4 py-2 border border-[#c9a96e]/30">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#e8e0d4]/80 font-sans font-semibold glass-chip px-4 py-2 border border-[#c9a96e]/30">
               Rasprodato
             </span>
           </div>
@@ -218,13 +220,13 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 40, opacity: 0 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-0 bottom-0 p-3 flex flex-col gap-2 z-20"
+              className="hidden sm:flex absolute inset-x-0 bottom-0 p-3 flex-col gap-2 z-20"
               onClick={(e) => e.stopPropagation()}
               onMouseEnter={handleOverlayMouseEnter}
               onMouseLeave={handleOverlayMouseLeave}
             >
               {/* Quick size selection chips */}
-              <div className="flex items-center justify-center gap-1 flex-wrap bg-[#0a0a0a]/95 backdrop-blur-md p-1.5 border border-[#c9a96e]/30">
+              <div className="glass-strong flex items-center justify-center gap-1 flex-wrap backdrop-blur-md p-1.5 border border-[#c9a96e]/30">
                 <span className="text-[9px] uppercase tracking-wider text-[#e8e0d4]/70 mr-1 font-sans">Veličina:</span>
                 {product.sizes.slice(0, 4).map((size) => (
                   <button
@@ -310,11 +312,19 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
       </div>
 
       {/* Product Card Body */}
-      <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between bg-[#111111]">
+      <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between">
         <div className="space-y-2 sm:space-y-4">
-          {/* Category */}
-          <div className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-medium">
-            {product.categoryLabelSr}
+          {/* Category — na telefonu uz nju ide i badge koji je ranije prekrivao sliku */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-medium">
+              {product.categoryLabelSr}
+            </div>
+            {product.badge && (
+              <span className="sm:hidden glass-chip inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] uppercase font-sans tracking-wider font-medium text-[#c9a96e] border border-[#c9a96e]/40">
+                <Tag className="w-2.5 h-2.5 text-[#c9a96e]" />
+                {product.badge}
+              </span>
+            )}
           </div>
 
           {/* Title */}
@@ -341,8 +351,8 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
 
         {/* Price and Action Footer */}
         <div className="mt-4 sm:mt-6 pt-3 border-t border-[#c9a96e]/20">
-          <div className="flex items-center justify-between">
-            <div className="flex items-baseline gap-2">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-baseline gap-2 flex-wrap">
               <span className="text-xs sm:text-base font-semibold text-[#e8e0d4] tracking-wide font-mono">
                 {FORMAT_RSD(product.priceRSD)}
               </span>
@@ -351,11 +361,32 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(({
                   {FORMAT_RSD(product.originalPriceRSD)}
                 </span>
               )}
+              {/* Zaliha — na telefonu umesto preko slike */}
+              {stockCount !== null && stockCount <= 3 && stockCount > 0 && (
+                <span className="sm:hidden text-[11px] uppercase tracking-wider text-red-400 font-sans font-medium">
+                  Još {stockCount}
+                </span>
+              )}
             </div>
 
-            <span className="text-[11px] sm:text-[11px] text-[#c9a96e] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 uppercase tracking-wider font-sans">
-              Detalji &rarr;
-            </span>
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <span className="text-[11px] sm:text-[11px] text-[#c9a96e] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 uppercase tracking-wider font-sans">
+                Detalji &rarr;
+              </span>
+
+              {/* Omiljeni — na telefonu pored cene, umesto preko slike */}
+              <button
+                type="button"
+                aria-label={isWishlisted ? `Ukloni ${product.nameSr} iz omiljenih` : `Dodaj ${product.nameSr} u omiljene`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleWishlist(product);
+                }}
+                className={`sm:hidden flex items-center justify-center min-h-[44px] min-w-[44px] -my-2 transition-colors ${isWishlisted ? 'text-[#c9a96e]' : 'text-[#e8e0d4]/70 hover:text-[#c9a96e]'}`}
+              >
+                <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-current' : ''}`} />
+              </button>
+            </div>
           </div>
         </div>
       </div>

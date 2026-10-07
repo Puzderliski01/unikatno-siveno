@@ -103,11 +103,11 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.3 }}
-        className="relative w-full max-w-4xl bg-[#0a0a0a] border border-[#e8e0d4]/20 shadow-2xl text-[#e8e0d4] max-h-[90vh] flex flex-col overflow-hidden"
+        className="relative w-full max-w-4xl glass-strong border border-[#e8e0d4]/20 text-[#e8e0d4] max-h-[90vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Controls */}
-        <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 bg-[#111111]">
+        <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-[#e8e0d4]/10 glass-inner">
           <div className="flex items-center gap-2">
             <span className="text-[11px] uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-semibold">
               Profil korisnika
@@ -163,7 +163,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
             </div>
 
             {/* VIP Status */}
-            <div className="flex items-center gap-4 bg-[#111111] p-4 rounded-none border border-[#c9a96e]/20">
+            <div className="flex items-center gap-4 glass-inner p-4 rounded-none border border-[#c9a96e]/20">
               <div className="flex items-center gap-2">
                 <Trophy className="w-4 h-4 text-[#c9a96e]" />
                 <span className="text-xs uppercase tracking-wider text-[#c9a96e]">VIP Status</span>
@@ -184,7 +184,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ isOpen, onClose }) => 
             </div>
 
             {/* Loyalty Points */}
-            <div className="flex items-center gap-4 bg-[#111111] p-4 rounded-none border border-[#c9a96e]/20">
+            <div className="flex items-center gap-4 glass-inner p-4 rounded-none border border-[#c9a96e]/20">
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-[#c9a96e]" />
                 <span className="text-xs uppercase tracking-wider text-[#c9a96e]">Loyalty poeni</span>

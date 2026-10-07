@@ -12,10 +12,10 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = React.memo(({ theme, onTo
     <motion.button
       type="button"
       onClick={onToggle}
-      className={`fixed top-20 right-4 lg:top-24 lg:right-8 z-40 p-2.5 backdrop-blur-md transition-all shadow-lg ${
+      className={`fixed top-20 right-4 lg:top-24 lg:right-8 z-40 p-2.5 glass-chip transition-all ${
         theme === 'dark'
-          ? 'bg-[#111111]/90 border border-[#c9a96e]/30 text-[#c9a96e] hover:bg-[#1a1a1a]'
-          : 'bg-white/90 border border-[#8b7346]/30 text-[#8b7346] hover:bg-[#f5f0e8]'
+          ? 'border border-[#c9a96e]/30 text-[#c9a96e] hover:bg-[#c9a96e]/15'
+          : 'border border-[#8b7346]/30 text-[#8b7346] hover:bg-[#8b7346]/15'
       }`}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}

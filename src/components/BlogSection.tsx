@@ -56,7 +56,7 @@ export const BlogSection: React.FC<BlogSectionProps> = React.memo(({ onOpenDetai
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={inViewOptions}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group cursor-pointer bg-[#111111] border border-[#e8e0d4]/10 hover:border-[#c9a96e]/40 transition-all"
+                className="group cursor-pointer glass border border-[#e8e0d4]/10 hover:border-[#c9a96e]/40 transition-all"
                 onClick={() => setSelectedPost(post)}
               >
                 <div className="relative aspect-[16/9] overflow-hidden">
@@ -109,7 +109,7 @@ export const BlogSection: React.FC<BlogSectionProps> = React.memo(({ onOpenDetai
               initial={{ opacity: 0, scale: 0.96, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 20 }}
-              className="relative w-full max-w-2xl bg-[#111111] border border-[#e8e0d4]/20 shadow-2xl overflow-hidden text-[#e8e0d4] my-auto max-h-[90vh] flex flex-col"
+              className="relative w-full max-w-2xl glass-strong border border-[#e8e0d4]/20 overflow-hidden text-[#e8e0d4] my-auto max-h-[90vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative aspect-[16/9] overflow-hidden flex-shrink-0">
@@ -117,7 +117,7 @@ export const BlogSection: React.FC<BlogSectionProps> = React.memo(({ onOpenDetai
                 <div className="absolute inset-0 bg-gradient-to-t from-[#111111] to-transparent" />
                 <button
                   onClick={() => setSelectedPost(null)}
-                  className="absolute top-3 right-3 p-2 bg-[#0a0a0a]/80 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
+                  className="absolute top-3 right-3 p-2 glass-chip text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>

@@ -74,7 +74,7 @@ export const NotificationBell: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-[#111111] border border-[#e8e0d4]/15 shadow-2xl z-50 max-h-80 flex flex-col"
+            className="absolute right-0 top-full mt-2 w-72 sm:w-80 glass-strong border border-[#e8e0d4]/15 z-50 max-h-80 flex flex-col"
           >
             <div className="flex items-center justify-between px-3 py-2 border-b border-[#e8e0d4]/10">
               <span className="text-[11px] uppercase tracking-[0.15em] text-[#c9a96e] font-sans font-semibold">Obaveštenja</span>

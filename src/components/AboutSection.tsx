@@ -78,7 +78,7 @@ export const AboutSection: React.FC = React.memo(() => {
               
               {/* Floating Quote Badge with Portrait */}
               <div className="absolute bottom-0 inset-x-0">
-                <div className="mx-6 mb-6 bg-[#111111]/95 border border-[#c9a96e]/40 p-4 flex gap-4 items-start backdrop-blur-sm">
+                <div className="glass-strong mx-6 mb-6 border border-[#c9a96e]/40 p-4 flex gap-4 items-start">
                   {/* Jelena Portrait */}
                   <div className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 overflow-hidden border border-[#c9a96e]/40">
                     <Img
@@ -94,7 +94,8 @@ export const AboutSection: React.FC = React.memo(() => {
                   {/* Quote Text */}
                   <div className="flex-1 min-w-0">
                     <p className="font-serif-luxury text-xs sm:text-sm italic text-[#e8e0d4] leading-snug mb-1.5">
-                      "Moda prolazi, ali kroj koji poštuje proporcije vašeg tela i prirodan materijal na koži ostaju večni."
+                      "Još kao mala učila sam da šijem uz majku i oblačila lutkice.
+                      Godine iskustva i sada već hiljade modela stoje iza mene kao dokaz posvećenosti i stvaralačke strasti."
                     </p>
                     <span className="text-[11px] uppercase tracking-[0.2em] text-[#c9a96e] font-sans font-semibold block">
                       — Jelena Erić, osnivač i glavni kreator
@@ -135,7 +136,7 @@ export const AboutSection: React.FC = React.memo(() => {
               hidden: { opacity: 0, x: 50 },
               visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
             })} className="text-xs sm:text-sm text-[#e8e0d4]/80 font-light leading-relaxed">
-              Nakon više od dve decenije rada u beogradskim modnim kućama, Jelena Erić je osnovala svoj atelje sa jasnom misijom: ponuditi ženama u Srbiji odeću besprekorne izrade kakva se retko sreće u doba brze industrijske proizvodnje.
+              Nakon više od dve decenije rada u beogradskim modnim kućama, Jelena Erić je osnovala svoj atelje sa jasnom misijom: ponuditi ženama odeću besprekorne izrade kakva se retko sreće u doba brze industrijske proizvodnje.
             </motion.p>
 
             <motion.p variants={getVariants({

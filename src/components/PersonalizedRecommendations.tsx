@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Gem, ArrowRight } from 'lucide-react';
 import { Product } from '../types';
 import { FORMAT_RSD } from '../data/products';
 import { OptimizedImage } from './OptimizedImage';
@@ -36,7 +36,7 @@ export const PersonalizedRecommendations: React.FC<PersonalizedRecommendationsPr
           className="text-center max-w-3xl mx-auto mb-10"
         >
           <motion.div variants={getVariants(staggerItemVariants)} className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#c9a96e] font-sans font-medium mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
+            <Gem className="w-3.5 h-3.5" />
             <span>Preporučujemo za vas</span>
           </motion.div>
           <motion.h2 variants={getVariants(staggerItemVariants)} className="font-serif-luxury text-2xl sm:text-3xl md:text-4xl font-light text-[#e8e0d4] tracking-tight mb-3">
@@ -76,7 +76,7 @@ export const PersonalizedRecommendations: React.FC<PersonalizedRecommendationsPr
                   <ArrowRight className="w-4 h-4 text-[#c9a96e]" />
                 </div>
                 {product.badge && (
-                  <span className="absolute top-2 left-2 px-1.5 py-0.5 text-[8px] uppercase font-sans tracking-wider bg-[#0a0a0a] text-[#c9a96e] border border-[#c9a96e]/30">
+                  <span className="absolute top-2 left-2 px-1.5 py-0.5 text-[8px] uppercase font-sans tracking-wider glass-chip text-[#c9a96e] border border-[#c9a96e]/30">
                     {product.badge}
                   </span>
                 )}

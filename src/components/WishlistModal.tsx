@@ -67,7 +67,7 @@ function SortableItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={`p-3.5 bg-[#111111] border flex items-center gap-4 transition-colors shadow-sm ${
+      className={`p-3.5 glass-inner border flex items-center gap-4 transition-colors shadow-sm ${
         isDragging ? 'border-[#c9a96e]/60 shadow-lg' : 'border-[#e8e0d4]/15 hover:border-[#c9a96e]'
       }`}
     >
@@ -183,10 +183,10 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="relative w-full max-w-2xl bg-[#111111] border border-[#e8e0d4]/20 shadow-2xl overflow-hidden text-[#e8e0d4] my-auto max-h-[90vh] flex flex-col"
+        className="relative w-full max-w-2xl glass-strong border border-[#e8e0d4]/20 overflow-hidden text-[#e8e0d4] my-auto max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 py-4 border-b border-[#e8e0d4]/10 bg-[#111111] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-[#e8e0d4]/10 glass-inner flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Heart className="w-4 h-4 text-[#c9a96e] fill-[#c9a96e]" />
             <h3 className="font-serif-luxury text-lg text-[#e8e0d4]">

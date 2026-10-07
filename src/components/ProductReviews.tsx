@@ -22,7 +22,7 @@ const ReviewItem: React.FC<{ review: Review }> = ({ review }) => (
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-    className="p-4 bg-[#111111] border border-[#e8e0d4]/10"
+    className="p-4 glass-inner border border-[#e8e0d4]/10"
   >
     <div className="flex items-start justify-between gap-3 mb-2">
       <div className="flex items-center gap-2">
@@ -72,7 +72,7 @@ export const ProductReviews: React.FC<ProductReviewsProps> = ({
   return (
     <div className="space-y-5">
       {/* Sažetak ocena */}
-      <div className="bg-[#111111] border border-[#c9a96e]/25 p-4 sm:p-5">
+      <div className="glass border border-[#c9a96e]/25 p-4 sm:p-5">
         <div className="flex flex-col sm:flex-row gap-5 sm:gap-8 items-start">
           {/* Prosečna ocena */}
           <div className="flex-shrink-0 text-center sm:text-left">
@@ -168,7 +168,7 @@ export const ProductReviews: React.FC<ProductReviewsProps> = ({
         </div>
       ) : (
         !isFormOpen && (
-          <div className="p-6 text-center border border-dashed border-[#e8e0d4]/15 bg-[#111111]/50">
+          <div className="p-6 text-center border border-dashed border-[#e8e0d4]/15 glass-inner">
             <MessageSquareQuote className="w-5 h-5 text-[#c9a96e]/60 mx-auto mb-2" />
             <p className="text-xs text-[#e8e0d4]/60 font-sans leading-relaxed">
               Budite prvi koji će podeliti iskustvo sa ovim modelom.

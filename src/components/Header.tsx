@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Heart, Trophy, Star, LogIn, UserPlus, Home, Sparkles, Phone } from 'lucide-react';
+import { ShoppingBag, Heart, Trophy, Crown, LogIn, UserPlus, Home } from 'lucide-react';
 import { FORMAT_RSD } from '../data/products';
 import { useAuth } from '../lib/auth';
 import { scrollToSection as scrollToSectionTo } from '../lib/scroll';
@@ -66,7 +66,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             }}
             className="inline-flex flex-col justify-center group text-left min-h-[44px]"
           >
-            <h1 className="text-[15px] sm:text-base tracking-[0.28em] font-light uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury leading-tight">
+            <h1 className="text-[15px] sm:text-base tracking-[0.28em] font-semibold uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury leading-tight">
               Unikatno šiveno
             </h1>
             <p className="text-[11px] uppercase tracking-[0.35em] text-[#c9a96e]/80 font-sans leading-tight mt-0.5">
@@ -111,7 +111,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   }}
                   className="inline-block group"
                 >
-                  <h1 className="text-xl tracking-[0.3em] font-light uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury">
+                  <h1 className="text-xl tracking-[0.3em] font-semibold uppercase text-[#c9a96e] group-hover:text-[#e8d098] transition-colors font-serif-luxury">
                     Unikatno šiveno
                   </h1>
                   <p className="text-[11px] uppercase tracking-[0.5em] text-[#c9a96e]/80 -mt-1 font-sans">
@@ -164,7 +164,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   aria-label="VIP pogodnosti"
                   className="p-2 text-[#e8e0d4] hover:text-[#c9a96e] transition-colors"
                 >
-                  <Star className="w-4 h-4" />
+                  <Crown className="w-4 h-4" />
                 </button>
 
                 <button
@@ -240,7 +240,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             onClick={onOpenVIPBenefits}
             className="flex-1 flex flex-col items-center justify-center gap-1 min-h-[48px] py-1 text-[#e8e0d4] active:text-[#c9a96e] hover:text-[#c9a96e] transition-colors"
           >
-            <Star className="w-5 h-5" />
+            <Crown className="w-5 h-5" />
             <span className="text-[11px] leading-none uppercase tracking-[0.06em] font-sans">VIP</span>
           </button>
 

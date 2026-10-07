@@ -86,7 +86,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3 }}
-            className="relative w-full max-w-md bg-[#0a0a0a] border border-[#c9a96e]/30 shadow-2xl"
+            className="relative w-full max-w-md glass-strong border border-[#c9a96e]/30"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -125,7 +125,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       placeholder="Vaše ime"
-                      className="w-full pl-10 pr-4 py-3 bg-[#111111] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-sm text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
+                      className="w-full pl-10 pr-4 py-3 glass-inner border border-[#c9a96e]/20 focus:border-[#c9a96e] text-sm text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
                     />
                   </div>
                 </div>
@@ -143,7 +143,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="vas@email.com"
-                    className="w-full pl-10 pr-4 py-3 bg-[#111111] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-sm text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
+                    className="w-full pl-10 pr-4 py-3 glass-inner border border-[#c9a96e]/20 focus:border-[#c9a96e] text-sm text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
                   />
                 </div>
               </div>
@@ -161,7 +161,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
                     minLength={6}
-                    className="w-full pl-10 pr-12 py-3 bg-[#111111] border border-[#c9a96e]/20 focus:border-[#c9a96e] text-sm text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
+                    className="w-full pl-10 pr-12 py-3 glass-inner border border-[#c9a96e]/20 focus:border-[#c9a96e] text-sm text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none transition-colors"
                   />
                   <button
                     type="button"

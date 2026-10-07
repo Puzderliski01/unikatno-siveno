@@ -35,7 +35,7 @@ export const OutfitBuilder: React.FC<OutfitBuilderProps> = React.memo(({
           animate={{ opacity: 1, scale: 1 }}
           type="button"
           onClick={onToggle}
-          className="fixed bottom-24 right-4 lg:bottom-8 lg:right-8 z-45 flex items-center gap-2 px-4 py-3 min-h-[44px] bg-[#111111] border border-[#c9a96e]/40 text-[#c9a96e] text-xs font-sans uppercase tracking-wider hover:bg-[#1a1a1a] transition-colors shadow-lg"
+          className="fixed bottom-24 right-4 lg:bottom-8 lg:right-8 z-45 flex items-center gap-2 px-4 py-3 min-h-[44px] glass border border-[#c9a96e]/40 text-[#c9a96e] text-xs font-sans uppercase tracking-wider hover:bg-[#1a1a1a] transition-colors"
         >
           <Scissors className="w-4 h-4" />
           <span>Outfit ({outfitItems.length})</span>
@@ -72,7 +72,7 @@ export const OutfitBuilder: React.FC<OutfitBuilderProps> = React.memo(({
               {outfitItems.map((product) => (
                 <div
                   key={product.id}
-                  className="flex items-center gap-3 p-2 bg-[#0a0a0a] border border-[#c9a96e]/20 group"
+                  className="flex items-center gap-3 p-2 glass border border-[#c9a96e]/20 group"
                 >
                   <div className="w-12 h-14 flex-shrink-0 overflow-hidden">
                     <OptimizedImage

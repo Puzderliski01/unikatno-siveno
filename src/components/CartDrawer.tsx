@@ -43,11 +43,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="w-full sm:max-w-md bg-[#0a0a0a] border-l border-[#e8e0d4]/20 text-[#e8e0d4] flex flex-col shadow-2xl"
+          className="w-full sm:max-w-md glass-strong border-l border-[#e8e0d4]/20 text-[#e8e0d4] flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Drawer Header */}
-          <div className="p-5 border-b border-[#e8e0d4]/10 flex items-center justify-between bg-[#111111]">
+          <div className="p-5 border-b border-[#e8e0d4]/10 flex items-center justify-between glass-inner">
             <div className="flex items-center gap-2.5">
               <ListChecks className="w-5 h-5 text-[#c9a96e]" />
               <h2 className="font-serif-luxury text-xl text-[#e8e0d4]">
@@ -66,7 +66,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           </div>
 
           {/* How it works */}
-          <div className="bg-[#111111] p-3.5 border-b border-[#e8e0d4]/10 text-xs font-sans text-[#e8e0d4]/75 leading-relaxed">
+          <div className="glass-inner p-3.5 border-b border-[#e8e0d4]/10 text-xs font-sans text-[#e8e0d4]/75 leading-relaxed">
             Sakupljene modele pošaljite nam porukom — oko porudžbine i dogovaramo se lično.
             Na sajtu nema online plaćanja.
           </div>
@@ -75,7 +75,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           <div className="flex-1 overflow-y-auto p-5 space-y-4 font-sans">
             {cartItems.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6">
-                <div className="w-16 h-16 bg-[#111111] border border-[#e8e0d4]/10 flex items-center justify-center text-[#e8e0d4]/40 mb-4">
+                <div className="w-16 h-16 glass-inner border border-[#e8e0d4]/10 flex items-center justify-center text-[#e8e0d4]/40 mb-4">
                   <ListChecks className="w-8 h-8" />
                 </div>
                 <h3 className="font-serif-luxury text-xl text-[#e8e0d4] mb-2">Vaš izbor je prazan</h3>
@@ -99,7 +99,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 {cartItems.map((item) => (
                   <div
                     key={item.id}
-                    className="p-3.5 bg-[#111111] border border-[#e8e0d4]/15 flex gap-3.5 items-start shadow-sm"
+                    className="p-3.5 glass-inner border border-[#e8e0d4]/15 flex gap-3.5 items-start shadow-sm"
                   >
                     <Img
                       src={item.product.images[0]}
@@ -124,7 +124,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       )}
 
                       <div className="flex items-center justify-between mt-3">
-                        <div className="flex items-center border border-[#e8e0d4]/20 bg-[#111111]">
+                        <div className="flex items-center border border-[#e8e0d4]/20 glass-inner">
                           <button
                             type="button"
                             onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
@@ -166,7 +166,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
           {/* Drawer Footer / Share CTA */}
           {cartItems.length > 0 && (
-            <div className="p-5 border-t border-[#e8e0d4]/10 bg-[#111111] space-y-3 font-sans">
+            <div className="p-5 border-t border-[#e8e0d4]/10 glass-inner space-y-3 font-sans">
               <div className="flex items-center justify-between text-xs text-[#e8e0d4]/80">
                 <span>Vrednost izbora:</span>
                 <span className="font-mono text-[#c9a96e] font-bold text-sm">{FORMAT_RSD(subtotal)}</span>

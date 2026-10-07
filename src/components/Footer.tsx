@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Mail, MapPin, Phone, ArrowRight, Instagram, Facebook, Loader2 } from 'lucide-react';
+import { Mail, MapPin, Phone, ArrowRight, Instagram, Facebook, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useScrollAnimation, fadeInUpVariants, staggerItemVariants } from '../hooks/useScrollAnimation';
 import { Tooltip } from './Tooltip';
@@ -61,14 +61,14 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
             hidden: { opacity: 0, y: 50, scale: 0.98 },
             visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
           }}
-          className="lift-hover p-4 sm:p-8 lg:p-10 bg-[#1a1a1a] border border-[#c9a96e]/30 mb-16 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 shadow-lg relative overflow-hidden"
+          className="lift-hover glass p-4 sm:p-8 lg:p-10 border border-[#c9a96e]/30 mb-16 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 relative overflow-hidden"
         >
           {/* Subtle background glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#c9a96e]/5 via-transparent to-[#c9a96e]/5" />
           
           <div className="relative z-10 max-w-xl text-center lg:text-left">
             <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#c9a96e] font-semibold mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
+              <Mail className="w-3.5 h-3.5" />
               <span>Privatni krug ateljea</span>
             </div>
             <h3 className="font-serif-luxury text-2xl sm:text-3xl text-[#e8e0d4] mb-2 font-normal">
@@ -88,7 +88,7 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}
                 disabled={isSubmitting}
-                className="px-4 py-3.5 min-h-[44px] bg-[#111111] border border-[#e8e0d4]/20 focus:border-[#c9a96e] text-[13px] text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none w-full sm:w-72 transition-colors disabled:opacity-60"
+                className="px-4 py-3.5 min-h-[44px] glass-inner border border-[#e8e0d4]/20 focus:border-[#c9a96e] text-[13px] text-[#e8e0d4] placeholder-[#e8e0d4]/40 outline-none w-full sm:w-72 transition-colors disabled:opacity-60"
               />
               <Tooltip placement="top" label={subscribed ? 'Već ste prijavljeni' : 'Prijavite se na bilten'}>
                 <motion.button
@@ -249,7 +249,7 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
                   rel="noreferrer"
                   className="hover:text-[#c9a96e] transition-colors text-[13px] flex items-center min-h-[44px] flex-1"
                 >
-                  +381 636 160 71 (WhatsApp)
+                  +381 63 616071 (WhatsApp)
                 </a>
               </div>
               <div className="flex items-center gap-2 min-h-[44px] py-1.5">
@@ -261,6 +261,48 @@ export const Footer: React.FC<FooterProps> = React.memo(({ onShowToast }) => {
             </div>
           </motion.div>
 
+        </motion.div>
+
+        {/* Author Credit — suptilan, luksuzni potpis autora sajta */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={inViewOptions}
+          variants={getVariants(fadeInUpVariants)}
+          className="flex flex-col items-center gap-3 pb-8"
+        >
+          <div className="flex items-center gap-4 w-full max-w-md">
+            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[#c9a96e]/45" />
+            <span className="text-[10px] uppercase tracking-[0.4em] text-[#e8e0d4]/50 font-sans whitespace-nowrap">
+              Design &amp; Development
+            </span>
+            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[#c9a96e]/45" />
+          </div>
+
+          <a
+            href="mailto:s.puzderliski@gmail.com?subject=Saradnja%20%C2%B7%20Upit"
+            aria-label="Pošaljite mejl Stefanu Puzderliskom"
+            className="group inline-flex items-center gap-3 font-serif-luxury text-lg sm:text-xl tracking-[0.22em] uppercase text-[#c9a96e] hover:text-[#e8d098] transition-colors"
+          >
+            <span className="w-1.5 h-1.5 border border-[#c9a96e] rotate-45 group-hover:bg-[#c9a96e] transition-colors" />
+            Stefan Puzderliski
+            <span className="w-1.5 h-1.5 border border-[#c9a96e] rotate-45 group-hover:bg-[#c9a96e] transition-colors" />
+          </a>
+
+          <div className="flex flex-col items-center gap-1.5">
+            <a
+              href="mailto:s.puzderliski@gmail.com?subject=Saradnja%20%C2%B7%20Upit"
+              className="group/email inline-flex items-center gap-2 text-[11px] tracking-[0.18em] text-[#e8e0d4]/60 hover:text-[#c9a96e] transition-colors font-sans"
+            >
+              <Mail className="w-3.5 h-3.5 text-[#c9a96e]/70 group-hover/email:text-[#c9a96e] transition-colors" />
+              <span className="underline decoration-[#c9a96e]/30 underline-offset-4 group-hover/email:decoration-[#c9a96e]">
+                s.puzderliski@gmail.com
+              </span>
+            </a>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#e8e0d4]/40 font-sans text-center">
+              Pišite mi za saradnju i nove projekte
+            </span>
+          </div>
         </motion.div>
 
         {/* Bottom Legal Copyright & Serbian Business Details */}
